@@ -1,1 +1,2 @@
-console.info "log from app"
+module.exports = ->
+  console.info "log from app"

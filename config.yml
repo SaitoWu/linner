@@ -4,9 +4,10 @@ files:
   scripts:
     join:
       "scripts/app.js": "app/**/*.{js,coffee}"
-      "scripts/vender.js": "vendor/**/*.{js,coffee}"
+      "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       before:
+        - "./vendor/commonjs.js"
         - "./vendor/jquery-1.9.1.js"
       after:
         - "./vendor/underscore.js"
