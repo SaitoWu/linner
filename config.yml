@@ -1,7 +1,7 @@
 paths:
   public: "public"
 files:
-  scripts:
+  - scripts:
     join:
       "scripts/app.js": "app/scripts/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
@@ -11,6 +11,6 @@ files:
         - "./vendor/jquery-1.9.1.js"
       after:
         - "./vendor/underscore.js"
-  styles:
+  - styles:
     join:
-      "styles/app.css": "app/styles/**/*.{css,scss,sass}"
+      "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"

@@ -55,12 +55,10 @@ def wrap_to_module(name, data)
 end
 
 release_folder = config["paths"]["public"] || "public"
-scripts = config["files"]["scripts"]
-styles = config["files"]["styles"]
 
 time = Time.now
 
-[scripts, styles].each do |type|
+config["files"].each do |type|
   type["join"].each do |path, regex|
     file_path = File.join(root, release_folder, path)
 
