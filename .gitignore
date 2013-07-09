@@ -1,0 +1,4 @@
+public/
+vendor/
+.DS_Store
+.sass-cache/
