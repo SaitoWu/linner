@@ -1,6 +1,7 @@
 require "pp"
 require "yaml"
 require "tilt"
+require "uglifier"
 require "fileutils"
 
 def wrapper
@@ -29,6 +30,10 @@ def prepare_dir(path)
   end
 end
 
+def is_scripts?(file_path)
+  !!(file_path =~ /\.(coffee|js)/)
+end
+
 def render_to(file, join_path)
   content = nil
   if skip_extnames.include? File.extname(join_path)
@@ -37,30 +42,34 @@ def render_to(file, join_path)
     template = Tilt.new join_path
     content =  template.render
   end
-  if not join_path.include? File.join(root, "vendor")
+  if !join_path.include?(File.join(root, "vendor")) and is_scripts?(join_path)
     content = wrap_to_module(File.basename(join_path, File.extname(join_path)), content)
   end
+  # compile source
+  # file.write = Uglifier.compile(content, comments: "none")
   file.write content
 end
 
 def wrap_to_module(name, data)
-  wrapper % ["this.require", name, data]
+  wrapper % ["window.require", name, data]
 end
 
 release_folder = config["paths"]["public"] || "public"
 scripts = config["files"]["scripts"]
-# styles_folder = config["files"]["styles"]
+styles = config["files"]["styles"]
 
 time = Time.now
 
-scripts["join"].each do |path, regex|
-  script_path = File.join(root, release_folder, path)
+[scripts, styles].each do |type|
+  type["join"].each do |path, regex|
+    file_path = File.join(root, release_folder, path)
 
-  prepare_dir script_path
+    prepare_dir file_path
 
-  File.open script_path, "w+" do |f|
-    Dir.glob(File.join root, regex) do |s|
-      render_to f, s
+    File.open file_path, "w+" do |f|
+      Dir.glob(File.join root, regex) do |s|
+        render_to f, s
+      end
     end
   end
 end

@@ -3,7 +3,7 @@ paths:
 files:
   scripts:
     join:
-      "scripts/app.js": "app/**/*.{js,coffee}"
+      "scripts/app.js": "app/scripts/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       before:
@@ -11,3 +11,6 @@ files:
         - "./vendor/jquery-1.9.1.js"
       after:
         - "./vendor/underscore.js"
+  styles:
+    join:
+      "styles/app.css": "app/styles/**/*.{css,scss,sass}"

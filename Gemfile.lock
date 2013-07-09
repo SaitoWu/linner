@@ -10,6 +10,9 @@ GEM
     multi_json (1.7.7)
     sass (3.2.9)
     tilt (1.4.1)
+    uglifier (2.1.1)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.0, >= 1.0.2)
 
 PLATFORMS
   ruby
@@ -18,3 +21,4 @@ DEPENDENCIES
   coffee-script
   sass
   tilt
+  uglifier
