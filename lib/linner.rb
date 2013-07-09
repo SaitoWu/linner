@@ -34,6 +34,19 @@ def is_scripts?(file_path)
   !!(file_path =~ /\.(coffee|js)/)
 end
 
+def order_files(matches, before_files, after_files)
+  before_files.reverse.each do |f|
+    if i = matches.index { |x| x =~ /#{f}/i }
+      matches.unshift matches.delete_at i
+    end
+  end
+  after_files.reverse.each do |f|
+    if i = matches.index { |x| x =~ /#{f}/i }
+      matches.push matches.delete_at i
+    end
+  end
+end
+
 def render_to(file, join_path)
   content = nil
   if skip_extnames.include? File.extname(join_path)
@@ -59,13 +72,19 @@ release_folder = config["paths"]["public"] || "public"
 time = Time.now
 
 config["files"].each do |type|
-  type["join"].each do |path, regex|
+  join_files = type["join"] || []
+  before_files = type["order"]["before"] || []
+  after_files = type["order"]["after"] || []
+
+  join_files.each do |path, regex|
     file_path = File.join(root, release_folder, path)
 
     prepare_dir file_path
 
     File.open file_path, "w+" do |f|
-      Dir.glob(File.join root, regex) do |s|
+      matches = Dir.glob(File.join root, regex)
+      order_files(matches, before_files, after_files)
+      matches.each do |s|
         render_to f, s
       end
     end
