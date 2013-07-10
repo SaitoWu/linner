@@ -16,3 +16,6 @@ files:
     order:
       before:
       after:
+modules:
+  wrapper: "cmd"
+notifications: true

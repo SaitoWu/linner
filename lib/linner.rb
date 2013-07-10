@@ -3,9 +3,10 @@ require "yaml"
 require "tilt"
 require "uglifier"
 require "fileutils"
+require "terminal-notifier"
 
 def wrapper
-  '%s.define({%s:' +
+  'window.require.define({%s:' +
     'function(exports, require, module){' +
     '%s' +
     ";}});\n"
@@ -64,7 +65,7 @@ def render_to(file, join_path)
 end
 
 def wrap_to_module(name, data)
-  wrapper % ["window.require", name, data]
+  wrapper % [name, data]
 end
 
 release_folder = config["paths"]["public"] || "public"
@@ -91,4 +92,6 @@ config["files"].each do |type|
   end
 end
 
-pp ('%.3f' % (Time.now - time))
+if TerminalNotifier.available?
+  TerminalNotifier.notify("\xF0\x9F\x8D\xBB : Done in #{'%.3f' % (Time.now - time)}s", :title => 'Linner')
+end

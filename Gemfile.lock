@@ -9,6 +9,7 @@ GEM
       multi_json (~> 1.0)
     multi_json (1.7.7)
     sass (3.2.9)
+    terminal-notifier (1.4.2)
     tilt (1.4.1)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
@@ -20,5 +21,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-script
   sass
+  terminal-notifier
   tilt
   uglifier
