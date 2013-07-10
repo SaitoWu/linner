@@ -10,6 +10,7 @@ files:
         - "vendor/jquery-1.9.1.js"
       after:
         - "vendor/underscore.js"
+        - "vendor/vendor.js"
   - styles:
     join:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
