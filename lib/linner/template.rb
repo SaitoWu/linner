@@ -1,4 +1,6 @@
 require 'tilt'
+require 'sass'
+require 'coffee_script'
 
 module Linner
   class Template

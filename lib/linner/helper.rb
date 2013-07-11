@@ -4,10 +4,6 @@ module Linner
       File.expand_path "../..", File.dirname(__FILE__)
     end
 
-    def config
-      @config ||= Linner::Config.new("config.yml")
-    end
-
     def skip_extnames
       %w[.js .css .hbs]
     end

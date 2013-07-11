@@ -14,9 +14,6 @@ files:
   - styles:
     join:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
-    order:
-      before:
-      after:
 modules:
   wrapper: "cmd"
 notifications: true
