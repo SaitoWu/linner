@@ -10,7 +10,7 @@ module Linner
       @path = path
     end
 
-    def render_to(file)
+    def render
       if skip_extnames.include? File.extname(@path)
         content = File.read @path
       else
@@ -20,8 +20,7 @@ module Linner
       if !@path.include?(File.join(root, "vendor")) and is_scripts?(@path)
         content = Linner::Wrapper.wrap(File.basename(@path, File.extname(@path)), content)
       end
-
-      file.write(content)
+      content
     end
   end
 end

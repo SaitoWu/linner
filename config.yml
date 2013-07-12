@@ -1,7 +1,7 @@
 paths:
   public: "public"
 files:
-  - scripts:
+  scripts:
     concat:
       "scripts/app.js": "app/scripts/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
@@ -11,7 +11,7 @@ files:
       after:
         - "vendor/underscore.js"
         - "vendor/vendor.js"
-  - styles:
+  styles:
     concat:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
 modules:

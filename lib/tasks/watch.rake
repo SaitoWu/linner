@@ -1,8 +1,8 @@
 require_relative "../linner"
 
-desc "build assets"
-task :build do
+desc "watch assets"
+task :watch do
   Linner::Notifier.notify do
-    Linner.perform compile:true
+    Linner.perform
   end
 end
