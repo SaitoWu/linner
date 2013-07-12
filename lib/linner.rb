@@ -34,7 +34,3 @@ module Linner
   end
 end
 
-Linner::Notifier.notify do
-  Linner.perform
-end
-
