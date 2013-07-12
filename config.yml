@@ -2,7 +2,7 @@ paths:
   public: "public"
 files:
   - scripts:
-    join:
+    concat:
       "scripts/app.js": "app/scripts/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
@@ -12,8 +12,10 @@ files:
         - "vendor/underscore.js"
         - "vendor/vendor.js"
   - styles:
-    join:
+    concat:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
 modules:
   wrapper: "cmd"
+conventions:
+  ignored: "_"
 notifications: true

@@ -15,5 +15,16 @@ module Linner
     def files
       @config["files"] || []
     end
+
+    def notifications
+      @config["notifications"] || false
+    end
+
+    def extract_by(file)
+      concat = file["concat"] || []
+      before = file["order"].to_h["before"] || []
+      after = file["order"].to_h["after"] || []
+      [concat, before, after]
+    end
   end
 end

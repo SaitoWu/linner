@@ -6,8 +6,11 @@ module Linner
     def self.notify
       time = Time.now
       yield
-      if TerminalNotifier.available?
-        TerminalNotifier.notify "🍜 : Done in #{'%.3f' % (Time.now - time)}s", :title => 'Linner'
+      message = "🍜 : Done in #{'%.3f' % (Time.now - time)}s"
+      if Linner.config.notifications && TerminalNotifier.available?
+        TerminalNotifier.notify message, :title => 'Linner'
+      else
+        puts message
       end
     end
   end
