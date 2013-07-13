@@ -3,7 +3,7 @@ module Linner
 
     class << self
       def wrapper
-        'window.require.define({%s:' +
+        'window.require.define({"%s":' +
           'function(exports, require, module){' +
           '%s' +
           ";}});\n"

@@ -1,4 +1,5 @@
 require_relative "linner/helper"
+require_relative "linner/asset"
 require_relative "linner/config"
 require_relative "linner/wrapper"
 require_relative "linner/template"
@@ -21,19 +22,29 @@ module Linner
     compile = options[:compile] || false
     concat, before, after = config.extract_by(type_config)
     concat.each do |path, regex|
-      content = ""
       file = File.join(root, config.public_folder, path)
+      concated_asset = Linner::Asset.new(file)
       matches = Dir.glob(File.join root, regex)
       sort(matches, before: before, after: after).each do |s|
-        content << Linner::Template.new(s).render
+        asset = Linner::Asset.new(s)
+        content = asset.content
+        if asset.wrappable?
+          content = asset.wrap
+        end
+        concated_asset.content << content
       end
+      # compile styles and scripts
       concated_list[file] = if compile
-        Linner::Compressor.compress(type, content)
+        concated_asset.compress
       else
-        content
+        concated_asset.content
       end
     end
     concated_list
+  end
+
+  def copy(type_config)
+
   end
 
   def write(file, content)

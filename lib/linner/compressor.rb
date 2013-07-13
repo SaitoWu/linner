@@ -4,12 +4,12 @@ require "yui/compressor"
 module Linner
   class Compressor
 
-    def self.compress(type, content)
-      case type
-      when "scripts"
-        Uglifier.compile content, comments: "none"
-      when "styles"
-        YUI::CssCompressor.new.compress content
+    def self.compress(asset)
+      case asset.type
+      when "script"
+        Uglifier.compile asset.content, comments: "none"
+      when "style"
+        YUI::CssCompressor.new.compress asset.content
       end
     end
   end
