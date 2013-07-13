@@ -2,6 +2,7 @@ module Linner
   class Asset
     include Linner::Helper
 
+    attr_reader   :path
     attr_accessor :content
 
     def initialize(path)
@@ -29,8 +30,15 @@ module Linner
       !!(!@path.include?(File.join(root, "vendor")) and type == "script")
     end
 
+    def write
+      FileUtils.mkdir_p File.dirname(@path)
+      File.open @path, "w+" do |file|
+        file.write @content
+      end
+    end
+
     def compress
-      Linner::Compressor.compress(self)
+      @content = Linner::Compressor.compress(self)
     end
 
     def logical_path

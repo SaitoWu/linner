@@ -16,14 +16,11 @@ module Linner
     @config ||= Linner::Config.new("config.yml")
   end
 
-  def concat(type_config, options)
-    concated_list = {}
-    type = options[:type]
-    compile = options[:compile] || false
-    concat, before, after = config.extract_by(type_config)
+  def concat(config)
+    assets = []
+    concat, before, after = @config.extract_by(config)
     concat.each do |path, regex|
-      file = File.join(root, config.public_folder, path)
-      concated_asset = Linner::Asset.new(file)
+      concated_asset = Linner::Asset.new(File.join root, @config.public_folder, path)
       matches = Dir.glob(File.join root, regex)
       sort(matches, before: before, after: after).each do |s|
         asset = Linner::Asset.new(s)
@@ -33,32 +30,20 @@ module Linner
         end
         concated_asset.content << content
       end
-      # compile styles and scripts
-      concated_list[file] = if compile
-        concated_asset.compress
-      else
-        concated_asset.content
-      end
+      assets << concated_asset
     end
-    concated_list
+    assets
   end
 
-  def copy(type_config)
+  def copy(config)
 
-  end
-
-  def write(file, content)
-    FileUtils.mkdir_p File.dirname(file)
-    File.open file, "w+" do |f|
-      f.write content
-    end
   end
 
   def perform(**options)
-    config.files.each do |type, config|
-      options[:type] = type
+    compile = options[:compile]
+    config.files.values.each do |config|
       Thread.new do
-        concat(config, options).each {|path, content| write(path, content)}
+        concat(config).each {|asset| asset.compress if compile; asset.write}
       end.join
     end
   end
