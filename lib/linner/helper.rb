@@ -4,12 +4,12 @@ module Linner
       File.expand_path "../..", File.dirname(__FILE__)
     end
 
-    def plain_text?(path)
-      %w[.js .css .hbs].include? File.extname(path)
+    def config
+      @config ||= Linner::Config.new("config.yml")
     end
 
-    def is_scripts?(path)
-      !!(path =~ /\.(coffee|js)/)
+    def supported_template?(path)
+      %w[.coffee .sass .scss].include? File.extname(path)
     end
 
     def sort(list, before: [], after: [])

@@ -2,7 +2,7 @@ module Linner
   class Asset
     include Linner::Helper
 
-    attr_reader   :path
+    attr_accessor :path
     attr_accessor :content
 
     def initialize(path)

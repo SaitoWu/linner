@@ -11,10 +11,10 @@ module Linner
     end
 
     def render
-      if plain_text? @path
-        File.read @path
-      else
+      if supported_template? @path
         Tilt.new(@path).render
+      else
+        File.read @path
       end
     end
   end

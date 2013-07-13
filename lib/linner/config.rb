@@ -4,8 +4,7 @@ module Linner
   class Config
 
     def initialize(path)
-      @path = path || "config.yml"
-      @config ||= YAML::load(File.read File.join(Linner.root, @path))
+      @config ||= YAML::load(File.read File.join(Linner.root, path))
     end
 
     def public_folder

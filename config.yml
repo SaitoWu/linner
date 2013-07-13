@@ -14,9 +14,9 @@ files:
   styles:
     concat:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
-  templates:
+  images:
     copy:
-      "views/": "app/views/**/*.hbs"
+      "images/": "app/images/**/*.{png,gif}"
 modules:
   wrapper: "cmd"
 conventions:

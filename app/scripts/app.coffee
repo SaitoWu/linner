@@ -1,2 +1,2 @@
 module.exports = ->
-  console.info "log from app"
+  console.info "log from app!"
