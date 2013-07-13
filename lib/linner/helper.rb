@@ -4,8 +4,8 @@ module Linner
       File.expand_path "../..", File.dirname(__FILE__)
     end
 
-    def skip_extnames
-      %w[.js .css .hbs]
+    def plain_text?(path)
+      %w[.js .css .hbs].include? File.extname(path)
     end
 
     def is_scripts?(path)

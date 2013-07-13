@@ -15,34 +15,41 @@ module Linner
     @config ||= Linner::Config.new("config.yml")
   end
 
-  def concat_by(type_config)
+  def concat(type_config, options)
     concated_list = {}
+    type = options[:type]
+    compile = options[:compile] || false
     concat, before, after = config.extract_by(type_config)
     concat.each do |path, regex|
-      file = File.join(root, config.public_folder, path)
       content = ""
+      file = File.join(root, config.public_folder, path)
       matches = Dir.glob(File.join root, regex)
       sort(matches, before: before, after: after).each do |s|
         content << Linner::Template.new(s).render
       end
-      concated_list[file] = content
+      concated_list[file] = if compile
+        Linner::Compressor.compress(type, content)
+      else
+        content
+      end
     end
     concated_list
   end
 
-  def perform compile: false
-    config.files.each do |t, c|
-      Thread.new do
-        concat_by(c).each do |path, content|
-          FileUtils.mkdir_p File.dirname(path)
-          File.open path, "w+" do |f|
-            content = Linner::Compressor.compress t, content if compile
-            f.write content
-          end
-        end
-      end.join
+  def write(file, content)
+    FileUtils.mkdir_p File.dirname(file)
+    File.open file, "w+" do |f|
+      f.write content
     end
   end
 
+  def perform(**options)
+    config.files.each do |type, config|
+      options[:type] = type
+      Thread.new do
+        concat(config, options).each {|path, content| write(path, content)}
+      end.join
+    end
+  end
 end
 

@@ -11,10 +11,10 @@ module Linner
     end
 
     def render
-      if skip_extnames.include? File.extname(@path)
-        content = File.read @path
+      content = if plain_text? @path
+        File.read @path
       else
-        content = Tilt.new(@path).render
+        Tilt.new(@path).render
       end
 
       if !@path.include?(File.join(root, "vendor")) and is_scripts?(@path)
