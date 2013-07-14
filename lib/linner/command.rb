@@ -43,6 +43,7 @@ module Linner
     desc "new", "create the skeleton of project"
     def new(name)
       directory('templates', name)
+      chmod("#{name}/bin/server", 0755)
     end
   end
 end
