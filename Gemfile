@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "tilt"
+gem "thor"
 gem "sass"
 gem "listen"
 gem "uglifier"

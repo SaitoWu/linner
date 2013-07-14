@@ -1,4 +1,5 @@
 require_relative "linner/version"
+require_relative "linner/command"
 require_relative "linner/asset"
 require_relative "linner/sort"
 require_relative "linner/environment"
@@ -55,7 +56,7 @@ module Linner
         matches = Dir.glob(File.join root, regex)
         matches.each do |path|
           asset = Linner::Asset.new(path)
-          asset.path = File.join(root, environment.public_folder, dist, asset.logical_path)
+          asset.path = File.join(environment.public_folder, dist, asset.logical_path)
           next if File.exist? asset.path and FileUtils.uptodate? path, [asset.path]
           asset.write
         end
