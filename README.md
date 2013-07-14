@@ -13,6 +13,10 @@ Linner is a full-featured HTML5 application assembler.
 * Supports Real-time `concat` by `$ linner watch`.
 * Supports `compress` by `$ linner build`.
 
+## Requirements
+
+* Ruby 2.0
+
 ## Installation
 
     $ gem install linner
