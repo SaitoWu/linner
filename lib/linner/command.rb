@@ -39,6 +39,11 @@ module Linner
     def clean
       FileUtils.rm_rf File.join(Linner.environment.public_folder, "/.")
     end
+
+    desc "new", "create the skeleton of project"
+    def new(name)
+      puts "create #{name}"
+    end
   end
 end
 
