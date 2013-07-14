@@ -1,6 +1,17 @@
 # Linner
 
-HTML5 Application Assembler
+Linner is a full-featured HTML5 application assembler.
+
+![Linner](http://d.pr/i/bWPA+)
+
+* Fast!
+* Supports `Sass` and `Coffee`.
+* Supports OS X Lion and Mountaion Lion Notifications.
+* Supports Modular Javascript, All your code will be wrap by `CMD`.
+* Supports `concat` code by `config file` not `derective processor`
+* Supports `copy` code from `src` to `dist`
+* Supports Real-time `concat` by `$ linner watch`
+* Supports `compress` by `$ linner build`
 
 ## Installation
 
