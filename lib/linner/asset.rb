@@ -1,13 +1,11 @@
 module Linner
   class Asset
-    include Linner::Helper
 
-    attr_accessor :path
-    attr_accessor :content
+    attr_accessor :path, :content
 
     def initialize(path)
       @path = path
-      if path =~ /#{root}\/public/
+      if path =~ /#{Linner.root.to_path}\/public/
         @content = ""
       else
         @content = Linner::Template.new(path).render
@@ -27,7 +25,7 @@ module Linner
     end
 
     def wrappable?
-      !!(!@path.include?(File.join(root, "vendor")) and type == "script")
+      !!(!@path.include? Linner.root.join("vendor").to_path and type == "script")
     end
 
     def write
@@ -42,7 +40,7 @@ module Linner
     end
 
     def logical_path
-      @logical_path ||= @path.gsub(/#{root}\/app\/\w*\//, "")
+      @logical_path ||= @path.gsub(/#{Linner.root}\/app\/\w*\//, "")
     end
   end
 end

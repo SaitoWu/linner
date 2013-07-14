@@ -1,10 +1,10 @@
 require "yaml"
 
 module Linner
-  class Config
+  class Environment
 
     def initialize(path)
-      @config ||= YAML::load(File.read File.join(Linner.root, path))
+      @config ||= YAML::load File.read path
     end
 
     def public_folder

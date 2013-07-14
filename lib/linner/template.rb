@@ -4,7 +4,6 @@ require 'coffee_script'
 
 module Linner
   class Template
-    include Linner::Helper
 
     def initialize(path)
       @path = path
@@ -16,6 +15,11 @@ module Linner
       else
         File.read @path
       end
+    end
+
+    private
+    def supported_template?(path)
+      %w[.coffee .sass .scss].include? File.extname(path)
     end
   end
 end
