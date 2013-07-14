@@ -8,7 +8,7 @@ module Linner
     end
 
     def public_folder
-      @config["paths"].to_h["public"] || "public"
+      Linner.root.join(@config["paths"].to_h["public"] || "public")
     end
 
     def files

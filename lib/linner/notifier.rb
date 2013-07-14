@@ -3,17 +3,21 @@ require "terminal-notifier"
 module Linner
   class Notifier
 
-    def self.notify
+    def self.info
       time = Time.now
       yield
-      puts message = "🍜 : Done in #{'%.3f' % (Time.now - time)}s"
+      puts "🍜 : Done in #{'%.3f' % (Time.now - time)}s."
     end
 
     def self.error(message)
-      puts message = "👻 : #{message}"
+      puts message = "👻 : #{message}!"
       if Linner.environment.notifications && TerminalNotifier.available?
-        TerminalNotifier.notify message, :title => 'Linner'
+        TerminalNotifier.info message, :title => 'Linner'
       end
+    end
+
+    def self.exit
+      puts "\r🍵 : Let's take a break!"
     end
   end
 end
