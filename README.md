@@ -1,24 +1,32 @@
 # Linner
 
-TODO: Write a gem description
+HTML5 Application Assembler
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'linner'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
 
     $ gem install linner
 
 ## Usage
 
-TODO: Write usage instructions here
+Skeleton:
+
+    $ linner new webapp && cd webapp
+
+Watch:
+
+    $ linner watch
+
+Server:
+
+    $ ./bin/server # or server if put "./bin" in your PATH
+
+Build:
+
+    $ linner build
+
+Clean:
+
+    $ linner clean
 
 ## Contributing
 

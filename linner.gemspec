@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Linner::VERSION
   spec.authors       = ["Saito"]
   spec.email         = ["saitowu@gmail.com"]
-  spec.description   = %q{HTML5 Application assembler}
-  spec.summary       = %q{HTML5 Application assembler}
+  spec.description   = %q{HTML5 Application Assembler}
+  spec.summary       = %q{HTML5 Application Assembler}
   spec.homepage      = "https://github.com/saitowu/linner"
   spec.license       = "MIT"
 
