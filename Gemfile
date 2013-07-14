@@ -1,10 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "tilt"
-gem "thor"
-gem "sass"
-gem "listen"
-gem "uglifier"
-gem "coffee-script"
-gem "yui-compressor"
-gem "terminal-notifier"
+# Specify your gem's dependencies in linner.gemspec
+gemspec
