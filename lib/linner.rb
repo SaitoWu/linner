@@ -34,7 +34,7 @@ module Linner
     concat.each do |dist, regex|
       Thread.new do
         dist = Linner::Asset.new(environment.public_folder.join(dist).to_path)
-        matches = Dir.glob(File.join root, regex)
+        matches = Dir.glob(File.join root, regex).uniq
         matches.extend(Linner::Sort)
         matches.sort(before: before, after: after).each do |m|
           asset = Linner::Asset.new(m)

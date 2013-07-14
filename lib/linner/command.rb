@@ -42,7 +42,7 @@ module Linner
 
     desc "new", "create the skeleton of project"
     def new(name)
-      puts "create #{name}"
+      directory('templates', name)
     end
   end
 end
