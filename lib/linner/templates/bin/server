@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+ruby -run -e httpd "./public" -p 3000

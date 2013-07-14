@@ -1,12 +1,12 @@
-require_relative "linner/version"
-require_relative "linner/command"
-require_relative "linner/asset"
-require_relative "linner/sort"
-require_relative "linner/environment"
-require_relative "linner/wrapper"
-require_relative "linner/template"
-require_relative "linner/notifier"
-require_relative "linner/compressor"
+require "linner/version"
+require "linner/command"
+require "linner/asset"
+require "linner/sort"
+require "linner/environment"
+require "linner/wrapper"
+require "linner/template"
+require "linner/notifier"
+require "linner/compressor"
 
 module Linner
   extend self
