@@ -19,8 +19,7 @@ module Linner
     @env ||= Linner::Environment.new root.join("config.yml")
   end
 
-  def perform(options = {})
-    compile = options[:compile]
+  def perform(compile: false)
     environment.files.values.each do |config|
       Thread.new {concat(config).each {|asset| asset.compress if compile; asset.write}}.join
       Thread.new {copy(config)}.join
