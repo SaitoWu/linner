@@ -20,7 +20,7 @@ module Linner
   end
 
   def perform(compile: false)
-    environment.files.values.each do |config|
+    environment.files.each do |config|
       Thread.new {concat(config).each {|asset| asset.compress if compile; asset.write}}.join
       Thread.new {copy(config)}.join
     end
@@ -29,13 +29,12 @@ module Linner
   private
   def concat(config)
     assets = []
-    concat, before, after = environment.extract_by(config)
-    concat.each do |dist, regex|
+    config["concat"].each do |dist, regex|
       Thread.new do
         dist = Asset.new(environment.public_folder.join(dist).to_path)
         matches = Dir.glob(File.join root, regex).uniq
         matches.extend(Linner::Sort)
-        matches.sort(before: before, after: after).each do |m|
+        matches.sort(before: config["order"]["before"], after: config["order"]["after"]).each do |m|
           asset = Asset.new(m)
           content = asset.content
           if asset.wrappable?

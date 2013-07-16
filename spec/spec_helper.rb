@@ -2,4 +2,10 @@ require "linner"
 
 include Linner
 
-@root = Pathname(".").join("spec/fixtures").expand_path
+module Linner
+  extend self
+
+  def root
+    Pathname(".").join("spec/fixtures").expand_path
+  end
+end

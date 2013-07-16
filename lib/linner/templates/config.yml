@@ -3,7 +3,7 @@ paths:
 files:
   scripts:
     concat:
-      "scripts/app.js": "app/scripts/**/*.{js,coffee}"
+      "scripts/app.js": "app/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       before:
@@ -20,7 +20,5 @@ files:
     copy:
       "/": "app/views/**/*.{html,hbs}"
 modules:
-  wrapper: "cmd"
-conventions:
-  ignored: "_"
+  wrapper: "CMD"
 notifications: true

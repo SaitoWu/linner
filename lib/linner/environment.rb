@@ -4,26 +4,25 @@ module Linner
   class Environment
 
     def initialize(path)
-      @config ||= YAML::load File.read path
+      @env ||= (YAML::load(File.read path) || Hash.new)
+      @convension = YAML::load File.read(File.join File.dirname(__FILE__), "../../vendor", "config.default.yml")
+      @env = @convension.merge! @env
     end
 
-    def public_folder
-      Linner.root.join(@config["paths"].to_h["public"] || "public")
+    %w(app test vendor public).each do |method|
+      define_method("#{method}_folder") do
+        Linner.root.join(@env["paths"][method]).expand_path.to_path
+      end
+    end
+
+    %w(notification wrapper).each do |method|
+      define_method(method) do
+        @env[method]
+      end
     end
 
     def files
-      @config["files"] || []
-    end
-
-    def notifications
-      @config["notifications"] || false
-    end
-
-    def extract_by(file)
-      concat = file["concat"] || []
-      before = file["order"].to_h["before"] || []
-      after = file["order"].to_h["after"] || []
-      [concat, before, after]
+      @env["files"].values
     end
   end
 end
