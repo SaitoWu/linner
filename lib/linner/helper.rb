@@ -1,6 +1,13 @@
 module Linner
-  module Sort
+  module HashRecursiveMerge
+    def rmerge!(other_hash)
+      merge!(other_hash) do |key, oldval, newval|
+        oldval.class == self.class ? oldval.rmerge!(newval) : newval
+      end
+    end
+  end
 
+  module Sort
     def sort(before: [], after: [])
       sort_by_before(self, before)
       sort_by_after(self, after)

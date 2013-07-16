@@ -1,7 +1,7 @@
 require "linner/version"
 require "linner/command"
 require "linner/asset"
-require "linner/sort"
+require "linner/helper"
 require "linner/environment"
 require "linner/wrapper"
 require "linner/template"
@@ -31,7 +31,7 @@ module Linner
     assets = []
     config["concat"].each do |dist, regex|
       Thread.new do
-        dist = Asset.new(environment.public_folder.join(dist).to_path)
+        dist = Asset.new(File.join environment.public_folder, dist)
         matches = Dir.glob(File.join root, regex).uniq
         matches.extend(Linner::Sort)
         matches.sort(before: config["order"]["before"], after: config["order"]["after"]).each do |m|

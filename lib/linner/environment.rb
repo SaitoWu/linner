@@ -6,7 +6,8 @@ module Linner
     def initialize(path)
       @env ||= (YAML::load(File.read path) || Hash.new)
       @convension = YAML::load File.read(File.join File.dirname(__FILE__), "../../vendor", "config.default.yml")
-      @env = @convension.merge! @env
+      @convension.extend(HashRecursiveMerge)
+      @env = @convension.rmerge!(@env)
     end
 
     %w(app test vendor public).each do |method|
