@@ -37,7 +37,7 @@ module Linner
 
     desc "clean", "clean assets"
     def clean
-      FileUtils.rm_rf File.join(environment.public_folder, "/.")
+      FileUtils.rm_rf Dir.glob("#{Linner.environment.public_folder}/*")
     end
 
     desc "new", "create the skeleton of project"
