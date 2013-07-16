@@ -32,9 +32,9 @@ module Linner
     config["concat"].each do |dist, regex|
       Thread.new do
         dist = Asset.new(File.join environment.public_folder, dist)
+        dist.content = ""
         matches = Dir.glob(File.join root, regex).uniq
-        matches.extend(Linner::Sort)
-        matches.sort(before: config["order"]["before"], after: config["order"]["after"]).each do |m|
+        matches.sort_by_before_and_after(config["order"]["before"], config["order"]["after"]).each do |m|
           asset = Asset.new(m)
           content = asset.content
           if asset.wrappable?
@@ -55,7 +55,7 @@ module Linner
         matches.each do |path|
           asset = Asset.new(path)
           asset.path = File.join(environment.public_folder, dist, asset.logical_path)
-          next if File.exist? asset.path and FileUtils.uptodate? path, [asset.path]
+          next if File.exist?(asset.path) and FileUtils.uptodate?(path, [asset.path])
           asset.write
         end
       end.join

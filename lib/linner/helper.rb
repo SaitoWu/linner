@@ -8,7 +8,7 @@ module Linner
   end
 
   module Sort
-    def sort(before: [], after: [])
+    def sort_by_before_and_after(before, after)
       sort_by_before(self, before)
       sort_by_after(self, after)
       self
@@ -31,4 +31,12 @@ module Linner
       end
     end
   end
+end
+
+class Hash
+  include Linner::HashRecursiveMerge
+end
+
+class Array
+  include Linner::Sort
 end
