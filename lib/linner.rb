@@ -16,7 +16,7 @@ module Linner
   end
 
   def environment
-    @env ||= Linner::Environment.new root.join("config.yml")
+    @env ||= Environment.new root.join("config.yml")
   end
 
   def perform(compile: false)
@@ -32,11 +32,11 @@ module Linner
     concat, before, after = environment.extract_by(config)
     concat.each do |dist, regex|
       Thread.new do
-        dist = Linner::Asset.new(environment.public_folder.join(dist).to_path)
+        dist = Asset.new(environment.public_folder.join(dist).to_path)
         matches = Dir.glob(File.join root, regex).uniq
         matches.extend(Linner::Sort)
         matches.sort(before: before, after: after).each do |m|
-          asset = Linner::Asset.new(m)
+          asset = Asset.new(m)
           content = asset.content
           if asset.wrappable?
             content = asset.wrap
@@ -54,7 +54,7 @@ module Linner
       Thread.new do
         matches = Dir.glob(File.join root, regex)
         matches.each do |path|
-          asset = Linner::Asset.new(path)
+          asset = Asset.new(path)
           asset.path = File.join(environment.public_folder, dist, asset.logical_path)
           next if File.exist? asset.path and FileUtils.uptodate? path, [asset.path]
           asset.write

@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Linner::Wrapper do
+describe Wrapper do
 
   before(:each) do
     @name = "app"
@@ -15,7 +15,7 @@ describe Linner::Wrapper do
 
   describe :wrap do
     it "should wrapped by wrapper" do
-      script = Linner::Wrapper.wrap(@name, @script)
+      script = Wrapper.wrap(@name, @script)
       script.should eq @expected_script
     end
   end

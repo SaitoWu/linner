@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe Linner::Sort do
+describe Sort do
   before(:each) do
     @array = %w[app.js jquery.js bootstrap.css reset.css vendor.js]
-    @array.extend(Linner::Sort)
+    @array.extend(Sort)
   end
 
   describe :sort do

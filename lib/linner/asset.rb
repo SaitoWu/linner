@@ -5,38 +5,26 @@ module Linner
 
     def initialize(path)
       @path = path
-      if path =~ /#{Linner.root.to_path}\/public/
-        @content = ""
-      else
-        @content = Linner::Template.new(path).render
-      end
-    end
-
-    def type
-      @type ||= if @path =~ /\.(js|coffee)$/
-        "script"
-      elsif @path =~ /\.(css|sass|scss)/
-        "style"
-      end
+      @content = File.exist?(path) ? Tilt.new(path).render : ""
     end
 
     def wrap
-      Linner::Wrapper.wrap(logical_path.chomp(File.extname logical_path), @content)
+      Wrapper.wrap(logical_path.chomp(File.extname logical_path), @content)
     end
 
     def wrappable?
-      !!(!@path.include? Linner.root.join("vendor").to_path and type == "script")
+      !!(@path.include? Linner.root.join("app").to_path and Template.template_for_script?(@path))
     end
 
     def write
       FileUtils.mkdir_p File.dirname(@path)
-      File.open @path, "w+" do |file|
+      File.open @path, "w" do |file|
         file.write @content
       end
     end
 
     def compress
-      @content = Linner::Compressor.compress(self)
+      @content = Compressor.compress(self)
     end
 
     def logical_path

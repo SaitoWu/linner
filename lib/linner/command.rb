@@ -11,7 +11,7 @@ module Linner
 
     desc "build", "build assets"
     def build
-      Linner::Notifier.info do
+      Notifier.info do
         Linner.perform compile: true
       end
     end
@@ -20,16 +20,16 @@ module Linner
     def watch
       proc = Proc.new do |modified, added, removed|
         begin
-          Linner::Notifier.info{ Linner.perform }
+          Notifier.info{ Linner.perform }
         rescue
-          Linner::Notifier.error $!
+          Notifier.error $!
         end
       end
       proc.call
       listener = Listen.to "app/", "vendor/", "test/", filter: /\.(js|coffee|css|sass|scss)$/
       listener.change &proc
       trap :INT do
-        Linner::Notifier.exit
+        Notifier.exit
         exit!
       end
       listener.start!
@@ -37,7 +37,7 @@ module Linner
 
     desc "clean", "clean assets"
     def clean
-      FileUtils.rm_rf File.join(Linner.environment.public_folder, "/.")
+      FileUtils.rm_rf File.join(environment.public_folder, "/.")
     end
 
     desc "new", "create the skeleton of project"

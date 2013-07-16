@@ -5,10 +5,9 @@ module Linner
   class Compressor
 
     def self.compress(asset)
-      case asset.type
-      when "script"
+      if Template.template_for_script? asset.path
         Uglifier.compile asset.content, comments: "none"
-      when "style"
+      elsif Template.template_for_style? asset.path
         YUI::CssCompressor.new.compress asset.content
       end
     end
