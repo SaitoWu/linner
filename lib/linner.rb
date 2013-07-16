@@ -49,7 +49,7 @@ module Linner
   end
 
   def copy(config)
-    config["copy"].to_h.each do |dist, regex|
+    config["copy"].each do |dist, regex|
       Thread.new do
         matches = Dir.glob(File.join root, regex)
         matches.each do |path|
