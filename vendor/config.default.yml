@@ -5,32 +5,27 @@ paths:
   public: "public"
 files:
   scripts:
-    concat:
-      "scripts/app.js": "app/**/*.{js,coffee}"
-      "scripts/vendor.js": "vendor/**/*.{js,coffee}"
+    concat: {}
     copy: {}
     order:
       before:
         - "vendor/jquery-1.10.2.js"
       after: []
   styles:
-    concat:
-      "styles/app.css": "app/**/[a-z]*.{css,scss,sass}"
+    concat: {}
     copy: {}
     order:
       before: []
       after: []
   images:
     concat: {}
-    copy:
-      "images/": "app/**/*.{png,gif}"
+    copy: {}
     order:
       before: []
       after: []
   views:
     concat: {}
-    copy:
-      "/": "app/**/*.{html,hbs}"
+    copy: {}
     order:
       before: []
       after: []
