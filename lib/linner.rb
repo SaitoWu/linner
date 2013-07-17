@@ -55,7 +55,7 @@ module Linner
         matches.each do |path|
           asset = Asset.new(path)
           asset.path = File.join(environment.public_folder, dist, asset.logical_path)
-          next if File.exist?(asset.path) and FileUtils.uptodate?(path, [asset.path])
+          next if File.exist?(asset.path) and File.identical?(path, asset.path)
           asset.write
         end
       end.join
