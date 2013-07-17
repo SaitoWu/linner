@@ -5,7 +5,11 @@ module Linner
 
     def initialize(path)
       @path = path
-      @content ||= File.exist?(path) ? Tilt.new(path).render : ""
+      @content ||= begin
+        File.exist?(path) ? Tilt.new(path).render : ""
+      rescue
+        File.read(path)
+      end
     end
 
     def wrap
