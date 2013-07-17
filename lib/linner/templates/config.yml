@@ -21,4 +21,4 @@ files:
       "/": "app/views/**/*.{html,hbs}"
 modules:
   wrapper: "CMD"
-notifications: true
+notification: true
