@@ -1,6 +1,7 @@
 require "tilt"
 require "sass"
 require "coffee_script"
+require "stylus/tilt"
 
 module Tilt
   class JavascriptTemplate < PlainTemplate
@@ -24,7 +25,7 @@ module Linner
       end
 
       def template_for_style?(path)
-        [Tilt::CSSTemplate, Tilt::SassTemplate, Tilt::ScssTemplate].include? Tilt[path]
+        [Tilt::CSSTemplate, Tilt::SassTemplate, Tilt::ScssTemplate, Tilt::StylusTemplate].include? Tilt[path]
       end
     end
   end

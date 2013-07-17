@@ -21,6 +21,7 @@ describe Template do
       Template.template_for_style? "app.css".should be_true
       Template.template_for_style? "app.sass".should be_true
       Template.template_for_style? "app.scss".should be_true
+      Template.template_for_style? "app.styl".should be_true
     end
   end
 end
