@@ -26,7 +26,7 @@ module Linner
         end
       end
       proc.call
-      listener = Listen.to "app/", "vendor/", "test/", filter: /\.(js|coffee|css|sass|scss)$/
+      listener = Listen.to env.app_folder, env.vendor_folder, env.test_folder
       listener.change &proc
       trap :INT do
         Notifier.exit
@@ -44,6 +44,11 @@ module Linner
     def new(name)
       directory('templates', name)
       chmod("#{name}/bin/server", 0755)
+    end
+
+    private
+    def env
+      Linner.environment
     end
   end
 end
