@@ -26,6 +26,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "coffee-script", "~> 2.2"
   spec.add_dependency "yui-compressor", "~> 0.9.6"
   spec.add_dependency "terminal-notifier", "~> 1.4"
+  spec.add_dependency "stylus", "~> 0.7.2"
+  spec.add_dependency "stylus-source", "~> 0.34.1"
 
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 2.14"
