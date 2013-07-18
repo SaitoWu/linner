@@ -18,21 +18,40 @@ module Linner
 
     desc "watch", "watch assets"
     def watch
-      proc = Proc.new do |modified, added, removed|
+      options = {
+        :host => '0.0.0.0',
+        :port => '35729',
+        :apply_css_live => true,
+        :override_url => false,
+        :grace_period => 0
+      }
+      @reactor = Reactor.new options
+
+      @proc = Proc.new do |modified, added, removed|
         begin
           Notifier.info{ Linner.perform }
         rescue
           Notifier.error $!
         end
       end
-      proc.call
-      listener = Listen.to env.app_folder, env.vendor_folder, env.test_folder
-      listener.change &proc
+      @proc.call
+
+      Listen.to env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
+        @proc.call
+      end
+
+      Listen.to env.public_folder, :relative_paths => true do |modified, added, removed|
+        paths = [].push(modified, added, removed).flatten.compact
+        @reactor.reload_browser(paths)
+      end
+
       trap :INT do
         Notifier.exit
+        @reactor.stop
         exit!
       end
-      listener.start!
+
+      sleep
     end
 
     desc "clean", "clean assets"

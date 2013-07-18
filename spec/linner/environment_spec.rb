@@ -7,10 +7,10 @@ describe Environment do
 
   describe "convension" do
     it "should equals default path folder" do
-      @env.app_folder.should == root.join("app").to_path
-      @env.test_folder.should == root.join("test").to_path
-      @env.vendor_folder.should == root.join("vendor").to_path
-      @env.public_folder.should == root.join("public").to_path
+      @env.app_folder.should == "app"
+      @env.test_folder.should == "test"
+      @env.vendor_folder.should == "vendor"
+      @env.public_folder.should == "public"
     end
 
     it "should equals default config" do

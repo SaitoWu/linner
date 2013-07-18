@@ -11,7 +11,7 @@ module Linner
 
     %w(app test vendor public).each do |method|
       define_method("#{method}_folder") do
-        Linner.root.join(@env["paths"][method]).expand_path.to_path
+        @env["paths"][method]
       end
     end
 

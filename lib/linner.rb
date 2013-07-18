@@ -2,11 +2,12 @@ require "linner/version"
 require "linner/command"
 require "linner/asset"
 require "linner/helper"
-require "linner/environment"
+require "linner/reactor"
 require "linner/wrapper"
 require "linner/template"
 require "linner/notifier"
 require "linner/compressor"
+require "linner/environment"
 
 module Linner
   extend self
