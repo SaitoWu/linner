@@ -20,11 +20,11 @@ module Linner
 
     class << self
       def template_for_script?(path)
-        [Tilt::JavascriptTemplate, Tilt::CoffeeScriptTemplate].include? Tilt[path]
+        Tilt[path].default_mime_type == "application/javascript"
       end
 
       def template_for_style?(path)
-        [Tilt::CSSTemplate, Tilt::SassTemplate, Tilt::ScssTemplate].include? Tilt[path]
+        Tilt[path].default_mime_type == "text/css"
       end
     end
   end
