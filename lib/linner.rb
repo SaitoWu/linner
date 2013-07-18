@@ -34,8 +34,7 @@ module Linner
       Thread.new do
         dist = Asset.new(File.join environment.public_folder, dist)
         dist.content = ""
-        matches = Dir.glob(File.join root, regex).uniq
-        matches.sort_by_before_and_after(config["order"]["before"], config["order"]["after"]).each do |m|
+        Dir.glob(regex).uniq.sort_by_before_and_after(config["order"]["before"], config["order"]["after"]).each do |m|
           asset = Asset.new(m)
           content = asset.content
           if asset.wrappable?
@@ -52,8 +51,7 @@ module Linner
   def copy(config)
     config["copy"].each do |dist, regex|
       Thread.new do
-        matches = Dir.glob(File.join root, regex)
-        matches.each do |path|
+        Dir.glob(regex).each do |path|
           asset = Asset.new(path)
           asset.path = File.join(environment.public_folder, dist, asset.logical_path)
           next if File.exist?(asset.path) and File.identical?(path, asset.path)

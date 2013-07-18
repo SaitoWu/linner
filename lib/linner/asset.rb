@@ -17,7 +17,7 @@ module Linner
     end
 
     def wrappable?
-      !!(@path.include? Linner.root.join("app").to_path and Template.template_for_script?(@path))
+      !!(@path.include? Linner.environment.app_folder and Template.template_for_script?(@path))
     end
 
     def write
@@ -32,7 +32,7 @@ module Linner
     end
 
     def logical_path
-      @logical_path ||= @path.gsub(/#{Linner.root}\/app\/\w*\//, "")
+      @logical_path ||= @path.gsub(/#{Linner.environment.app_folder}\/\w*\//, "")
     end
   end
 end
