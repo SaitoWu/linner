@@ -18,14 +18,7 @@ module Linner
 
     desc "watch", "watch assets"
     def watch
-      options = {
-        :host => '0.0.0.0',
-        :port => '35729',
-        :apply_css_live => true,
-        :override_url => false,
-        :grace_period => 0
-      }
-      @reactor = Reactor.new options
+      @reactor = Reactor.new
 
       @proc = Proc.new do |modified, added, removed|
         begin

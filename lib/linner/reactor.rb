@@ -6,12 +6,20 @@ module Linner
   # Steal from guard livereload
   # https://github.com/guard/guard-livereload/blob/master/lib/guard/livereload/reactor.rb
   class Reactor
+    OPTIONS = {
+      :host => '0.0.0.0',
+      :port => '35729',
+      :apply_css_live => true,
+      :override_url => false,
+      :grace_period => 0
+    }
+
     attr_reader :web_sockets, :thread, :options
 
-    def initialize(options)
+    def initialize
       @web_sockets = []
-      @options     = options
-      @thread      = start_threaded_reactor(options)
+      @options     = OPTIONS
+      @thread      = start_threaded_reactor(OPTIONS)
     end
 
     def stop
