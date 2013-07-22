@@ -7,7 +7,7 @@ module Linner
       @path = path
       @content ||= begin
         File.exist?(path) ? Tilt.new(path).render : ""
-      rescue
+      rescue RuntimeError
         File.read(path)
       end
     end
