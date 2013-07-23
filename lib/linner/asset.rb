@@ -6,7 +6,7 @@ module Linner
     def initialize(path)
       @path = path
       @content ||= begin
-        File.exist?(path) ? Tilt.new(path).render : ""
+        File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
         File.read(path)
       end
