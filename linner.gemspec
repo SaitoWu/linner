@@ -18,14 +18,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "reel", "~> 0.3"
   spec.add_dependency "thor", "~> 0.18"
   spec.add_dependency "tilt", "~> 1.4"
   spec.add_dependency "sass", "~> 3.2"
   spec.add_dependency "listen", "~> 1.2"
   spec.add_dependency "uglifier", "~> 2.1"
   spec.add_dependency "multi_json", "~> 1.7"
-  spec.add_dependency "em-websocket", "~> 0.5"
-  spec.add_dependency "eventmachine", "~> 1.0.3"
   spec.add_dependency "coffee-script", "~> 2.2"
   spec.add_dependency "yui-compressor", "~> 0.9.6"
   spec.add_dependency "terminal-notifier", "~> 1.4"

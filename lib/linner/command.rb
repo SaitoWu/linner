@@ -18,7 +18,7 @@ module Linner
 
     desc "watch", "watch assets"
     def watch
-      @reactor = Reactor.new
+      Reactor::Server.supervise_as :reactor
 
       @proc = Proc.new do |modified, added, removed|
         begin
@@ -40,7 +40,6 @@ module Linner
 
       trap :INT do
         Notifier.exit
-        @reactor.stop
         exit!
       end
 
