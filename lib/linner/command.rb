@@ -18,7 +18,10 @@ module Linner
 
     desc "watch", "watch assets"
     def watch
-      Reactor::Server.supervise_as :reactor
+      trap :INT do
+        Notifier.exit
+        exit!
+      end
 
       @proc = Proc.new do |modified, added, removed|
         begin
@@ -29,21 +32,9 @@ module Linner
       end
       @proc.call
 
-      Listen.to env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
+      Listen.to! env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
         @proc.call
       end
-
-      Listen.to env.public_folder, :relative_paths => true do |modified, added, removed|
-        paths = [].push(modified, added, removed).flatten.compact
-        @reactor.reload_browser(paths)
-      end
-
-      trap :INT do
-        Notifier.exit
-        exit!
-      end
-
-      sleep
     end
 
     desc "clean", "clean assets"
