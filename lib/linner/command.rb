@@ -9,6 +9,11 @@ module Linner
       File.dirname(__FILE__)
     end
 
+    desc "version", "show version"
+    def version
+      puts Linner::VERSION
+    end
+
     desc "build", "build assets"
     def build
       Notifier.info do
