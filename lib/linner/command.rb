@@ -4,6 +4,7 @@ require "listen"
 module Linner
   class Command < Thor
     include Thor::Actions
+    map "-v" => :version
 
     def self.source_root
       File.dirname(__FILE__)
