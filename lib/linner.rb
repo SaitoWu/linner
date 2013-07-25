@@ -15,6 +15,10 @@ module Linner
     @root ||= Pathname('.').expand_path
   end
 
+  def cache
+    @cache ||= {}
+  end
+
   def environment
     @env ||= Environment.new root.join("config.yml")
   end
@@ -29,32 +33,38 @@ module Linner
   private
   def concat(config)
     assets = []
-    config["concat"].each do |dist, regex|
+    config["concat"].each do |dest, regex|
       Thread.new do
-        dist = Asset.new(File.join environment.public_folder, dist)
-        dist.content = ""
+        dest = Asset.new(File.join environment.public_folder, dest)
+        dest.content = ""
         Dir.glob(regex).uniq.sort_by_before_and_after(config["order"]["before"], config["order"]["after"]).each do |m|
           asset = Asset.new(m)
           content = asset.content
           if asset.wrappable?
             content = asset.wrap
           end
-          dist.content << content
+          dest.content << content
         end
-        assets << dist
+        assets << dest
       end.join
     end
     assets
   end
 
   def copy(config)
-    config["copy"].each do |dist, regex|
+    config["copy"].each do |dest, regex|
       Thread.new do
         Dir.glob(regex).each do |path|
-          asset = Asset.new(path)
-          asset.path = File.join(environment.public_folder, dist, asset.logical_path)
-          next if File.exist?(asset.path) and File.identical?(path, asset.path)
-          asset.write
+          mtime = File.mtime(path).to_i
+          if cache[path]
+            next if mtime == cache[path]
+          else
+            cache[path] = mtime
+            logical_path = Asset.new(path).logical_path
+            dest_path = File.join(environment.public_folder, dest, logical_path)
+            FileUtils.mkdir_p File.dirname(dest_path)
+            FileUtils.cp_r path, dest_path
+          end
         end
       end.join
     end
