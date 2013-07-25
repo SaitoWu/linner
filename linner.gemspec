@@ -24,8 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "listen", "~> 1.2"
   spec.add_dependency "uglifier", "~> 2.1"
   spec.add_dependency "multi_json", "~> 1.7"
+  spec.add_dependency "cssminify", "~> 1.0.2"
   spec.add_dependency "coffee-script", "~> 2.2"
-  spec.add_dependency "yui-compressor", "~> 0.9.6"
   spec.add_dependency "terminal-notifier", "~> 1.4"
 
   spec.add_development_dependency "rake"

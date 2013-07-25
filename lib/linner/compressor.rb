@@ -1,5 +1,5 @@
 require "uglifier"
-require "yui/compressor"
+require "cssminify"
 
 module Linner
   class Compressor
@@ -8,7 +8,7 @@ module Linner
       if Template.template_for_script? asset.path
         Uglifier.compile asset.content, comments: "none"
       elsif Template.template_for_style? asset.path
-        YUI::CssCompressor.new.compress asset.content
+        CSSminify.new.compress asset.content
       end
     end
   end
