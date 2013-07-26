@@ -60,11 +60,11 @@ module Linner
             next if mtime == cache[path]
           else
             cache[path] = mtime
-            logical_path = Asset.new(path).logical_path
-            dest_path = File.join(environment.public_folder, dest, logical_path)
-            FileUtils.mkdir_p File.dirname(dest_path)
-            FileUtils.cp_r path, dest_path
           end
+          logical_path = Asset.new(path).logical_path
+          dest_path = File.join(environment.public_folder, dest, logical_path)
+          FileUtils.mkdir_p File.dirname(dest_path)
+          FileUtils.cp_r path, dest_path
         end
       end.join
     end
