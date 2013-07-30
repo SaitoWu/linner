@@ -15,7 +15,7 @@ module Linner
       end
     end
 
-    %w(notification wrapper).each do |method|
+    %w(notification wrapper sass_load_path).each do |method|
       define_method(method) do
         @env[method]
       end
