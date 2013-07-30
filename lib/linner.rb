@@ -33,9 +33,15 @@ module Linner
   private
   def concat(config, compile)
     config["concat"].map do |dest, regex|
+      matches = Dir.glob(regex).uniq.order_by(before:config["order"]["before"], after:config["order"]["after"])
       dest = Asset.new(File.join environment.public_folder, dest)
       dest.content = ""
-      Dir.glob(regex).uniq.order_by(before:config["order"]["before"], after:config["order"]["after"]).each do |m|
+      cached = matches.select do |path|
+        mtime = File.mtime(path).to_i
+        mtime == cache[path] ? false : cache[path] = mtime
+      end
+      next if cached.empty?
+      matches.each do |m|
         asset = Asset.new(m)
         content = asset.content
         if asset.wrappable?
@@ -52,11 +58,8 @@ module Linner
     config["copy"].each do |dest, regex|
       Dir.glob(regex).each do |path|
         mtime = File.mtime(path).to_i
-        if cache[path]
-          next if mtime == cache[path]
-        else
-          cache[path] = mtime
-        end
+        next if cache[path] == mtime
+        cache[path] = mtime
         logical_path = Asset.new(path).logical_path
         dest_path = File.join(environment.public_folder, dest, logical_path)
         FileUtils.mkdir_p File.dirname(dest_path)
