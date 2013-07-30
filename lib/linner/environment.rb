@@ -15,10 +15,12 @@ module Linner
       end
     end
 
-    %w(notification wrapper).each do |method|
-      define_method(method) do
-        @env[method]
-      end
+    def notification
+      @env["notification"]
+    end
+
+    def wrapper
+      @env["modules"]["wrapper"]
     end
 
     def files
