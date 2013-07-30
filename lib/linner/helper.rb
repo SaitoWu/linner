@@ -7,15 +7,15 @@ module Linner
     end
   end
 
-  module Sort
-    def sort_by_before_and_after(before, after)
-      sort_by_before(self, before)
-      sort_by_after(self, after)
+  module Order
+    def order_by(before:[], after:[])
+      order_by_before(self, before)
+      order_by_after(self, after)
       self
     end
 
     private
-    def sort_by_before(list, before)
+    def order_by_before(list, before)
       before.reverse.each do |f|
         if i = list.index {|x| x =~ /#{f}/i}
           list.unshift list.delete_at i
@@ -23,7 +23,7 @@ module Linner
       end
     end
 
-    def sort_by_after(list, after)
+    def order_by_after(list, after)
       after.reverse.each do |f|
         if i = list.index {|x| x =~ /#{f}/i}
           list.push list.delete_at i
@@ -38,5 +38,5 @@ class Hash
 end
 
 class Array
-  include Linner::Sort
+  include Linner::Order
 end
