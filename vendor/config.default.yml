@@ -29,6 +29,7 @@ files:
     order:
       before: []
       after: []
-wrapper: "CMD"
+modules:
+  wrapper: "CMD"
 notification: true
 sass_load_path: []

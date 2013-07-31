@@ -15,10 +15,16 @@ module Linner
       end
     end
 
-    %w(notification wrapper sass_load_path).each do |method|
-      define_method(method) do
-        @env[method]
-      end
+    def notification
+      @env["notification"]
+    end
+
+    def wrapper
+      @env["modules"]["wrapper"]
+    end
+
+    def sass_load_path
+      @env["sass_load_path"]
     end
 
     def files
