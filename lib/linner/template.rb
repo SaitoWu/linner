@@ -23,14 +23,10 @@ module Tilt
     end
   end
 
-  class ScssWithCompassTemplate < ScssTemplate
+  class ScssWithCompassTemplate < SassWithCompassTemplate
   private
     def sass_options
-      compassSassOptions = Compass.configuration.to_sass_engine_options
-      Linner.environment.sass_load_path.each do |load_path|
-        compassSassOptions[:load_paths] << Sass::Importers::Filesystem.new(load_path)
-      end
-      super.merge(compassSassOptions)
+      super.merge(:syntax => :scss)
     end
   end
 
