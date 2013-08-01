@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thor", "~> 0.18"
   spec.add_dependency "tilt", "~> 1.4"
   spec.add_dependency "sass", "~> 3.2"
+  spec.add_dependency "compass", "~> 0.12"
   spec.add_dependency "listen", "~> 1.2"
   spec.add_dependency "uglifier", "~> 2.1"
   spec.add_dependency "multi_json", "~> 1.7"

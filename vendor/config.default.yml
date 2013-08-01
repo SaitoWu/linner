@@ -32,3 +32,4 @@ files:
 modules:
   wrapper: "CMD"
 notification: true
+sass_load_path: []

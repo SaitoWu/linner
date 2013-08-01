@@ -23,6 +23,10 @@ module Linner
       @env["modules"]["wrapper"]
     end
 
+    def sass_load_path
+      @env["sass_load_path"]
+    end
+
     def files
       @env["files"].values
     end
