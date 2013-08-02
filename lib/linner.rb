@@ -19,6 +19,10 @@ module Linner
     @cache ||= {}
   end
 
+  def concat_cache
+    @concat_cache ||= {}
+  end
+
   def environment
     @env ||= Environment.new root.join("config.yml")
   end
@@ -36,13 +40,12 @@ module Linner
       matches = Dir.glob(regex).uniq.order_by(before:config["order"]["before"], after:config["order"]["after"])
       dest = Asset.new(File.join environment.public_folder, dest)
       dest.content = ""
-      cached = matches.select do |path|
-        mtime = File.mtime(path).to_i
-        mtime == cache[path] ? false : cache[path] = mtime
-      end
-      next if cached.empty?
       matches.each do |m|
-        asset = Asset.new(m)
+        asset = if concat_cache[m] and File.mtime(m).to_i == concat_cache[m].mtime
+          concat_cache[m]
+        else
+          concat_cache[m] = Asset.new(m)
+        end
         content = asset.content
         if asset.wrappable?
           content = asset.wrap
