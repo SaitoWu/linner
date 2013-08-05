@@ -54,7 +54,7 @@ module Linner
       chmod("#{name}/bin/server", 0755)
     end
 
-    private
+  private
     def env
       Linner.env
     end

@@ -30,7 +30,7 @@ module Linner
     end
   end
 
-  private
+private
   def concat(config, compile)
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]

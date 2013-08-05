@@ -18,7 +18,7 @@ module Linner
       self
     end
 
-    private
+  private
     def order_by_before(list, before)
       before.reverse.each do |f|
         if i = list.index {|x| x =~ /#{f}/i}
