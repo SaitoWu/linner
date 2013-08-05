@@ -9,5 +9,9 @@ module Linner
     def self.wrap(name, content)
       WRAPPER % [name, content]
     end
+
+    def self.definition
+      File.read(File.join File.dirname(__FILE__), "../../vendor", "require_definition.js")
+    end
   end
 end

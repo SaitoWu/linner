@@ -4,6 +4,7 @@ groups:
   scripts:
     concat:
       "scripts/app.js": "app/**/*.{js,coffee}"
+      "scripts/app1.js": "app/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       - "vendor/jquery-1.10.2.js"

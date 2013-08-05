@@ -1,11 +1,18 @@
 module Linner
   class Asset
 
-    attr_accessor :path, :content
+    attr_accessor :path, :content, :mtime
 
     def initialize(path)
       @path = path
-      @content = begin
+    end
+
+    def mtime
+      @mtime ||= File.mtime(path).to_i
+    end
+
+    def content
+      @content ||= begin
         File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
         File.read(path)

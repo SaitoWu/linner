@@ -25,14 +25,14 @@ module Linner
 
   def perform(compile: false)
     environment.groups.each do |config|
-      concat(config, compile)
-      copy(config)
+      concat(config, compile) if config["concat"]
+      copy(config) if config["copy"]
     end
   end
 
   private
   def concat(config, compile)
-    config["concat"].to_h.map do |dest, regex|
+    config["concat"].map do |dest, regex|
       matches = Dir.glob(regex).order_by(config["order"])
       dest = Asset.new(File.join environment.public_folder, dest)
       dest.content = ""
@@ -55,7 +55,7 @@ module Linner
   end
 
   def copy(config)
-    config["copy"].to_h.each do |dest, regex|
+    config["copy"].each do |dest, regex|
       Dir.glob(regex).each do |path|
         mtime = File.mtime(path).to_i
         next if cache[path] == mtime
