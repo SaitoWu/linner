@@ -5,9 +5,9 @@ module Linner
   class Compressor
 
     def self.compress(asset)
-      if Template.template_for_script? asset.path
+      if asset.javascript?
         Uglifier.compile asset.content, comments: "none"
-      elsif Template.template_for_style? asset.path
+      elsif asset.stylesheet?
         CSSminify.new.compress asset.content
       end
     end

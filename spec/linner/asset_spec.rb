@@ -3,19 +3,22 @@ require "spec_helper"
 describe Asset do
 
   before(:each) do
-    @asset = Asset.new("app/scripts/app.js")
+    @script_asset = Asset.new("app/scripts/app.js")
+    @style_asset = Asset.new("app/styles/app.css")
   end
 
-  describe :logical_path do
-    it "should be return right logical_path" do
-      @asset.logical_path.should == "app.js"
-    end
+  it "should be return right logical_path" do
+    @script_asset.logical_path.should == "app.js"
+    @style_asset.logical_path.should == "app.css"
   end
 
-  describe :wrappable do
-    it "should wrapperable" do
-      @asset.wrappable?.should be_true
-      Asset.new("app/styles/app.css").wrappable?.should be_false
-    end
+  it "should be javascript" do
+    @script_asset.javascript?.should be_true
+    @style_asset.stylesheet?.should be_true
+  end
+
+  it "should wrapperable" do
+    @script_asset.wrappable?.should be_true
+    @style_asset.wrappable?.should be_false
   end
 end

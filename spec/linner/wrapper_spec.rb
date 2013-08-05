@@ -13,10 +13,8 @@ describe Wrapper do
       ";}});\n"
   end
 
-  describe :wrap do
-    it "should wrapped by wrapper" do
-      script = Wrapper.wrap(@name, @script)
-      script.should eq @expected_script
-    end
+  it "should wrapped by wrapper" do
+    script = Wrapper.wrap(@name, @script)
+    script.should eq @expected_script
   end
 end

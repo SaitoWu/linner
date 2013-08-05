@@ -1,15 +1,14 @@
 paths:
   public: "public"
-files:
+groups:
   scripts:
     concat:
       "scripts/app.js": "app/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
-      before:
-        - "vendor/jquery-1.10.2.js"
-      after:
-        - "vendor/commonjs.js"
+      - "vendor/jquery-1.10.2.js"
+      - "..."
+      - "vendor/commonjs.js"
   styles:
     concat:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"

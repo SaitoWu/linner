@@ -5,7 +5,7 @@ module Linner
 
     def initialize(path)
       @path = path
-      @content ||= begin
+      @content = begin
         File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
         File.read(path)
@@ -16,8 +16,16 @@ module Linner
       Wrapper.wrap(logical_path.chomp(File.extname logical_path), @content)
     end
 
+    def javascript?
+      Tilt[path].default_mime_type == "application/javascript"
+    end
+
+    def stylesheet?
+      Tilt[path].default_mime_type == "text/css"
+    end
+
     def wrappable?
-      !!(@path.include? Linner.environment.app_folder and Template.template_for_script?(@path))
+      !!(!Linner.environment.modules_ignored.include?(@path) and self.javascript?)
     end
 
     def write
@@ -32,7 +40,7 @@ module Linner
     end
 
     def logical_path
-      @logical_path ||= @path.gsub(/#{Linner.environment.app_folder}\/\w*\//, "")
+      @logical_path ||= @path.gsub(/#{Linner.environment.paths.join("\/|")}/, "")
     end
   end
 end

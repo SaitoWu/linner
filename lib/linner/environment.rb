@@ -9,6 +9,10 @@ module Linner
       @env = @convension.rmerge!(@env)
     end
 
+    def paths
+      groups.map { |group| group["paths"] }.flatten
+    end
+
     %w(app test vendor public).each do |method|
       define_method("#{method}_folder") do
         @env["paths"][method]
@@ -19,12 +23,16 @@ module Linner
       @env["notification"]
     end
 
+    def modules_ignored
+      Dir.glob(@env["modules"]["ignored"])
+    end
+
     def wrapper
       @env["modules"]["wrapper"]
     end
 
-    def files
-      @env["files"].values
+    def groups
+      @env["groups"].values
     end
   end
 end

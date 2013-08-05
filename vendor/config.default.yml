@@ -3,32 +3,26 @@ paths:
   test: "test"
   vendor: "vendor"
   public: "public"
-files:
+
+groups:
   scripts:
-    concat: {}
-    copy: {}
+    paths:
+      - "app/scripts"
     order:
-      before:
-        - "vendor/jquery-1.10.2.js"
-      after: []
+      - "vendor/jquery-1.10.2.js"
+      - "..."
   styles:
-    concat: {}
-    copy: {}
-    order:
-      before: []
-      after: []
+    paths:
+      - "app/styles"
   images:
-    concat: {}
-    copy: {}
-    order:
-      before: []
-      after: []
+    paths:
+      - "app/images"
   views:
-    concat: {}
-    copy: {}
-    order:
-      before: []
-      after: []
+    paths:
+      - "app/views"
+
 modules:
-  wrapper: "CMD"
+  wrapper: "cmd"
+  ignored: "vendor/**/*"
+
 notification: true
