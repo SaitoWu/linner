@@ -57,6 +57,9 @@ module Linner
   end
 
   def cache_miss?(path)
+    asset = Asset.new(path)
+    #TODO use sass dependencies to detect cache miss
+    return true if asset.stylesheet?
     mtime = Asset.new(path).mtime
     cache[path] == mtime ? false : cache[path] = mtime
   end
