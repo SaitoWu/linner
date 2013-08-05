@@ -8,9 +8,13 @@ module Linner
   end
 
   module Order
-    def order_by(before:[], after:[])
-      order_by_before(self, before)
-      order_by_after(self, after)
+    def order_by(ary)
+      ary << "..." if not ary.include? "..."
+      order_ary = ary.inject([[]]) do |a, x|
+        x != "..." ? a.last << x : a<< []; a
+      end
+      order_by_before(self, order_ary.first)
+      order_by_after(self, order_ary.last)
       self
     end
 

@@ -33,7 +33,7 @@ module Linner
   private
   def concat(config, compile)
     config["concat"].map do |dest, regex|
-      matches = Dir.glob(regex).uniq.order_by(before:config["order"]["before"], after:config["order"]["after"])
+      matches = Dir.glob(regex).order_by(config["order"])
       dest = Asset.new(File.join environment.public_folder, dest)
       dest.content = ""
       cached = matches.select do |path|
