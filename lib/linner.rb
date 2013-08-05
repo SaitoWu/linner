@@ -19,12 +19,12 @@ module Linner
     @cache ||= {}
   end
 
-  def environment
+  def env
     @env ||= Environment.new root.join("config.yml")
   end
 
   def perform(compile: false)
-    environment.groups.each do |config|
+    env.groups.each do |config|
       concat(config, compile) if config["concat"]
       copy(config) if config["copy"]
     end
@@ -32,39 +32,32 @@ module Linner
 
   private
   def concat(config, compile)
-    config["concat"].map do |dest, regex|
-      matches = Dir.glob(regex).order_by(config["order"])
-      dest = Asset.new(File.join environment.public_folder, dest)
-      dest.content = ""
-      cached = matches.select do |path|
-        mtime = File.mtime(path).to_i
-        mtime == cache[path] ? false : cache[path] = mtime
-      end
-      next if cached.empty?
-      matches.each do |m|
-        asset = Asset.new(m)
-        content = asset.content
-        if asset.wrappable?
-          content = asset.wrap
-        end
-        dest.content << content
-      end
+    config["concat"].each_with_index do |pair, index|
+      dest, pattern, order = pair.first, pair.last, config["order"]||[]
+      matches = Dir.glob(pattern).order_by(order)
+      next if matches.select {|p| cache_miss? p}.empty?
+      dest = Asset.new(File.join env.public_folder, dest)
+      definition = Wrapper.definition if dest.path == env.definition
+      dest.content = matches.inject(definition || "") {|s, m| s << Asset.new(m).content}
       dest.compress if compile
       dest.write
     end
   end
 
   def copy(config)
-    config["copy"].each do |dest, regex|
-      Dir.glob(regex).each do |path|
-        mtime = File.mtime(path).to_i
-        next if cache[path] == mtime
-        cache[path] = mtime
+    config["copy"].each do |dest, pattern|
+      Dir.glob(pattern).each do |path|
+        next if not cache_miss?(path)
         logical_path = Asset.new(path).logical_path
-        dest_path = File.join(environment.public_folder, dest, logical_path)
+        dest_path = File.join(env.public_folder, dest, logical_path)
         FileUtils.mkdir_p File.dirname(dest_path)
         FileUtils.cp_r path, dest_path
       end
     end
+  end
+
+  def cache_miss?(path)
+    mtime = Asset.new(path).mtime
+    cache[path] == mtime ? false : cache[path] = mtime
   end
 end

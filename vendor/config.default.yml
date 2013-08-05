@@ -24,5 +24,6 @@ groups:
 modules:
   wrapper: "cmd"
   ignored: "vendor/**/*"
+  definition: "scripts/app.js"
 
 notification: true

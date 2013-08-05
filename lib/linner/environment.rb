@@ -31,6 +31,10 @@ module Linner
       @env["modules"]["wrapper"]
     end
 
+    def definition
+      File.join public_folder, @env["modules"]["definition"]
+    end
+
     def groups
       @env["groups"].values
     end

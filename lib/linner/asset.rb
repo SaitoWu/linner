@@ -8,19 +8,25 @@ module Linner
     end
 
     def mtime
-      @mtime ||= File.mtime(path).to_i
+      @mtime = File.mtime(path).to_i
     end
 
     def content
-      @content ||= begin
+      return @content if @content
+      source = begin
         File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
         File.read(path)
       end
+      if wrappable?
+        @content = wrap(source)
+      else
+        @content = source
+      end
     end
 
-    def wrap
-      Wrapper.wrap(logical_path.chomp(File.extname logical_path), @content)
+    def wrap(source)
+      Wrapper.wrap(logical_path.chomp(File.extname logical_path), source)
     end
 
     def javascript?
@@ -32,7 +38,7 @@ module Linner
     end
 
     def wrappable?
-      !!(!Linner.environment.modules_ignored.include?(@path) and self.javascript?)
+      !!(self.javascript? and !Linner.env.modules_ignored.include?(@path))
     end
 
     def write
@@ -47,7 +53,7 @@ module Linner
     end
 
     def logical_path
-      @logical_path ||= @path.gsub(/#{Linner.environment.paths.join("\/|")}/, "")
+      @logical_path ||= @path.gsub(/#{Linner.env.paths.join("\/|")}/, "")
     end
   end
 end

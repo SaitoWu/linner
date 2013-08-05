@@ -9,7 +9,6 @@ module Linner
 
   module Order
     def order_by(ary)
-      ary ||= []
       ary << "..." if not ary.include? "..."
       order_ary = ary.inject([[]]) do |a, x|
         x != "..." ? a.last << x : a<< []; a

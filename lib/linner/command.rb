@@ -45,7 +45,7 @@ module Linner
 
     desc "clean", "clean assets"
     def clean
-      FileUtils.rm_rf Dir.glob("#{Linner.environment.public_folder}/*")
+      FileUtils.rm_rf Dir.glob("#{env.public_folder}/*")
     end
 
     desc "new", "create the skeleton of project"
@@ -56,7 +56,7 @@ module Linner
 
     private
     def env
-      Linner.environment
+      Linner.env
     end
   end
 end
