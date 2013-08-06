@@ -17,11 +17,7 @@ module Tilt
 
   private
     def sass_options
-      opts = Compass.configuration.to_sass_engine_options
-      Linner.env.paths.each do |load_path|
-        opts[:load_paths] << Sass::Importers::Filesystem.new(load_path)
-      end
-      super.merge(opts)
+      super.merge(Linner.sass_engine_options)
     end
   end
 

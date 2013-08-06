@@ -23,6 +23,14 @@ module Linner
     @env ||= Environment.new root.join("config.yml")
   end
 
+  def sass_engine_options
+    @options ||= Compass.configuration.to_sass_engine_options
+    env.paths.each do |load_path|
+      @options[:load_paths] << Sass::Importers::Filesystem.new(load_path)
+    end
+    @options
+  end
+
   def perform(compile: false)
     env.groups.each do |config|
       concat(config, compile) if config["concat"]
@@ -58,8 +66,8 @@ private
 
   def cache_miss?(path)
     asset = Asset.new(path)
-    if asset.stylesheet?
-      partials = Sass::Engine.for_file(path, {}).dependencies.map{|m| m.options[:filename]}
+    if asset.stylesheet? and Tilt[path] != Tilt::CSSTemplate
+      partials = Sass::Engine.for_file(path, sass_engine_options).dependencies.map{|m| m.options[:filename]}
       cache_missed = partials.select do |partial|
         partial_asset = Asset.new(partial)
         (cache[partial] and cache[partial].mtime == partial_asset.mtime) ? false : cache[partial] = partial_asset
