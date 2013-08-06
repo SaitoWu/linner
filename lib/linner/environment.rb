@@ -10,7 +10,7 @@ module Linner
     end
 
     def paths
-      groups.map { |group| group["paths"] }.flatten
+      groups.map { |group| group["paths"] }.flatten.uniq
     end
 
     %w(app test vendor public).each do |method|

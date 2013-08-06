@@ -30,11 +30,11 @@ module Linner
     end
 
     def javascript?
-      Tilt[path].default_mime_type == "application/javascript"
+      Tilt[path] and Tilt[path].default_mime_type == "application/javascript"
     end
 
     def stylesheet?
-      Tilt[path].default_mime_type == "text/css"
+      Tilt[path] and Tilt[path].default_mime_type == "text/css"
     end
 
     def wrappable?
