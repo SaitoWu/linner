@@ -4,12 +4,10 @@ groups:
   scripts:
     concat:
       "scripts/app.js": "app/**/*.{js,coffee}"
-      "scripts/app1.js": "app/**/*.{js,coffee}"
       "scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       - "vendor/jquery-1.10.2.js"
       - "..."
-      - "vendor/commonjs.js"
   styles:
     concat:
       "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
@@ -20,5 +18,5 @@ groups:
     copy:
       "/": "app/views/**/*.{html,hbs}"
 modules:
-  wrapper: "CMD"
+  wrapper: "cmd"
 notification: true
