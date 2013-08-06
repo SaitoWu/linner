@@ -13,6 +13,8 @@ module Tilt
   end
 
   class CompassSassTemplate < SassTemplate
+    self.default_mime_type = 'text/css'
+
   private
     def sass_options
       opts = Compass.configuration.to_sass_engine_options
@@ -24,6 +26,8 @@ module Tilt
   end
 
   class CompassScssTemplate < CompassSassTemplate
+    self.default_mime_type = 'text/css'
+
   private
     def sass_options
       super.merge(:syntax => :scss)

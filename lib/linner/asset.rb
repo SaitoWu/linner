@@ -1,14 +1,17 @@
 module Linner
   class Asset
 
-    attr_accessor :path, :content, :mtime
+    attr_accessor :path, :content
 
     def initialize(path)
       @path = path
+      if File.exist? @path
+        @mtime ||= File.mtime(path).to_i
+      end
     end
 
     def mtime
-      @mtime = File.mtime(path).to_i
+      @mtime
     end
 
     def content

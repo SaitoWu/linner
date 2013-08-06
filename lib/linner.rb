@@ -38,7 +38,7 @@ private
       next if matches.select {|p| cache_miss? p}.empty?
       dest = Asset.new(File.join env.public_folder, dest)
       definition = Wrapper.definition if dest.path == env.definition
-      dest.content = matches.inject(definition || "") {|s, m| s << Asset.new(m).content}
+      dest.content = matches.inject(definition || "") {|s, m| s << cache[m].content}
       dest.compress if compile
       dest.write
     end
@@ -58,9 +58,17 @@ private
 
   def cache_miss?(path)
     asset = Asset.new(path)
-    #TODO use sass dependencies to detect cache miss
-    return true if asset.stylesheet?
-    mtime = Asset.new(path).mtime
-    cache[path] == mtime ? false : cache[path] = mtime
+    if asset.stylesheet?
+      partials = Sass::Engine.for_file(path, {}).dependencies.map{|m| m.options[:filename]}
+      cache_missed = partials.select do |partial|
+        partial_asset = Asset.new(partial)
+        (cache[partial] and cache[partial].mtime == partial_asset.mtime) ? false : cache[partial] = partial_asset
+      end
+      unless cache_missed.empty?
+        cache[path] = asset
+        return true
+      end
+    end
+    (cache[path] and cache[path].mtime == asset.mtime) ? false : cache[path] = asset
   end
 end
