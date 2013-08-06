@@ -11,6 +11,8 @@ require "linner/environment"
 module Linner
   extend self
 
+  attr_accessor :compile
+
   def root
     @root ||= Pathname('.').expand_path
   end
@@ -23,6 +25,10 @@ module Linner
     @env ||= Environment.new root.join("config.yml")
   end
 
+  def compile?
+    @compile
+  end
+
   def sass_engine_options
     @options ||= Compass.configuration.to_sass_engine_options
     env.paths.each do |load_path|
@@ -31,15 +37,15 @@ module Linner
     @options
   end
 
-  def perform(compile: false)
+  def perform(*asset)
     env.groups.each do |config|
-      concat(config, compile) if config["concat"]
+      concat(config) if config["concat"]
       copy(config) if config["copy"]
     end
   end
 
 private
-  def concat(config, compile)
+  def concat(config)
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
       matches = Dir.glob(pattern).order_by(order)
@@ -47,7 +53,7 @@ private
       dest = Asset.new(File.join env.public_folder, dest)
       definition = Wrapper.definition if dest.path == env.definition
       dest.content = matches.inject(definition || "") {|s, m| s << cache[m].content}
-      dest.compress if compile
+      dest.compress if compile?
       dest.write
     end
   end

@@ -17,8 +17,9 @@ module Linner
 
     desc "build", "build assets"
     def build
+      Linner.compile = true
       Notifier.info do
-        Linner.perform compile: true
+        Linner.perform
       end
     end
 
