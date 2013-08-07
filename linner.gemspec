@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "reel", "~> 0.3"
   spec.add_dependency "thor", "~> 0.18"
   spec.add_dependency "tilt", "~> 1.4"
   spec.add_dependency "sass", "~> 3.2"

@@ -39,9 +39,16 @@ module Linner
       end
       @proc.call
 
-      Listen.to! env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
+      Listen.to env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
         @proc.call
       end
+
+      @reactor = Reactor.supervise_as(:reactor).actors.first
+      Listen.to env.public_folder, relative_path: true do |modified, added, removed|
+        @reactor.reload_browser(modified + added + removed)
+      end
+
+      sleep
     end
 
     desc "clean", "clean assets"
