@@ -3,6 +3,7 @@ require "json"
 
 module Linner
   class Reactor < Reel::Server
+    include Celluloid
 
     attr_accessor :clients
 
@@ -44,37 +45,40 @@ module Linner
     end
 
     def route_websocket(socket)
-      socket.write JSON.generate({
+      socket << JSON.generate({
         :command    => 'hello',
         :protocols  => ['http://livereload.com/protocols/official-7'],
         :serverName => 'reel-livereload'
       })
-      if socket.url == "/"
+      if socket.url == "/livereload"
         @clients << Client.new(socket)
       else
-        Notifier.error "Received invalid WebSocket request for: #{socket.url}"
         socket.close
       end
     end
 
     def reload_browser(paths = [])
       paths.each do |path|
+        @clients.each {|c| c.notify_asset_change path }
+      end
+    end
+
+    class Client
+      include Celluloid
+
+      def initialize(socket)
+        @socket = socket
+      end
+
+      def notify_asset_change(path)
         data = {
           :path     => path,
           :command  => 'reload',
           :liveCSS  => true
         }
-        clients.each { |c| c.socket.write(JSON.generate data) }
+        @socket << JSON.generate(data)
+      rescue
       end
-    end
-  end
-
-  class Client
-    attr_reader :socket
-
-    def initialize(socket)
-      @socket = socket
-      async.run
     end
   end
 end
