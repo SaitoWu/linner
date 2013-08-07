@@ -1,0 +1,4 @@
+v 0.3.0
+  - add `compass` support
+  - cache now supports `styles`
+  - more readable config file
