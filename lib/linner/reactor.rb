@@ -5,6 +5,8 @@ module Linner
   class Reactor < Reel::Server
     include Celluloid
 
+    Celluloid.logger = nil
+
     attr_accessor :clients
 
     def initialize(host = "127.0.0.1", port = 35729)
