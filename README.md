@@ -4,7 +4,7 @@ Linner is a full-featured HTML5 application assembler.
 
 ![Linner](http://d.pr/i/bWPA+)
 
-### Screencast
+#### Screencast
 
 [![Screencast](http://d.pr/i/MIyk+)](https://vimeo.com/71944672)
 
@@ -20,11 +20,11 @@ Linner is a full-featured HTML5 application assembler.
 
 ## Requirements
 
-### *nix
+#### *nix
 
 * Ruby 2.0
 
-### Windows
+#### Windows
 
 * JRuby 1.7.4 with 2.0 mode (`export JRUBY_OPTS=--2.0`)
 
@@ -34,23 +34,23 @@ Linner is a full-featured HTML5 application assembler.
 
 ## Usage
 
-### Skeleton
+#### Skeleton
 
     $ linner new webapp && cd webapp
 
-### Watch
+#### Watch
 
     $ linner watch
 
-### Server
+#### Server
 
     $ ./bin/server # or server if put "./bin" in your PATH
 
-### Build
+#### Build
 
     $ linner build
 
-### Clean
+#### Clean
 
     $ linner clean
 
