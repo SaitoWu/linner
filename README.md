@@ -4,6 +4,10 @@ Linner is a full-featured HTML5 application assembler.
 
 ![Linner](http://d.pr/i/bWPA+)
 
+### Screencast
+
+[![Screencast](http://d.pr/i/MIyk+)](https://vimeo.com/71944672)
+
 * Fast!
 * Supports `Sass`, `Compass` and `Coffee`.
 * Supports OS X Lion and Mountaion Lion Notifications.
