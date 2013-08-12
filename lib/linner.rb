@@ -1,3 +1,5 @@
+require "nokogiri"
+
 require "linner/version"
 require "linner/command"
 require "linner/asset"
@@ -40,9 +42,10 @@ module Linner
 
   def perform(*asset)
     env.groups.each do |config|
-      concat(config) if config["concat"]
       copy(config) if config["copy"]
+      concat(config) if config["concat"]
     end
+    revision if compile?
   end
 
 private
@@ -68,6 +71,24 @@ private
         FileUtils.mkdir_p File.dirname(dest_path)
         FileUtils.cp_r path, dest_path
       end
+    end
+  end
+
+  def revision
+    revision = File.join env.public_folder, env.revision
+    doc = Nokogiri::HTML.parse(File.read revision)
+    doc.search("script").each do |x|
+      next unless src = x.attributes["src"]
+      asset = Asset.new(File.join env.public_folder, src)
+      x.set_attribute "src", asset.revision!
+    end
+    doc.search("link").each do |x|
+      next unless href = x.attributes["href"]
+      asset = Asset.new(File.join env.public_folder, href)
+      x.set_attribute "href", asset.revision!
+    end
+    File.open(revision, "w") do |f|
+      f.write doc.to_html
     end
   end
 

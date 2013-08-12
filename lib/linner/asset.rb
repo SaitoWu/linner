@@ -1,3 +1,5 @@
+require "digest"
+
 module Linner
   class Asset
 
@@ -12,6 +14,20 @@ module Linner
 
     def mtime
       @mtime
+    end
+
+    def extname
+      File.extname @path
+    end
+
+    def digest
+      Digest::MD5.hexdigest content
+    end
+
+    def revision!
+      revision = @path.chomp(extname) << "-#{digest}" << extname
+      File.rename @path, revision
+      revision.gsub /#{Linner.env.public_folder}/, ""
     end
 
     def content

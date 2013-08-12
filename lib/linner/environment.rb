@@ -19,6 +19,10 @@ module Linner
       end
     end
 
+    def revision
+      @env["revision"]
+    end
+
     def notification
       @env["notification"]
     end

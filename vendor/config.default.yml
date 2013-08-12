@@ -26,4 +26,6 @@ modules:
   ignored: "vendor/**/*"
   definition: "scripts/app.js"
 
+revision: "index.html"
+
 notification: true
