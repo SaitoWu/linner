@@ -18,7 +18,10 @@ module Linner
     desc "build", "build assets"
     def build
       Linner.compile = true
-      Notifier.info do
+
+      clean
+
+      Notifier.profile do
         Linner.perform
       end
     end
@@ -30,9 +33,11 @@ module Linner
         exit!
       end
 
+      clean
+
       @proc = Proc.new do |modified, added, removed|
         begin
-          Notifier.info{ Linner.perform }
+          Notifier.profile{ Linner.perform }
         rescue
           Notifier.error $!
         end

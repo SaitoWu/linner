@@ -3,7 +3,7 @@ require "terminal-notifier"
 module Linner
   class Notifier
     class << self
-      def info
+      def profile
         time = Time.now
         yield
         puts "🍜 : Done in #{'%.3f' % (Time.now - time)}s."
