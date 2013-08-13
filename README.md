@@ -18,6 +18,10 @@ Linner is a full-featured HTML5 application assembler.
 * Supports `compress` by `$ linner build`.
 * Supports `LiveReload` with [LiveReload Chrome Extention](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei).
 
+#### Documents
+
+[https://github.com/SaitoWu/linner/tree/master/docs](https://github.com/SaitoWu/linner/tree/master/docs)
+
 ## Requirements
 
 #### *nix
