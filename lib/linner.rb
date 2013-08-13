@@ -45,7 +45,7 @@ module Linner
       copy(config) if config["copy"]
       concat(config) if config["concat"]
     end
-    revision if env.revision
+    revision if compile? and env.revision
   end
 
 private
