@@ -26,7 +26,7 @@ Linner is a full-featured HTML5 application assembler.
 
 #### Windows
 
-* JRuby 1.7.4 with 2.0 mode (`export JRUBY_OPTS=--2.0`)
+* JRuby 1.7.4 with 2.0 mode (`set JRUBY_OPTS=--2.0`)
 
 ## Installation
 
