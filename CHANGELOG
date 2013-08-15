@@ -1,5 +1,7 @@
 v 0.4.0
   - revision support
+  - fix memory leak in `cache_miss?`
+  - quit `fsevent` process when `ctrl + c` triggered
 
 v 0.3.2
   - fix Celluiod logger bug
