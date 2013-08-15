@@ -94,17 +94,10 @@ private
 
   def cache_miss?(path)
     asset = Asset.new(path)
-    if asset.stylesheet? and Tilt[path] != Tilt::CSSTemplate
-      partials = Sass::Engine.for_file(path, sass_engine_options).dependencies.map{|m| m.options[:filename]}
-      cache_missed = partials.select do |partial|
-        partial_asset = Asset.new(partial)
-        (cache[partial] and cache[partial].mtime == partial_asset.mtime) ? false : cache[partial] = partial_asset
-      end
-      unless cache_missed.empty?
-        cache[path] = asset
-        return true
-      end
+    if cache[path] and cache[path].mtime == asset.mtime
+      false
+    else
+      cache[path] = asset
     end
-    (cache[path] and cache[path].mtime == asset.mtime) ? false : cache[path] = asset
   end
 end
