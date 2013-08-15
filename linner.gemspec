@@ -27,7 +27,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "uglifier", "~> 2.1"
   spec.add_dependency "nokogiri", "~> 1.6.0"
   spec.add_dependency "compass", "~> 0.12.2"
-  spec.add_dependency "multi_json", "~> 1.7"
   spec.add_dependency "cssminify", "~> 1.0.2"
   spec.add_dependency "coffee-script", "~> 2.2"
   spec.add_dependency "terminal-notifier", "~> 1.4"
