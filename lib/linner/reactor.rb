@@ -27,7 +27,7 @@ module Linner
 
     def route_request(connection, request)
       if request.url.start_with? "/livereload.js"
-        return connection.respond :ok, File.read(File.join(File.dirname(__FILE__), "../../vendor", "livereload.js"))
+        return connection.respond :ok, {"Content_Type" => 'application/ecmascript'}, File.read(File.join(File.dirname(__FILE__), "../../vendor", "livereload.js"))
       end
 
       path = File.join(Linner.environment.public_folder, request.url[1..-1])
