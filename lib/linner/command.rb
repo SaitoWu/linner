@@ -30,7 +30,7 @@ module Linner
     def watch
       trap :INT do
         Notifier.exit
-        exit!
+        Process.kill("QUIT", 0)
       end
 
       clean
