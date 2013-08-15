@@ -19,4 +19,5 @@ groups:
       "/": "app/views/**/*.{html,hbs}"
 modules:
   wrapper: "cmd"
+revision: "index.html"
 notification: true

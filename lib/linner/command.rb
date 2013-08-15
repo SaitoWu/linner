@@ -46,14 +46,9 @@ module Linner
 
       Listen.to env.app_folder, env.vendor_folder, env.test_folder do |modified, added, removed|
         is_include_partial_styles = (modified + added + removed).any? do |path|
-          asset = Asset.new(path)
-          asset.stylesheet? and File.basename(path).start_with? "_"
+          Asset.new(path).stylesheet? and File.basename(path).start_with? "_"
         end
-        if is_include_partial_styles
-          Linner.cache.reject! do |k, v|
-            v.stylesheet?
-          end
-        end
+        Linner.cache.reject! {|k, v| v.stylesheet?} if is_include_partial_styles
         @proc.call
       end
 
