@@ -7,10 +7,11 @@ module Linner
 
     def initialize(path)
       @path = path
+      @mtime = File.mtime(path).to_i if File.exist?(path)
     end
 
     def mtime
-      @mtime ||= File.mtime(path).to_i
+      @mtime
     end
 
     def extname
