@@ -93,9 +93,10 @@ private
       YAML.dump(manifest, f)
     end
 
-    # rewrite scripts and styles path
-    revision = File.join env.public_folder, env.revision
-    doc = Nokogiri::HTML.parse(File.read revision)
+    # rewrite scripts and styles path by configuration
+    rev_file = File.join env.public_folder, env.revision.to_s
+    return unless File.exist? rev_file
+    doc = Nokogiri::HTML.parse(File.read rev_file)
     doc.search("script").each do |x|
       next unless src = x.attributes["src"]
       x.set_attribute "src", manifest[src.value]
