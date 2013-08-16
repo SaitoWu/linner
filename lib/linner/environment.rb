@@ -42,5 +42,11 @@ module Linner
     def groups
       @env["groups"].values
     end
+
+    def watched_path
+      @watched_path ||= [app_folder, vendor_folder, test_folder].select do |path|
+        File.exists? path
+      end
+    end
   end
 end
