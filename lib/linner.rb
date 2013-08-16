@@ -36,11 +36,13 @@ module Linner
   end
 
   def sass_engine_options
-    @options ||= Compass.configuration.to_sass_engine_options
-    env.paths.each do |load_path|
-      @options[:load_paths] << Sass::Importers::Filesystem.new(load_path)
+    @options ||= begin
+      options = Compass.configuration.to_sass_engine_options
+      env.paths.each do |load_path|
+        options[:load_paths] << Sass::Importers::Filesystem.new(load_path)
+      end
+      options
     end
-    @options
   end
 
   def perform(*asset)
