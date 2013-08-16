@@ -44,7 +44,7 @@ module Linner
       end
       @proc.call
 
-      Listen.to env.watched_path do |modified, added, removed|
+      Listen.to env.watched_paths do |modified, added, removed|
         is_include_partial_styles = (modified + added + removed).any? do |path|
           Asset.new(path).stylesheet? and File.basename(path).start_with? "_"
         end

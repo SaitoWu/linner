@@ -9,13 +9,19 @@ module Linner
       @env = @convension.rmerge!(@env)
     end
 
+    %w(app test vendor public).each do |method|
+      define_method("#{method}_folder") do
+        @env["paths"][method]
+      end
+    end
+
     def paths
       groups.map { |group| group["paths"] }.flatten.uniq
     end
 
-    %w(app test vendor public).each do |method|
-      define_method("#{method}_folder") do
-        @env["paths"][method]
+    def watched_paths
+      [app_folder, vendor_folder, test_folder].select do |path|
+        File.exists? path
       end
     end
 
@@ -39,12 +45,6 @@ module Linner
 
     def groups
       @env["groups"].values
-    end
-
-    def watched_path
-      @watched_path ||= [app_folder, vendor_folder, test_folder].select do |path|
-        File.exists? path
-      end
     end
   end
 end
