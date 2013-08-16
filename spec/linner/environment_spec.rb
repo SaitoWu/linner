@@ -17,6 +17,7 @@ describe Environment do
   it "should equals default config" do
     @env.notification.should be_true
     @env.wrapper.should == "cmd"
+    @env.manifest.should == "manifest.yml"
     @env.revision.should == false
     @env.groups.should respond_to(:each)
   end

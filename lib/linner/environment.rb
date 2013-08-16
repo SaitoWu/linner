@@ -19,12 +19,10 @@ module Linner
       end
     end
 
-    def revision
-      @env["revision"]
-    end
-
-    def notification
-      @env["notification"]
+    %w(revision notification manifest).each do |method|
+      define_method("#{method}") do
+        @env[method]
+      end
     end
 
     def modules_ignored

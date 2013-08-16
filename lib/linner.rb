@@ -89,7 +89,7 @@ private
       end
     end
     # dump manifest.yml
-    File.open(File.join(env.public_folder, "manifest.yml"), "w") do |f|
+    File.open(File.join(env.public_folder, env.manifest), "w") do |f|
       YAML.dump(manifest, f)
     end
 
@@ -105,7 +105,7 @@ private
       next unless href = x.attributes["href"]
       x.set_attribute "href", manifest[href.value]
     end
-    File.open(revision, "w") do |f|
+    File.open(rev_file, "w") do |f|
       f.write doc.to_html
     end
   end
