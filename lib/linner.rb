@@ -80,17 +80,29 @@ private
   end
 
   def revision
+    manifest = {}
+    env.groups.each do |config|
+      config["concat"].to_h.each do |dest, pattern|
+        asset = Asset.new(File.join env.public_folder, dest)
+        manifest[dest] = asset.relative_digest_path
+        asset.revision!
+      end
+    end
+    # dump manifest.yml
+    File.open(File.join(env.public_folder, "manifest.yml"), "w") do |f|
+      YAML.dump(manifest, f)
+    end
+
+    # rewrite scripts and styles path
     revision = File.join env.public_folder, env.revision
     doc = Nokogiri::HTML.parse(File.read revision)
     doc.search("script").each do |x|
       next unless src = x.attributes["src"]
-      asset = Asset.new(File.join env.public_folder, src)
-      x.set_attribute "src", asset.revision!
+      x.set_attribute "src", manifest[src.value]
     end
     doc.search("link").each do |x|
       next unless href = x.attributes["href"]
-      asset = Asset.new(File.join env.public_folder, href)
-      x.set_attribute "href", asset.revision!
+      x.set_attribute "href", manifest[href.value]
     end
     File.open(revision, "w") do |f|
       f.write doc.to_html

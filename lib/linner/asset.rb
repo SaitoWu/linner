@@ -7,27 +7,27 @@ module Linner
 
     def initialize(path)
       @path = path
-      if File.exist? @path
-        @mtime ||= File.mtime(path).to_i
-      end
     end
 
     def mtime
-      @mtime
+      @mtime ||= File.mtime(path).to_i
     end
 
     def extname
-      File.extname @path
+      @extname = File.extname path
     end
 
-    def digest
-      Digest::MD5.hexdigest content
+    def digest_path
+      digest = Digest::MD5.hexdigest content
+      path.chomp(extname) << "-#{digest}" << extname
+    end
+
+    def relative_digest_path
+      digest_path.gsub /#{Linner.env.public_folder}/, ""
     end
 
     def revision!
-      revision = @path.chomp(extname) << "-#{digest}" << extname
-      File.rename @path, revision
-      revision.gsub /#{Linner.env.public_folder}/, ""
+      File.rename path, digest_path
     end
 
     def content

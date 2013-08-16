@@ -3,17 +3,17 @@ paths:
 groups:
   scripts:
     concat:
-      "scripts/app.js": "app/**/*.{js,coffee}"
-      "scripts/vendor.js": "vendor/**/*.{js,coffee}"
+      "/scripts/app.js": "app/**/*.{js,coffee}"
+      "/scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
       - "vendor/jquery-1.10.2.js"
       - "..."
   styles:
     concat:
-      "styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
+      "/styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
   images:
     copy:
-      "images/": "app/images/**/*.{png,gif}"
+      "/images/": "app/images/**/*.{png,gif}"
   views:
     copy:
       "/": "app/views/**/*.{html,hbs}"
