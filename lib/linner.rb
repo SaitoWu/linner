@@ -28,7 +28,7 @@ module Linner
   end
 
   def env
-    @env ||= Environment.new File.exists?(configPath = root.join("Linnerfile")) ? configPath : root.join("config.yml")
+    @env ||= Environment.new(File.exists?(path = root.join("Linnerfile")) ? path : root.join("config.yml"))
   end
 
   def compile?
