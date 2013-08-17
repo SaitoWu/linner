@@ -3,6 +3,7 @@ require "nokogiri"
 require "linner/version"
 require "linner/command"
 require "linner/asset"
+require "linner/cache"
 require "linner/helper"
 require "linner/reactor"
 require "linner/wrapper"
@@ -24,7 +25,7 @@ module Linner
   end
 
   def cache
-    @cache ||= {}
+    @cache ||= Cache.new
   end
 
   def env
@@ -58,7 +59,7 @@ private
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
       matches = Dir.glob(pattern).order_by(order)
-      next if matches.select {|p| cache_miss? p}.empty?
+      next if matches.select {|p| cache.miss? p}.empty?
       dest = Asset.new(File.join env.public_folder, dest)
       definition = Wrapper.definition if dest.path == env.definition
       dest.content = matches.inject(definition || "") {|s, m| s << cache[m].content}
@@ -70,7 +71,7 @@ private
   def copy(config)
     config["copy"].each do |dest, pattern|
       Dir.glob(pattern).each do |path|
-        next if not cache_miss?(path)
+        next if not cache.miss?(path)
         logical_path = Asset.new(path).logical_path
         dest_path = File.join(env.public_folder, dest, logical_path)
         FileUtils.mkdir_p File.dirname(dest_path)
@@ -107,15 +108,6 @@ private
     end
     File.open(rev_file, "w") do |f|
       f.write doc.to_html
-    end
-  end
-
-  def cache_miss?(path)
-    asset = Asset.new(path)
-    if cache[path] and cache[path].mtime == asset.mtime
-      false
-    else
-      cache[path] = asset
     end
   end
 end

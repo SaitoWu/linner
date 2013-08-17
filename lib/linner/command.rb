@@ -28,10 +28,7 @@ module Linner
 
     desc "watch", "watch assets"
     def watch
-      trap :INT do
-        Notifier.exit
-        Process.kill("QUIT", 0)
-      end
+      trap(:INT) { exit! }
 
       clean
 
@@ -45,10 +42,7 @@ module Linner
       @proc.call
 
       Listen.to env.watched_paths do |modified, added, removed|
-        is_include_partial_styles = (modified + added + removed).any? do |path|
-          Asset.new(path).stylesheet? and File.basename(path).start_with? "_"
-        end
-        Linner.cache.reject! {|k, v| v.stylesheet?} if is_include_partial_styles
+        Linner.cache.expire_by(modified + added + removed)
         @proc.call
       end
 
@@ -74,6 +68,11 @@ module Linner
   private
     def env
       Linner.env
+    end
+
+    def exit!
+      Notifier.exit
+      Process.kill("QUIT", 0)
     end
   end
 end
