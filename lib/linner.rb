@@ -24,12 +24,30 @@ module Linner
     @root ||= Pathname('.').expand_path
   end
 
+  def env
+    @env ||= Environment.new begin
+      linner_file = root.join("Linnerfile")
+      config_file = root.join("config.yml")
+      File.exist?(linner_file) ? linner_file : config_file
+    end
+  end
+
   def cache
     @cache ||= Cache.new
   end
 
-  def env
-    @env ||= Environment.new(File.exists?(path = root.join("Linnerfile")) ? path : root.join("config.yml"))
+  def manifest
+    @manifest ||= begin
+      hash = {}
+      env.groups.each do |config|
+        config["concat"].to_h.each do |dest, pattern|
+          asset = Asset.new(File.join env.public_folder, dest)
+          hash[dest] = asset.relative_digest_path
+          asset.revision!
+        end
+      end
+      hash
+    end
   end
 
   def compile?
@@ -81,33 +99,26 @@ private
   end
 
   def revision
-    manifest = {}
-    env.groups.each do |config|
-      config["concat"].to_h.each do |dest, pattern|
-        asset = Asset.new(File.join env.public_folder, dest)
-        manifest[dest] = asset.relative_digest_path
-        asset.revision!
-      end
+    return unless File.exist?(rev = File.join(env.public_folder, env.revision.to_s))
+    doc = Nokogiri::HTML.parse(File.read rev)
+    replace_tag_with_manifest_value doc, "script", "src"
+    replace_tag_with_manifest_value doc, "link", "href"
+    File.open(rev, "w") {|f| f.write doc.to_html}
+    dump_manifest
+  end
+
+  private
+
+  def replace_tag_with_manifest_value doc, tag, attribute
+    doc.search(tag).each do |x|
+      next unless node = x.attributes[attribute]
+      x.set_attribute attribute, manifest[node.value]
     end
-    # dump manifest.yml
+  end
+
+  def dump_manifest
     File.open(File.join(env.public_folder, env.manifest), "w") do |f|
       YAML.dump(manifest, f)
-    end
-
-    # rewrite scripts and styles path by configuration
-    rev_file = File.join env.public_folder, env.revision.to_s
-    return unless File.exist? rev_file
-    doc = Nokogiri::HTML.parse(File.read rev_file)
-    doc.search("script").each do |x|
-      next unless src = x.attributes["src"]
-      x.set_attribute "src", manifest[src.value]
-    end
-    doc.search("link").each do |x|
-      next unless href = x.attributes["href"]
-      x.set_attribute "href", manifest[href.value]
-    end
-    File.open(rev_file, "w") do |f|
-      f.write doc.to_html
     end
   end
 end
