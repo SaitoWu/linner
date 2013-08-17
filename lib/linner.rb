@@ -78,11 +78,7 @@ private
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
       matches = Dir.glob(pattern).order_by(order)
       next if matches.select {|p| cache.miss? p}.empty?
-      dest = Asset.new(File.join env.public_folder, dest)
-      definition = Wrapper.definition if dest.path == env.definition
-      dest.content = matches.inject(definition || "") {|s, m| s << cache[m].content}
-      dest.compress if compile?
-      dest.write
+      write_asset(dest, matches)
     end
   end
 
@@ -108,6 +104,14 @@ private
   end
 
   private
+
+  def write_asset(dest, child_assets)
+    asset = Asset.new(File.join env.public_folder, dest)
+    definition = (asset.path == env.definition ? Wrapper.definition : "")
+    asset.content = child_assets.inject(definition) {|s, m| s << cache[m].content}
+    asset.compress if compile?
+    asset.write
+  end
 
   def replace_tag_with_manifest_value doc, tag, attribute
     doc.search(tag).each do |x|
