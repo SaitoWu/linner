@@ -8,6 +8,7 @@ groups:
     order:
       - "vendor/jquery-1.10.2.js"
       - "..."
+      - "app/scripts/app.coffee"
   styles:
     concat:
       "/styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
@@ -19,5 +20,7 @@ groups:
       "/": "app/views/**/*.{html,hbs}"
 modules:
   wrapper: "cmd"
+  ignored: "{vendor/**/*,app/scripts/app.{js,coffee}"
+  definition: "/scripts/app.js"
 revision: "index.html"
 notification: true
