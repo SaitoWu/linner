@@ -1,8 +1,8 @@
 # Linner
 
-Linner is a full-featured HTML5 application assembler.
-
 [![Code Climate](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/badges/e8beb45f55b5c1fa6142/gpa.png)](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/feed)   [![Dependency Status](https://gemnasium.com/SaitoWu/linner.png)](https://gemnasium.com/SaitoWu/linner)
+
+Linner is a full-featured HTML5 application assembler.
 
 ![Linner](http://d.pr/i/bWPA+)
 
