@@ -18,40 +18,18 @@ module Linner
     desc "build", "build assets"
     def build
       Linner.compile = true
-
       clean
-
-      Notifier.profile do
-        Linner.perform
-      end
+      Notifier.profile { Linner.perform }
     end
 
     desc "watch", "watch assets"
     def watch
       trap(:INT) { exit! }
-
       clean
-
-      @proc = Proc.new do |modified, added, removed|
-        begin
-          Notifier.profile{ Linner.perform }
-        rescue
-          Notifier.error $!
-        end
-      end
-      @proc.call
-
-      Listen.to env.watched_paths do |modified, added, removed|
-        Linner.cache.expire_by(modified + added + removed)
-        @proc.call
-      end
-
-      @reactor = Reactor.supervise_as(:reactor).actors.first
-      Listen.to env.public_folder, relative_path: true do |modified, added, removed|
-        @reactor.reload_browser(modified + added + removed)
-      end
-
-      sleep
+      perform_proc.call
+      watch_for_perform
+      watch_for_reload
+      Process.wait
     end
 
     desc "clean", "clean assets"
@@ -70,9 +48,33 @@ module Linner
       Linner.env
     end
 
+    def perform_proc
+      @proc ||= Proc.new do |modified, added, removed|
+        begin
+          Notifier.profile{ Linner.perform }
+        rescue
+          Notifier.error $!
+        end
+      end
+    end
+
+    def watch_for_perform
+      Listen.to env.watched_paths do |modified, added, removed|
+        Linner.cache.expire_by(modified + added + removed)
+        perform_proc.call
+      end
+    end
+
+    def watch_for_reload
+      reactor = Reactor.supervise_as(:reactor).actors.first
+      Listen.to env.public_folder, relative_path: true do |modified, added, removed|
+        reactor.reload_browser(modified + added + removed)
+      end
+    end
+
     def exit!
       Notifier.exit
-      Process.kill("QUIT", 0)
+      Kernel::exit
     end
   end
 end
