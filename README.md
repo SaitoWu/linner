@@ -1,6 +1,6 @@
 # Linner
 
-[![Code Climate](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/badges/e8beb45f55b5c1fa6142/gpa.png)](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/feed)   [![Dependency Status](https://gemnasium.com/SaitoWu/linner.png)](https://gemnasium.com/SaitoWu/linner)
+[![Gem Version](https://badge.fury.io/rb/linner.png)](http://badge.fury.io/rb/linner)   [![Code Climate](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/badges/e8beb45f55b5c1fa6142/gpa.png)](https://codeclimate.com/repos/520fd56e56b10241f50f15a3/feed)   [![Dependency Status](https://gemnasium.com/SaitoWu/linner.png)](https://gemnasium.com/SaitoWu/linner)
 
 Linner is a full-featured HTML5 application assembler.
 
