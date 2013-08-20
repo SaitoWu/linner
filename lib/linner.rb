@@ -95,12 +95,12 @@ private
   end
 
   def revision
+    dump_manifest
     return unless File.exist?(rev = File.join(env.public_folder, env.revision.to_s))
     doc = Nokogiri::HTML.parse(File.read rev)
     replace_tag_with_manifest_value doc, "script", "src"
     replace_tag_with_manifest_value doc, "link", "href"
     File.open(rev, "w") {|f| f.write doc.to_html}
-    dump_manifest
   end
 
   private
