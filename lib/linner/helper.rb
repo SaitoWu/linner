@@ -20,8 +20,9 @@ module Linner
 
   private
     def order_by_direction(ary, direction)
-      ary.reverse.each do |f|
-        next unless i = ary.index {|x| x =~ /#{f}/i}
+      ary = ary.reverse if direction == :before
+      ary.each do |f|
+        next unless i = self.index {|x| x =~ /#{f}/i}
         item = self.delete_at i
         direction == :before ? self.unshift(item) : self.push(item)
       end
