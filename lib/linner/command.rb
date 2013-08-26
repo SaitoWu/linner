@@ -29,7 +29,7 @@ module Linner
       perform_proc.call
       watch_for_perform
       watch_for_reload
-      Process.wait
+      sleep
     end
 
     desc "clean", "clean assets"
@@ -49,7 +49,7 @@ module Linner
     end
 
     def perform_proc
-      @proc ||= Proc.new do |modified, added, removed|
+      @proc ||= Proc.new do
         begin
           Notifier.profile{ Linner.perform }
         rescue
