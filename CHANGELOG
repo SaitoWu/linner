@@ -1,3 +1,9 @@
+v 0.4.3
+  - fix the last `/` in `logical_path`
+
+v 0.4.2
+  - use `sleep` to instead of `Process.wait`
+
 v 0.4.1
   - `manifest.yml` support
   - lots of badges support
