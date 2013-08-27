@@ -1,5 +1,6 @@
 v 0.4.3
   - fix the last `/` in `logical_path`
+  - multiple revision file support
 
 v 0.4.2
   - use `sleep` to instead of `Process.wait`

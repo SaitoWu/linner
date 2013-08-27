@@ -96,11 +96,11 @@ private
 
   def revision
     dump_manifest
-    return unless File.exist?(rev = File.join(env.public_folder, env.revision.to_s))
-    doc = Nokogiri::HTML.parse(File.read rev)
-    replace_tag_with_manifest_value doc, "script", "src"
-    replace_tag_with_manifest_value doc, "link", "href"
-    File.open(rev, "w") {|f| f.write doc.to_html}
+    [env.revision].flatten.each do |rev|
+      file = File.join env.public_folder, rev.to_s
+      next if not File.exist?(file)
+      replace_attributes file
+    end
   end
 
   private
@@ -111,6 +111,13 @@ private
     asset.content = child_assets.inject(definition) {|s, m| s << cache[m].content}
     asset.compress if compile?
     asset.write
+  end
+
+  def replace_attributes file
+    doc = Nokogiri::HTML.parse(File.read file)
+    replace_tag_with_manifest_value doc, "script", "src"
+    replace_tag_with_manifest_value doc, "link", "href"
+    File.open(file, "w") {|f| f.write doc.to_html}
   end
 
   def replace_tag_with_manifest_value doc, tag, attribute
