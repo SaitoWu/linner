@@ -73,7 +73,7 @@ module Linner
     end
 
     def logical_path
-      @logical_path ||= @path.gsub(/#{Linner.env.paths.join("\/|")}/, "")
+      @logical_path ||= @path.gsub(/^(#{Linner.env.paths.join("|")})\/?/, "")
     end
   end
 end
