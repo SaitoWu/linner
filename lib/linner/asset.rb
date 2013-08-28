@@ -2,6 +2,7 @@ require "digest"
 
 module Linner
   class Asset
+    class RenderError < StandardError; end
 
     attr_accessor :path, :content
 
@@ -37,6 +38,8 @@ module Linner
         File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
         File.read(path)
+      rescue => e
+        raise RenderError, "#{e.message} in (#{path})"
       end
       if wrappable?
         @content = wrap(source)
