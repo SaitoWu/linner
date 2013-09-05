@@ -76,7 +76,7 @@ private
   def concat(config)
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
-      matches = Dir.glob(pattern).order_by(order)
+      matches = Dir.glob(pattern).sort_by(&:downcase).order_by(order)
       next if matches.select {|p| cache.miss? p}.empty?
       write_asset(dest, matches)
     end
