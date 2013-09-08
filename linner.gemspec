@@ -23,7 +23,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tilt", "~> 1.4"
   spec.add_dependency "sass", "~> 3.2"
   spec.add_dependency "listen", "~> 1.3"
-  spec.add_dependency "nio4r", "~> 0.5.0"
   spec.add_dependency "uglifier", "~> 2.2"
   spec.add_dependency "nokogiri", "~> 1.6.0"
   spec.add_dependency "compass", "~> 0.12.2"
