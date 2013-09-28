@@ -5,7 +5,7 @@ describe Wrapper do
   before(:each) do
     @name = "app"
     @script = 'module.exports = function() {return console.log("log from app!");};'
-    @expected_script = 'window.require.define({"app":' +
+    @expected_script = 'this.require.define({"app":' +
       'function(exports, require, module){' +
       'module.exports = function() {' +
       'return console.log("log from app!");' +

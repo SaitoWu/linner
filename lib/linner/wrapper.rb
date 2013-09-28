@@ -1,7 +1,7 @@
 module Linner
   class Wrapper
     WRAPPER =
-      'window.require.define({"%s":' +
+      'this.require.define({"%s":' +
         'function(exports, require, module){' +
         '%s' +
         ";}});\n"

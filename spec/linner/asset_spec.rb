@@ -14,8 +14,8 @@ describe Asset do
   end
 
   it "should return right digest_path" do
-    @dest_asset.digest_path.should == "public/app-cdd1c27fabeede75d12b8adf46e987fd.js"
-    @dest_asset.relative_digest_path.should == "/app-cdd1c27fabeede75d12b8adf46e987fd.js"
+    @dest_asset.digest_path.should == "public/app-7fa4c57f63cf67c15299ee2c79be22e0.js"
+    @dest_asset.relative_digest_path.should == "/app-7fa4c57f63cf67c15299ee2c79be22e0.js"
   end
 
   it "should be javascript" do
