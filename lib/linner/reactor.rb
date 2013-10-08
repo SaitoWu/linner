@@ -16,11 +16,12 @@ module Linner
 
     def on_connection(connection)
       while request = connection.request
-        case request
-        when Reel::Request
+        if request.websocket?
+          connection.detach
+          route_websocket request.websocket
+          return
+        else
           route_request connection, request
-        when Reel::WebSocket
-          route_websocket request
         end
       end
     end
