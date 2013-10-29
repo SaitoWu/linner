@@ -12,7 +12,7 @@ module Linner
       def error(message)
         puts message = "👻 : #{message}!"
         if Linner.env.notification && TerminalNotifier.available?
-          TerminalNotifier.notify message, :title => 'Linner'
+          TerminalNotifier.notify message, :title => 'Linner', :sender => 'com.apple.Terminal'
         end
       end
 
