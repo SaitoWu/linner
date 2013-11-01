@@ -17,27 +17,33 @@ module Linner
 
     desc "check", "check dependencies"
     def check
-      Bundler.new(env.bundles).check
+      message = Bundler.new(env.bundles).check
+      puts (message.first ? "🍵 :" : "👻 :") + message.last
     end
 
     desc "install", "install dependencies"
     def install
-      Bundler.new(env.bundles).perform
+      begin
+        Bundler.new(env.bundles).perform
+      rescue
+        puts "👻 : Install failed!"
+        puts $!
+      end
+      puts "🍵 : Perfect installed all bundles!"
     end
 
     desc "build", "build assets"
     def build
       Linner.compile = true
       clean
-      Notifier.profile { Linner.perform }
+      perform
     end
 
     desc "watch", "watch assets"
     def watch
       trap(:INT) { exit! }
       clean
-      install
-      perform_proc.call
+      perform
       watch_for_perform
       watch_for_reload
       sleep
@@ -59,13 +65,14 @@ module Linner
       Linner.env
     end
 
-    def perform_proc
-      @proc ||= Proc.new do
-        begin
-          Notifier.profile{ Linner.perform }
-        rescue
-          Notifier.error $!
+    def perform
+      begin
+        Notifier.profile do
+          Bundler.new(env.bundles).perform
+          Linner.perform
         end
+      rescue
+        Notifier.error $!
       end
     end
 

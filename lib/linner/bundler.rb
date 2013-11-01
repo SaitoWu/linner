@@ -21,12 +21,13 @@ module Linner
     end
 
     def check
-      return "Bundles didn't exsit!" unless File.exists? REPOSITORY
+      return [false, "Bundles didn't exsit!"] unless File.exists? REPOSITORY
       @bundles.each do |bundle|
         unless File.exists? bundle.path
-          return "Bundle #{bundle.name} v#{bundle.version} didn't match!"
+          return [false, "Bundle #{bundle.name} v#{bundle.version} didn't match!"]
         end
       end
+      return [true, "Perfect bundled, ready to go!"]
     end
 
     def install
@@ -35,6 +36,7 @@ module Linner
       end
       @bundles.each do |bundle|
         next if File.exists? bundle.path
+        puts "Installing #{bundle.name} v#{bundle.version}..."
         install_to_repository bundle.url, bundle.path
         link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
       end
@@ -53,7 +55,9 @@ module Linner
     end
 
     def link_to_vendor(path, dist)
-      FileUtils.link path, dist
+      if Digest::MD5.file(path).hexdigest != Digest::MD5.file(dist).hexdigest
+        FileUtils.cp path, dist
+      end
     end
   end
 end
