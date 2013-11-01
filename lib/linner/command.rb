@@ -17,14 +17,14 @@ module Linner
 
     desc "check", "check dependencies"
     def check
-      message = Bundler.new(env.bundles).check
+      message = Linner::Bundler.new(env.bundles).check
       puts (message.first ? "🍵 :" : "👻 :") + message.last
     end
 
     desc "install", "install dependencies"
     def install
       begin
-        Bundler.new(env.bundles).perform
+        Linner::Bundler.new(env.bundles).perform
       rescue
         puts "👻 : Install failed!"
         puts $!
@@ -68,7 +68,7 @@ module Linner
     def perform
       begin
         Notifier.profile do
-          Bundler.new(env.bundles).perform
+          Linner::Bundler.new(env.bundles).perform
           Linner.perform
         end
       rescue
