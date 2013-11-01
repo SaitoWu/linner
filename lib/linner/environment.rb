@@ -25,10 +25,14 @@ module Linner
       end
     end
 
-    %w(revision notification manifest bundles).each do |method|
+    %w(revision notification manifest).each do |method|
       define_method("#{method}") do
         @env[method]
       end
+    end
+
+    def bundles
+      @env["bundles"] || []
     end
 
     def modules_ignored
