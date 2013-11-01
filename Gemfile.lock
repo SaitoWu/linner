@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    linner (0.4.6)
+    linner (0.5.0)
       coffee-script (~> 2.2)
       compass (~> 0.12.2)
       cssminify (~> 1.0.2)
