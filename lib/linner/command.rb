@@ -15,6 +15,16 @@ module Linner
       puts Linner::VERSION
     end
 
+    desc "check", "check dependencies"
+    def check
+      Bundler.new(env.bundles).check
+    end
+
+    desc "install", "install dependencies"
+    def install
+      Bundler.new(env.bundles).perform
+    end
+
     desc "build", "build assets"
     def build
       Linner.compile = true
@@ -26,6 +36,7 @@ module Linner
     def watch
       trap(:INT) { exit! }
       clean
+      install
       perform_proc.call
       watch_for_perform
       watch_for_reload
