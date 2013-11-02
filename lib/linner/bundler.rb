@@ -35,8 +35,10 @@ module Linner
         FileUtils.mkdir_p(REPOSITORY)
       end
       @bundles.each do |bundle|
-        next if File.exists? bundle.path
-        puts "Installing #{bundle.name} v#{bundle.version}..."
+        if bundle.version != "master"
+          next if File.exists? bundle.path
+        end
+        puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle.url, bundle.path
         link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
       end
