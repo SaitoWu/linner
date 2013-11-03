@@ -14,11 +14,11 @@ describe Wrapper do
   end
 
   it "should wrapped by wrapper" do
-    script = Wrapper.wrap(@name, @script)
+    script = Wrapper::Module.wrap(@name, @script)
     script.should eq @expected_script
   end
 
   it "should has definition" do
-    Wrapper.definition.should_not be_nil
+    Wrapper::Module.definition.should_not be_nil
   end
 end

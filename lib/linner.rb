@@ -115,7 +115,7 @@ module Linner
 
   def write_asset(dest, child_assets)
     asset = Asset.new(File.join env.public_folder, dest)
-    definition = (asset.path == env.definition ? Wrapper.definition : "")
+    definition = (asset.path == env.definition ? Wrapper::Module.definition : "")
     asset.content = child_assets.inject(definition) {|s, m| s << cache[m].content}
     asset.compress if compile?
     asset.write

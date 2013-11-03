@@ -49,7 +49,7 @@ module Linner
     end
 
     def wrap(source)
-      Wrapper.wrap(logical_path.chomp(File.extname logical_path), source)
+      Wrapper::Module.wrap(logical_path.chomp(File.extname logical_path), source)
     end
 
     def javascript?
@@ -58,6 +58,10 @@ module Linner
 
     def stylesheet?
       Tilt[path] and Tilt[path].default_mime_type == "text/css"
+    end
+
+    def template?
+      Tilt[path] and Tile[path].default_mime_type == "text/template"
     end
 
     def wrappable?

@@ -32,7 +32,7 @@ module Tilt
   end
 
   class HandlebarsTemplate < Template
-    self.default_mime_type = 'application/javascript'
+    self.default_mime_type = 'text/template'
 
     def self.engine_initialized?
       true
