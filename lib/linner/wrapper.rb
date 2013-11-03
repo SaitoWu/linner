@@ -12,7 +12,7 @@ this.require.define({"#{name}":function(exports, require, module){#{content};}})
       end
     end
 
-    class Handlebars
+    class Template
       def self.wrap(name, content)
         <<-WRAPPER
 templates["#{name}"] = template(#{content});

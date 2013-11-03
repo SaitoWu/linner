@@ -34,12 +34,7 @@ module Tilt
   class HandlebarsTemplate < Template
     self.default_mime_type = 'text/template'
 
-    def self.engine_initialized?
-      true
-    end
-
-    def prepare
-    end
+    def prepare; end
 
     def evaluate(scope, locals, &block)
       @output ||= Handlebars.precompile(data)

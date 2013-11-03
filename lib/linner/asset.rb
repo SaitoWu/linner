@@ -49,7 +49,11 @@ module Linner
     end
 
     def wrap(source)
-      Wrapper::Module.wrap(logical_path.chomp(File.extname logical_path), source)
+      if javascript?
+        Wrapper::Module.wrap(logical_path.chomp(File.extname logical_path), source)
+      else
+        Wrapper::Template.wrap(logical_path.chomp(File.extname logical_path), source)
+      end
     end
 
     def javascript?
@@ -61,11 +65,11 @@ module Linner
     end
 
     def template?
-      Tilt[path] and Tile[path].default_mime_type == "text/template"
+      Tilt[path] and Tilt[path].default_mime_type == "text/template"
     end
 
     def wrappable?
-      !!(self.javascript? and !Linner.env.modules_ignored.include?(@path))
+      !!(self.javascript? and !Linner.env.modules_ignored.include?(@path) or self.template?)
     end
 
     def write

@@ -98,9 +98,9 @@ module Linner
 
   def precompile(config)
     config["precompile"].each do |dest, pattern|
-      Dir.glob(pattern).each do |path|
-
-      end
+      matches = Dir.glob(pattern).sort_by(&:downcase)
+      next if matches.select { |p| cache.miss? p }.empty?
+      write_template(dest, matches)
     end
   end
 
@@ -111,6 +111,14 @@ module Linner
       next if not File.exist?(file)
       replace_attributes file
     end
+  end
+
+  def write_template(dest, child_assets)
+    asset = Asset.new(File.join env.public_folder, dest)
+    content = child_assets.inject("") {|s, m| s << cache[m].content}
+    asset.content = Wrapper::Template.definition(content)
+    asset.compress if compile?
+    asset.write
   end
 
   def write_asset(dest, child_assets)
