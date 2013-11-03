@@ -69,11 +69,12 @@ module Linner
     env.groups.each do |config|
       copy(config) if config["copy"]
       concat(config) if config["concat"]
+      precompile(config) if config["precompile"]
     end
     revision if compile? and env.revision
   end
 
-private
+  private
   def concat(config)
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
@@ -95,6 +96,14 @@ private
     end
   end
 
+  def precompile(config)
+    config["precompile"].each do |dest, pattern|
+      Dir.glob(pattern).each do |path|
+
+      end
+    end
+  end
+
   def revision
     dump_manifest
     [env.revision].flatten.each do |rev|
@@ -103,8 +112,6 @@ private
       replace_attributes file
     end
   end
-
-  private
 
   def write_asset(dest, child_assets)
     asset = Asset.new(File.join env.public_folder, dest)
