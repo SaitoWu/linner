@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "compass", "~> 0.12.2"
   spec.add_dependency "cssminify", "~> 1.0.2"
   spec.add_dependency "coffee-script", "~> 2.2"
+  spec.add_dependency "handlebars.rb", "~> 0.1"
   spec.add_dependency "terminal-notifier", "~> 1.5"
 
   spec.add_development_dependency "pry"
