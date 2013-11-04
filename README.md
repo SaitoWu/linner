@@ -13,9 +13,10 @@ Linner is a full-featured HTML5 application assembler.
 * Fast!
 * Supports `Sass`, `Compass` and `Coffee`.
 * Supports OS X Lion and Mountaion Lion Notifications.
-* Supports Modular Javascript, All your code will be wrap by `cmd`.
+* Supports Modular Javascript, All your code will be wrapped by `cmd`.
 * Supports `concat` code by `config file` not `directive processor`.
 * Supports `copy` code from `src` to `dest`.
+* Supports `precompile` Javascript Templates from `src` to `desc`
 * Supports Real-time `concat` by `$ linner watch`.
 * Supports `compress` by `$ linner build`.
 * Supports `LiveReload` with [LiveReload Chrome Extention](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei).

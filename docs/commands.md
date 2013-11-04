@@ -4,6 +4,14 @@
 
 Create new brunch project.
 
+## `linner check`
+
+Check linner bundles
+
+## `linner install`
+
+Install linner bundles
+
 ## `linner watch`
 
 Watch linner directory and rebuild if something changed.

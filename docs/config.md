@@ -51,6 +51,8 @@ the default configuration defines four groups: `scripts`, `styles`, `images` and
 
 `copy` defines copy strategy of files in Linner. The `Dir.glob` of `value` will be copy to `key` folder.
 
+`precompile` defines precompile strategy of javascript templates for Linner. The `Dir.glob` of `value` will be concat to `key`
+
 `order` defines the order of this group files, and It's very useful when you `concat` your files. for example:
 
 ```yaml
@@ -101,4 +103,26 @@ Default:
 
 ```yaml
 notification: true
+```
+
+## `bundles`
+
+`bundles` defines application's library dependencies, the dependencies will be copied to `vendor` folder.
+
+For example:
+
+```yaml
+bundles:
+  jquery.js:
+    version: "1.10.2"
+    url: "http://code.jquery.com/jquery-1.10.2.js"
+  underscore.js:
+    version: "1.5.2"
+    url: https://raw.github.com/jashkenas/underscore/1.5.2/underscore.js
+  backbone.js:
+    version: "1.1.0"
+    url: "https://raw.github.com/jashkenas/backbone/1.1.0/backbone.js"
+  handlebars.js:
+    version: "1.0.0"
+    url: "https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.js"
 ```
