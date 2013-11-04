@@ -52,12 +52,13 @@ module Linner
     def install_to_repository(url, path)
       FileUtils.mkdir_p File.dirname(path)
       File.open(path, "w") do |dist|
-        open(url) {|file| dist.write file.read}
+        open(url, "r:UTF-8") {|file| dist.write file.read}
       end
     end
 
     def link_to_vendor(path, dist)
       if !File.exist?(dist) or Digest::MD5.file(path).hexdigest != Digest::MD5.file(dist).hexdigest
+        FileUtils.mkdir_p File.dirname(dist)
         FileUtils.cp path, dist
       end
     end
