@@ -23,7 +23,7 @@ module Linner
     def check
       return [false, "Bundles didn't exsit!"] unless File.exists? REPOSITORY
       @bundles.each do |bundle|
-        unless File.exists? bundle.path
+        unless File.exists?(bundle.path) and File.exists?(File.join(VENDOR, bundle.name))
           return [false, "Bundle #{bundle.name} v#{bundle.version} didn't match!"]
         end
       end
@@ -36,7 +36,7 @@ module Linner
       end
       @bundles.each do |bundle|
         if bundle.version != "master"
-          next if File.exists? bundle.path
+          next if File.exists?(bundle.path) and File.exists?(File.join(VENDOR, bundle.name))
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle.url, bundle.path
@@ -57,7 +57,7 @@ module Linner
     end
 
     def link_to_vendor(path, dist)
-      if Digest::MD5.file(path).hexdigest != Digest::MD5.file(dist).hexdigest
+      if !File.exist?(dist) or Digest::MD5.file(path).hexdigest != Digest::MD5.file(dist).hexdigest
         FileUtils.cp path, dist
       end
     end
