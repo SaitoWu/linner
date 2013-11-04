@@ -113,16 +113,16 @@ For example:
 
 ```yaml
 bundles:
-  jquery.js:
+  "jquery.js":
     version: "1.10.2"
     url: "http://code.jquery.com/jquery-1.10.2.js"
-  underscore.js:
+  "underscore.js":
     version: "1.5.2"
     url: https://raw.github.com/jashkenas/underscore/1.5.2/underscore.js
-  backbone.js:
+  "backbone.js":
     version: "1.1.0"
     url: "https://raw.github.com/jashkenas/backbone/1.1.0/backbone.js"
-  handlebars.js:
+  "handlebars.js":
     version: "1.0.0"
     url: "https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.js"
 ```

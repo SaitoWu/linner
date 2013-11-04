@@ -17,10 +17,23 @@ groups:
       "/images/": "app/images/**/*.{png,gif}"
   views:
     copy:
-      "/": "app/views/**/*.{html,hbs}"
+      "/": "app/views/**/*.html"
+  templates:
+    paths:
+      - "app/templates"
+    precompile:
+      "/scripts/templates.js": "app/templates/**/*.hbs"
 modules:
   wrapper: "cmd"
   ignored: "vendor/**/*"
   definition: "/scripts/app.js"
 revision: "index.html"
 notification: true
+bundles:
+  "jquery.js":
+    version: "1.10.2"
+    url: "http://code.jquery.com/jquery-1.10.2.js"
+  "handlebars.js":
+    version: "1.0.0"
+    url: "https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js"
+
