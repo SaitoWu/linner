@@ -28,6 +28,7 @@ module Linner
       rescue
         puts "👻 : Install failed!"
         puts $!
+        return
       end
       puts "🍵 : Perfect installed all bundles!"
     end
@@ -79,7 +80,7 @@ module Linner
     def watch_for_perform
       Listen.to env.watched_paths do |modified, added, removed|
         Linner.cache.expire_by(modified + added + removed)
-        perform_proc.call
+        perform
       end
     end
 
