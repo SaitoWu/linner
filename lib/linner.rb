@@ -67,9 +67,11 @@ module Linner
 
   def perform(*asset)
     env.groups.each do |config|
+      precompile(config) if config["precompile"]
+    end
+    env.groups.each do |config|
       copy(config) if config["copy"]
       concat(config) if config["concat"]
-      precompile(config) if config["precompile"]
     end
     revision if compile? and env.revision
   end
