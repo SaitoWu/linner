@@ -44,6 +44,7 @@ module Linner
     def watch
       trap(:INT) { exit! }
       clean
+      Linner::Bundler.new(env.bundles).perform
       perform
       watch_for_perform
       watch_for_reload
@@ -69,7 +70,6 @@ module Linner
     def perform
       begin
         Notifier.profile do
-          Linner::Bundler.new(env.bundles).perform
           Linner.perform
         end
       rescue
