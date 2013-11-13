@@ -51,8 +51,12 @@ module Linner
     def wrap(source)
       if javascript?
         Wrapper::Module.wrap(logical_path.chomp(File.extname logical_path), source)
-      else
-        Wrapper::Template.wrap(logical_path.chomp(File.extname logical_path), source)
+      elsif template?
+        if File.basename(path).start_with?("_")
+          Wrapper::Template.partial_wrap(logical_path.chomp(File.extname logical_path), source)
+        else
+          Wrapper::Template.wrap(logical_path.chomp(File.extname logical_path), source)
+        end
       end
     end
 

@@ -2,9 +2,9 @@ module Linner
   module Wrapper
     class Module
       def self.wrap(name, content)
-        <<-WRAPPER
+<<-WRAPPER
 this.require.define({"#{name}":function(exports, require, module){#{content};}});
-        WRAPPER
+WRAPPER
       end
 
       def self.definition
@@ -14,18 +14,25 @@ this.require.define({"#{name}":function(exports, require, module){#{content};}})
 
     class Template
       def self.wrap(name, content)
-        <<-WRAPPER
+<<-WRAPPER
 templates["#{name}"] = template(#{content});
-        WRAPPER
+WRAPPER
       end
 
+      def self.partial_wrap(name, content)
+<<-PARTIAL
+Handlebars.registerPartial("#{name}", Handlebars.template(#{content}));
+PARTIAL
+      end
+
+
       def self.definition(content)
-        <<-DEFINITION
+<<-DEFINITION
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
   #{content}
 })();
-        DEFINITION
+DEFINITION
       end
     end
   end
