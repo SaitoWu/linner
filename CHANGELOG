@@ -1,3 +1,6 @@
+v0.5.1
+  - support handlebars partials. templates start with "_" will be treaded as partials/
+
 v 0.5.0
   - linner command now provides `check` and `install` commands to check and install vendor  dependencies
 
