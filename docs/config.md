@@ -53,6 +53,8 @@ the default configuration defines four groups: `scripts`, `styles`, `images` and
 
 `precompile` defines precompile strategy of javascript templates for Linner. The `Dir.glob` of `value` will be concat to `key`
 
+`sprite` defines sprite strategy of images for Linner. The `Dir.glob` of `value` will be sprite to `key`
+
 `order` defines the order of this group files, and It's very useful when you `concat` your files. for example:
 
 ```yaml
@@ -63,6 +65,22 @@ order:
 ```
 
 In the above example, if a group contains 5 files, `vendor/jquery-1.10.2.js` will be the first, and `vendor/underscore.js` will be the last file.
+
+## `sprites`
+
+`sprites` defines application sprite stategy. `sprites` support pseudo class of css, if your file's basename end with `_active`, the generated css will be `.active`. if your file's basename end with `_hover`, the generated css will be `:hover`, eg: `arrow_hover.png` will be `.selector-arrow:hover { ... }`
+
+Example:
+
+```yaml
+sprites:
+  # sprite image output path
+  path: "/images/"
+  # css selector
+  selector: ".icon-"
+  # css url background: url(/images/icon.png)
+  url: "http://s3.amazonaws.com/"
+```
 
 ## `modules`
 
