@@ -1,5 +1,5 @@
 module Linner
-  ImageProxy = Struct.new(:path, :image, :top, :left) do
+  ImageProxy = Struct.new(:name, :image, :top, :left) do
     def width
       image.width
     end
@@ -36,6 +36,19 @@ module Linner
         end
       end
       self
+    end
+
+    def generate_style(config, name)
+      selector = config["selector"] || ".icon-"
+      @images.inject("") do |style, image|
+        style <<
+"#{selector}#{image.name} {
+  width: #{image.width}px;
+  height: #{image.height}px;
+  background: url(#{File.join config['url'], name}) -#{image.left}px -#{image.top}px no-repeat;
+}
+"
+      end
     end
 
     private

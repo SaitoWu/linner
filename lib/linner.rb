@@ -127,8 +127,8 @@ module Linner
   end
 
   def paint_sprite(dest, images)
-    images = images.map do |name|
-      ImageProxy.new(name, ChunkyPNG::Image.from_file(name))
+    images = images.map do |path|
+      ImageProxy.new(File.basename(path, ".*"), ChunkyPNG::Image.from_file(path))
     end
     sprite = Sprite.new(images).pack!
     map = ChunkyPNG::Image.new(sprite.root[:w], sprite.root[:h], ChunkyPNG::Color::TRANSPARENT)
@@ -137,11 +137,14 @@ module Linner
       map.compose!(image.image, image.left, image.top)
     end
 
-    basename = File.basename(dest)
-    destname = basename.chomp(File.extname basename) + ".png"
-    path = File.join(env.public_folder, env.sprites["path"], destname)
+    name = File.basename(dest).sub(/[^.]+\z/, "png")
+    path = File.join(env.public_folder, env.sprites["path"], File.basename(dest).sub(/[^.]+\z/, "png"))
     FileUtils.mkdir_p File.dirname(path)
     map.save path
+
+    asset = Asset.new(File.join env.public_folder, dest)
+    asset.content = sprite.generate_style(env.sprites, name)
+    asset.write
   end
 
   def write_template(dest, child_assets)
