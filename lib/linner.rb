@@ -128,7 +128,7 @@ module Linner
 
   def paint_sprite(dest, images)
     images = images.map do |path|
-      ImageProxy.new(File.basename(path, ".*"), ChunkyPNG::Image.from_file(path))
+      ImageProxy.new(path, ChunkyPNG::Image.from_file(path))
     end
     sprite = Sprite.new(images).pack!
     map = ChunkyPNG::Image.new(sprite.root[:w], sprite.root[:h], ChunkyPNG::Color::TRANSPARENT)
