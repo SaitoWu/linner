@@ -35,6 +35,10 @@ module Linner
       @env["bundles"] || []
     end
 
+    def sprites
+      @env["sprites"] || {}
+    end
+
     def modules_ignored
       Dir.glob(@env["modules"]["ignored"])
     end
