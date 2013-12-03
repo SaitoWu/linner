@@ -5,7 +5,7 @@ require "linner/command"
 require "linner/asset"
 require "linner/cache"
 require "linner/helper"
-require "linner/sprites"
+require "linner/sprite"
 require "linner/bundler"
 require "linner/reactor"
 require "linner/wrapper"
@@ -69,6 +69,7 @@ module Linner
   def perform(*asset)
     env.groups.each do |config|
       precompile(config) if config["precompile"]
+      sprite(config) if config["sprite"]
     end
     env.groups.each do |config|
       copy(config) if config["copy"]
@@ -104,6 +105,12 @@ module Linner
       matches = Dir.glob(pattern).sort_by(&:downcase)
       next if matches.select { |p| cache.miss? p }.empty?
       write_template(dest, matches)
+    end
+  end
+
+  def sprite(config)
+    config["sprite"].each do |map|
+      p map
     end
   end
 

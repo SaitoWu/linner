@@ -1,7 +1,9 @@
 require "pry"
 
 module Linner
-  class Sprites
+  class Sprite
+
+    attr_accessor :root, :images
 
     def initialize(images)
       @images = images.sort do |a, b|
@@ -90,5 +92,5 @@ module Linner
         :right => root
       ]
     end
-  end # Sprites
+  end # Sprite
 end # Linner

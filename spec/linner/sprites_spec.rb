@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Sprites do
+describe Sprite do
   before(:all) do
     MockImage = Struct.new :width, :height, :top, :left
     @sprites = Environment.new(root.join "config.yml").sprites
@@ -17,7 +17,7 @@ describe Sprites do
   end
 
   it "should be fit in blocks" do
-    sprites = Sprites.new(@images)
+    sprites = Sprite.new(@images)
     sprites.pack!
   end
 end
