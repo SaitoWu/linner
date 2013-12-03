@@ -1,3 +1,6 @@
+v0.6.0
+  - add sprites support
+
 v0.5.1
   - support handlebars partials. templates start with "_" will be treaded as partials/
 

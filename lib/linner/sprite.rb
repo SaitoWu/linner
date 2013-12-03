@@ -42,7 +42,6 @@ module Linner
       selector = config["selector"] || ".icon-"
       @images.inject("") do |style, image|
         name = Asset.new(image.path).logical_path
-        p name
         selector_with_pseudo_class = name.chomp(File.extname(name))
           .gsub("/", "-")
           .gsub("_active", ".active")
