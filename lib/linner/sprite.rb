@@ -1,6 +1,14 @@
-require "pry"
-
 module Linner
+  ImageProxy = Struct.new(:path, :image, :top, :left) do
+    def width
+      image.width
+    end
+
+    def height
+      image.height
+    end
+  end
+
   class Sprite
 
     attr_accessor :root, :images
@@ -27,6 +35,7 @@ module Linner
           redo
         end
       end
+      self
     end
 
     private

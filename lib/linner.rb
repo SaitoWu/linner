@@ -1,3 +1,4 @@
+require "pry"
 require "nokogiri"
 
 require "linner/version"
@@ -109,8 +110,10 @@ module Linner
   end
 
   def sprite(config)
-    config["sprite"].each do |map|
-      p map
+    config["sprite"].each do |dest, pattern|
+      matches = Dir.glob(pattern)
+      next if matches.select { |p| cache.miss? p }.empty?
+      paint_sprite(dest, matches)
     end
   end
 
@@ -121,6 +124,24 @@ module Linner
       next if not File.exist?(file)
       replace_attributes file
     end
+  end
+
+  def paint_sprite(dest, images)
+    images = images.map do |name|
+      ImageProxy.new(name, ChunkyPNG::Image.from_file(name))
+    end
+    sprite = Sprite.new(images).pack!
+    map = ChunkyPNG::Image.new(sprite.root[:w], sprite.root[:h], ChunkyPNG::Color::TRANSPARENT)
+
+    sprite.images.each do |image|
+      map.compose!(image.image, image.left, image.top)
+    end
+
+    basename = File.basename(dest)
+    destname = basename.chomp(File.extname basename) + ".png"
+    path = File.join(env.public_folder, env.sprites["path"], destname)
+    FileUtils.mkdir_p File.dirname(path)
+    map.save path
   end
 
   def write_template(dest, child_assets)
