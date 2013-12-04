@@ -41,8 +41,8 @@ module Linner
     def generate_style(config, name)
       selector = config["selector"] || ".icon-"
       @images.inject("") do |style, image|
-        name = Asset.new(image.path).logical_path
-        selector_with_pseudo_class = name.chomp(File.extname(name))
+        logical_path = Asset.new(image.path).logical_path
+        selector_with_pseudo_class = logical_path.chomp(File.extname(logical_path))
           .gsub("/", "-")
           .gsub("_active", ".active")
           .gsub("_hover", ":hover")
