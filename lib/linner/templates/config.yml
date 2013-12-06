@@ -2,38 +2,50 @@ paths:
   public: "public"
 groups:
   scripts:
+    paths:
+      - app/scripts
     concat:
       "/scripts/app.js": "app/**/*.{js,coffee}"
       "/scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
-      - "vendor/jquery-1.10.2.js"
-      - "..."
-      - "app/scripts/app.coffee"
+      - vendor/jquery-1.10.2.js
+      - ...
+      - app/scripts/app.coffee
   styles:
+    paths:
+      - app/styles
     concat:
       "/styles/app.css": "app/styles/**/[a-z]*.{css,scss,sass}"
   images:
-    copy:
-      "/images/": "app/images/**/*.{png,gif}"
+    paths:
+      - app/images
+    sprite:
+      "../app/images/icons.scss": "app/images/**/*.png"
   views:
+    paths:
+      - app/views
     copy:
       "/": "app/views/**/*.html"
   templates:
     paths:
-      - "app/templates"
+      - app/templates
     precompile:
       "/scripts/templates.js": "app/templates/**/*.hbs"
 modules:
-  wrapper: "cmd"
-  ignored: "vendor/**/*"
-  definition: "/scripts/app.js"
-revision: "index.html"
+  wrapper: cmd
+  ignored: vendor/**/*
+  definition: /scripts/app.js
+sprites:
+  url: /images/
+  path: /images/
+  selector: .icon-
+revision: index.html
 notification: true
 bundles:
-  "jquery.js":
-    version: "1.10.2"
-    url: "http://code.jquery.com/jquery-1.10.2.js"
-  "handlebars.js":
-    version: "1.0.0"
-    url: "https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js"
+  jquery.js:
+    version: 1.10.2
+    url: http://code.jquery.com/jquery-1.10.2.js
+  handlebars.js:
+    version: 1.0.0
+    url: https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js
 
