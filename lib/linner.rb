@@ -110,7 +110,7 @@ module Linner
 
   def sprite(config)
     config["sprite"].each do |dest, pattern|
-      matches = Dir.glob(pattern)
+      matches = Dir.glob(pattern).sort_by(&:downcase)
       next if matches.select { |p| cache.miss? p }.empty?
       paint_sprite(dest, matches)
     end
