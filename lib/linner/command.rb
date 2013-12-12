@@ -37,6 +37,7 @@ module Linner
     def build
       Linner.compile = true
       clean
+      Linner::Bundler.new(env.bundles).perform
       perform
     end
 
