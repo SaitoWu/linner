@@ -1,4 +1,4 @@
-require "nokogiri"
+require "hpricot"
 
 require "linner/version"
 require "linner/command"
@@ -163,16 +163,16 @@ module Linner
   end
 
   def replace_attributes file
-    doc = Nokogiri::HTML.parse(File.read file)
+    doc = Hpricot(File.read file)
     replace_tag_with_manifest_value doc, "script", "src"
     replace_tag_with_manifest_value doc, "link", "href"
     File.open(file, "w") {|f| f.write doc.to_html}
   end
 
   def replace_tag_with_manifest_value doc, tag, attribute
-    doc.search(tag).each do |x|
-      next unless node = x.attributes[attribute]
-      x.set_attribute attribute, manifest[node.value]
+    doc.search("//#{tag}").each do |tag|
+      value = tag.attributes[attribute]
+      tag.attributes[attribute] = manifest[value] if value and manifest[value]
     end
   end
 
