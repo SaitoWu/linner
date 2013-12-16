@@ -1,3 +1,6 @@
+v0.6.1
+  - use `hpricot` to instead of `nokogiri`, because `nokogiri` has parse problem when `revision`.
+
 v0.6.0
   - add sprites support
 
