@@ -42,8 +42,19 @@ module Linner
     @manifest ||= begin
       hash = {}
       env.groups.each do |config|
-        config["concat"].to_h.each do |dest, pattern|
+        concat_assets = template_assets = copy_assets = []
+        concat_assets = config["concat"].keys if config["concat"]
+        template_assets = config["template"].keys if config["template"]
+        config["copy"].each do |dest, pattern|
+          copy_assets = Dir.glob(pattern).map do |path|
+            logical_path = Asset.new(path).logical_path
+            dest_path = File.join(dest, logical_path)
+          end
+        end if config["copy"]
+
+        (concat_assets + template_assets + copy_assets).uniq.each do |dest|
           asset = Asset.new(File.join env.public_folder, dest)
+          next unless asset.revable?
           hash[dest] = asset.relative_digest_path
           asset.revision!
         end
@@ -137,7 +148,7 @@ module Linner
     end
 
     name = File.basename(dest).sub(/[^.]+\z/, "png")
-    path = File.join(env.public_folder, env.sprites["path"], File.basename(dest).sub(/[^.]+\z/, "png"))
+    path = File.join(env.public_folder, env.sprites["path"], name)
     FileUtils.mkdir_p File.dirname(path)
     map.save path
 

@@ -28,6 +28,10 @@ module Linner
       digest_path.gsub /#{Linner.env.public_folder}/, ""
     end
 
+    def revable?
+      javascript? or stylesheet?
+    end
+
     def revision!
       File.rename path, digest_path
     end

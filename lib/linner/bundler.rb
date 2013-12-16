@@ -57,10 +57,9 @@ module Linner
     end
 
     def link_to_vendor(path, dist)
-      if !File.exist?(dist) or Digest::MD5.file(path).hexdigest != Digest::MD5.file(dist).hexdigest
-        FileUtils.mkdir_p File.dirname(dist)
-        FileUtils.cp path, dist
-      end
+      return if File.exist?(dist) and Digest::MD5.file(path).hexdigest == Digest::MD5.file(dist).hexdigest
+      FileUtils.mkdir_p File.dirname(dist)
+      FileUtils.cp path, dist
     end
   end
 end
