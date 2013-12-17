@@ -1,3 +1,4 @@
+require "uri"
 require "digest"
 require "fileutils"
 require "open-uri"
@@ -52,7 +53,11 @@ module Linner
     def install_to_repository(url, path)
       FileUtils.mkdir_p File.dirname(path)
       File.open(path, "w") do |dist|
-        open(url, "r:UTF-8") {|file| dist.write file.read}
+        if url =~ URI::regexp
+          open(url, "r:UTF-8") {|file| dist.write file.read}
+        else
+          dist.write(File.read Pathname(url).expand_path)
+        end
       end
     end
 
