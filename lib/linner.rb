@@ -20,18 +20,20 @@ Encoding.default_internal = Encoding::UTF_8
 module Linner
   extend self
 
-  attr_accessor :compile
+  attr_accessor :env, :compile
 
   def root
     @root ||= Pathname('.').expand_path
   end
 
+  def config_file
+    linner_file = root.join("Linnerfile")
+    config_file = root.join("config.yml")
+    File.exist?(linner_file) ? linner_file : config_file
+  end
+
   def env
-    @env ||= Environment.new begin
-      linner_file = root.join("Linnerfile")
-      config_file = root.join("config.yml")
-      File.exist?(linner_file) ? linner_file : config_file
-    end
+    @env ||= Environment.new config_file
   end
 
   def cache

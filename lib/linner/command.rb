@@ -49,6 +49,7 @@ module Linner
       perform
       watch_for_perform
       watch_for_reload
+      watch_for_env
       sleep
     end
 
@@ -89,6 +90,14 @@ module Linner
       reactor = Reactor.supervise_as(:reactor).actors.first
       Listen.to env.public_folder, relative_path: true do |modified, added, removed|
         reactor.reload_browser(modified + added + removed)
+      end
+    end
+
+    def watch_for_env
+      Listen.to ".", filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
+        Linner.env = Environment.new Linner.config_file
+        Linner::Bundler.new(env.bundles).perform
+        perform
       end
     end
 
