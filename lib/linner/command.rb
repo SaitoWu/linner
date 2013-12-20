@@ -47,9 +47,9 @@ module Linner
       clean
       Linner::Bundler.new(env.bundles).perform
       perform
+      watch_for_env
       watch_for_perform
       watch_for_reload
-      watch_for_env
       sleep
     end
 
@@ -94,7 +94,7 @@ module Linner
     end
 
     def watch_for_env
-      Listen.to ".", filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
+      Listen.to Linner.root, filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
         Linner.env = Environment.new Linner.config_file
         Linner::Bundler.new(env.bundles).perform
         perform
