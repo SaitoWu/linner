@@ -73,7 +73,7 @@ module Linner
 
     def split_block(block, image)
       block[:used] = true
-      block[:down] = {:x => block[:x], :y => block[:y] + image.width, :w => block[:w], :h => block[:h] - image.height}
+      block[:down] = {:x => block[:x], :y => block[:y] + image.height, :w => block[:w], :h => block[:h] - image.height}
       block[:right] = {:x => block[:x] + image.width, :y => block[:y], :w => block[:w] - image.width, :h => image.height}
     end
 
