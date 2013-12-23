@@ -97,7 +97,6 @@ module Linner
       Listen.to Linner.root, filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
         Linner.env = Environment.new Linner.config_file
         Linner::Bundler.new(env.bundles).perform
-        perform
       end
     end
 
