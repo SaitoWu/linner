@@ -43,24 +43,46 @@ module Linner
   def manifest
     @manifest ||= begin
       hash = {}
+      copy_assets = []
+      concat_assets = []
+      template_assets = []
+      sprite_assets = []
       env.groups.each do |config|
-        concat_assets = template_assets = copy_assets = []
-        concat_assets = config["concat"].keys if config["concat"]
-        template_assets = config["template"].keys if config["template"]
+        concat_assets << config["concat"].keys if config["concat"]
+        template_assets << config["template"].keys if config["template"]
+        sprite_assets << config["sprite"].keys if config["sprite"]
         config["copy"].each do |dest, pattern|
-          copy_assets = Dir.glob(pattern).map do |path|
+          copy_assets << Dir.glob(pattern).map do |path|
             logical_path = Asset.new(path).logical_path
             dest_path = File.join(dest, logical_path)
           end
         end if config["copy"]
+      end
 
-        (concat_assets + template_assets + copy_assets).uniq.each do |dest|
-          asset = Asset.new(File.join env.public_folder, dest)
-          next unless asset.revable?
-          hash[dest] = asset.relative_digest_path
-          asset.revision!
+      # revision sprite assets
+      sprite_assets.flatten.each do |dest|
+        name = File.basename(dest).sub /[^.]+\z/, "png"
+        dest = File.join env.sprites["path"], name
+        asset = Asset.new(File.join env.public_folder, dest)
+        hash[dest] = asset.relative_digest_path
+        asset.revision!
+
+        (concat_assets + copy_assets).flatten.each do |file|
+          path = File.join env.public_folder, file
+          next unless Asset.new(path).stylesheet?
+          puts = File.read(path).gsub(File.join(env.sprites["url"], File.basename(dest)), File.join(env.sprites["url"], File.basename(asset.relative_digest_path)))
+          File.open(path, "w") { |file| file << puts }
         end
       end
+
+      # revision concat template and copy assets
+      (concat_assets + template_assets + copy_assets).flatten.each do |dest|
+        asset = Asset.new(File.join env.public_folder, dest)
+        next unless asset.revable?
+        hash[dest] = asset.relative_digest_path
+        asset.revision!
+      end
+
       hash
     end
   end
