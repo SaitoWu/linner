@@ -1,3 +1,6 @@
+v0.6.3
+  - support sprite revision
+
 v0.6.2
   - fix bin-packing algo problem
   - add auto reload environment support
