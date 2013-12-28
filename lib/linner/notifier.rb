@@ -6,13 +6,13 @@ module Linner
       def profile
         time = Time.now
         yield
-        puts "🍜 : Done in #{'%.3f' % (Time.now - time)}s."
+        puts "🍜 : Done in #{"%.3f" % (Time.now - time)}s."
       end
 
       def error(message)
         puts message = "👻 : #{message}!"
         if Linner.env.notification && TerminalNotifier.available?
-          TerminalNotifier.notify message, :title => 'Linner', :sender => 'com.apple.Terminal'
+          TerminalNotifier.notify message, :title => "Linner"
         end
       end
 
