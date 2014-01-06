@@ -1,3 +1,6 @@
+v0.6.4
+  - fix cache problem when same asset in different linner task
+
 v0.6.3
   - support sprite revision
 
