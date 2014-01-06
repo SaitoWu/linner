@@ -118,7 +118,7 @@ module Linner
     config["concat"].each_with_index do |pair, index|
       dest, pattern, order = pair.first, pair.last, config["order"]||[]
       matches = Dir.glob(pattern).sort_by(&:downcase).order_by(order)
-      next if matches.select {|p| cache.miss? p}.empty?
+      next if matches.select {|path| cache.miss?(dest, path)}.empty?
       write_asset(dest, matches)
     end
   end
@@ -126,7 +126,7 @@ module Linner
   def copy(config)
     config["copy"].each do |dest, pattern|
       Dir.glob(pattern).each do |path|
-        next if not cache.miss?(path)
+        next if not cache.miss?(dest, path)
         logical_path = Asset.new(path).logical_path
         dest_path = File.join(env.public_folder, dest, logical_path)
         FileUtils.mkdir_p File.dirname(dest_path)
@@ -138,7 +138,7 @@ module Linner
   def precompile(config)
     config["precompile"].each do |dest, pattern|
       matches = Dir.glob(pattern).sort_by(&:downcase)
-      next if matches.select { |p| cache.miss? p }.empty?
+      next if matches.select { |path| cache.miss?(dest, path) }.empty?
       write_template(dest, matches)
     end
   end
@@ -146,7 +146,7 @@ module Linner
   def sprite(config)
     config["sprite"].each do |dest, pattern|
       matches = Dir.glob(pattern).sort_by(&:downcase)
-      next if matches.select { |p| cache.miss? p }.empty?
+      next if matches.select { |path| cache.miss?(dest, path) }.empty?
       paint_sprite(dest, matches)
     end
   end
@@ -183,7 +183,7 @@ module Linner
 
   def write_template(dest, child_assets)
     asset = Asset.new(File.join env.public_folder, dest)
-    content = child_assets.inject("") {|s, m| s << cache[m].content}
+    content = child_assets.inject("") {|s, m| s << cache["#{dest}:#{m}"].content}
     asset.content = Wrapper::Template.definition(content)
     asset.compress if compile?
     asset.write
@@ -192,7 +192,7 @@ module Linner
   def write_asset(dest, child_assets)
     asset = Asset.new(File.join env.public_folder, dest)
     definition = (asset.path == env.definition ? Wrapper::Module.definition : "")
-    asset.content = child_assets.inject(definition) {|s, m| s << cache[m].content}
+    asset.content = child_assets.inject(definition) {|s, m| s << cache["#{dest}:#{m}"].content}
     asset.compress if compile?
     asset.write
   end

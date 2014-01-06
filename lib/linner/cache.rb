@@ -1,11 +1,11 @@
 module Linner
   class Cache < Hash
-    def miss? path
+    def miss? ns, path
       asset = Asset.new path
-      if self[path] and self[path].mtime == asset.mtime
+      if self["#{ns}:#{path}"] and self["#{ns}:#{path}"].mtime == asset.mtime
         false
       else
-        self[path] = asset
+        self["#{ns}:#{path}"] = asset
       end
     end
 
