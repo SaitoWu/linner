@@ -1,4 +1,5 @@
 v0.6.4
+  - copy task now support render and compress
   - fix cache problem when same asset in different linner task
 
 v0.6.3
