@@ -9,6 +9,8 @@ module Linner
         Uglifier.compile asset.content, comments: "none"
       elsif asset.stylesheet?
         CSSminify.new.compress asset.content
+      else
+        asset.content
       end
     end
   end
