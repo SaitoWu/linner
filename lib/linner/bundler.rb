@@ -41,7 +41,11 @@ module Linner
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle.url, bundle.path
-        link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
+        if zipped?(bundle.path)
+          link_and_extract_to_vendor bundle.path, File.join(VENDOR, ".pkg", File.basename(bundle.path)), File.join(VENDOR, bundle.name)
+        else
+          link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
+        end
       end
     end
 
@@ -65,6 +69,36 @@ module Linner
       return if File.exist?(dist) and Digest::MD5.file(path).hexdigest == Digest::MD5.file(dist).hexdigest
       FileUtils.mkdir_p File.dirname(dist)
       FileUtils.cp path, dist
+    end
+
+    def link_and_extract_to_vendor(path, linked_path, extract_path)
+      link_to_vendor(path, linked_path)
+      extract_files(linked_path, extract_path)
+    end
+
+    def extract_files(path, dist)
+      out = case zipped? path
+      when "gzip"
+        `tar -zxvf #{path} -C #{dist}`
+      when "zip"
+        `unzip -o #{path} -d #{dist}`
+      end
+
+      entries = Dir.glob(File.join(dist, "*"))
+      return if entries.size > 1
+      dir = entries.first
+      if File.directory?(dir)
+        FileUtils.mv Dir.glob(File.join(dir, "*")), dist
+        FileUtils.rmdir dir
+      end
+    end
+
+    def zipped?(path)
+      case IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
+      when "text/plain" then false
+      when "application/x-gzip" then "gzip"
+      when "application/zip" then "zip"
+      end
     end
   end
 end
