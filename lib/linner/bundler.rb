@@ -5,7 +5,7 @@ require "open-uri"
 
 module Linner
   class Bundler
-    VENDOR = Pathname(".").expand_path.join "vendor"
+    VENDOR = Pathname(".").join "vendor"
     REPOSITORY = File.expand_path "~/.linner/bundles"
 
     Bundle = Struct.new(:name, :version, :url) do

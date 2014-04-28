@@ -23,7 +23,7 @@ module Linner
   attr_accessor :env, :compile
 
   def root
-    @root ||= Pathname('.').expand_path
+    @root ||= Pathname('.').realpath
   end
 
   def config_file
