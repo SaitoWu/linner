@@ -4,11 +4,11 @@
 
 Linner is a full-featured HTML5 application assembler.
 
-![Linner](http://d.pr/i/bWPA+)
+![Linner](http://cl.ly/image/2J0d1C0D3S0E/logo.png)
 
 #### Screencast
 
-[![Screencast](http://d.pr/i/MIyk+)](https://vimeo.com/71944672)
+[![Screencast](http://cl.ly/image/000k0R400F30/Image%202014-04-29%20at%2010.20.12%20AM.png)](https://vimeo.com/71944672)
 
 * Fast!
 * Supports `Sass`, `Compass` and `Coffee`.
