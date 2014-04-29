@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
 
+# Trap interrupts to quit cleanly. See
+# https://twitter.com/mitchellh/status/283014103189053442
+Signal.trap("INT") { abort }
+
 require File.dirname(__FILE__) + "/../lib/linner"
 Linner::Command.start
