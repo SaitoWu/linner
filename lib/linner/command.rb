@@ -37,15 +37,14 @@ module Linner
     def build
       Linner.compile = true
       clean
-      Linner::Bundler.new(env.bundles).perform
+      Bundler.new(env.bundles).perform
       perform
     end
 
     desc "watch", "watch assets"
     def watch
-      trap(:INT) { exit! }
       clean
-      Linner::Bundler.new(env.bundles).perform
+      Bundler.new(env.bundles).perform
       perform
       watch_for_env
       watch_for_perform
@@ -96,7 +95,7 @@ module Linner
     def watch_for_env
       Listen.to Linner.root, filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
         Linner.env = Environment.new Linner.config_file
-        Linner::Bundler.new(env.bundles).perform
+        Bundler.new(env.bundles).perform
       end
     end
 
@@ -106,4 +105,3 @@ module Linner
     end
   end
 end
-
