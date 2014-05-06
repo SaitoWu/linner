@@ -20,7 +20,7 @@ module Linner
 
     def watched_paths
       [app_folder, vendor_folder, test_folder].select do |path|
-        File.exists? path
+        File.exist? path
       end
     end
 

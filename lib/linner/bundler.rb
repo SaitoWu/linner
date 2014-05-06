@@ -22,9 +22,9 @@ module Linner
     end
 
     def check
-      return [false, "Bundles didn't exsit!"] unless File.exists? REPOSITORY
+      return [false, "Bundles didn't exsit!"] unless File.exist? REPOSITORY
       @bundles.each do |bundle|
-        unless File.exists?(bundle.path) and File.exists?(File.join(VENDOR, bundle.name))
+        unless File.exist?(bundle.path) and File.exist?(File.join(VENDOR, bundle.name))
           return [false, "Bundle #{bundle.name} v#{bundle.version} didn't match!"]
         end
       end
@@ -32,12 +32,12 @@ module Linner
     end
 
     def install
-      unless File.exists? REPOSITORY
+      unless File.exist? REPOSITORY
         FileUtils.mkdir_p(REPOSITORY)
       end
       @bundles.each do |bundle|
         if bundle.version != "master"
-          next if File.exists?(bundle.path) and File.exists?(File.join(VENDOR, bundle.name))
+          next if File.exist?(bundle.path) and File.exist?(File.join(VENDOR, bundle.name))
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle.url, bundle.path
