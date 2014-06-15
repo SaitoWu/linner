@@ -207,17 +207,16 @@ module Linner
   end
 
   def replace_attributes file
-    doc = Hpricot(File.read file)
-    replace_tag_with_manifest_value doc, "script", "src"
-    replace_tag_with_manifest_value doc, "link", "href"
-    File.open(file, "w") {|f| f.write doc.to_html}
-  end
-
-  def replace_tag_with_manifest_value doc, tag, attribute
-    doc.search("//#{tag}").each do |tag|
-      value = tag.attributes[attribute]
-      tag.attributes[attribute] = manifest[value] if value and manifest[value]
+    doc = File.read file
+    doc.gsub!(/(<script.+src=['"])([^"']+)(["'])/) do |m|
+      if p = manifest[$2] then $1 << p << $3 else m end
     end
+
+    doc.gsub!(/(<link[^\>]+href=['"])([^"']+)(["'])/) do |m|
+      if p = manifest[$2] then $1 << p << $3 else m end
+    end
+
+    File.open(file, "w") {|f| f.write doc}
   end
 
   def dump_manifest

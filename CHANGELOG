@@ -1,5 +1,6 @@
 v0.7.0
   - lock the sass version to 3.2.19, cause compass not works perfectly with it.
+  - remove Hpricot, use plain regex to support revision
 
 v0.6.7
   - bypass a windows platform expand_path bug in ruby v2.0.0
