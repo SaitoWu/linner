@@ -1,5 +1,3 @@
-require "hpricot"
-
 require "linner/version"
 require "linner/command"
 require "linner/asset"
