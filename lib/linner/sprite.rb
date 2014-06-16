@@ -51,7 +51,7 @@ module Linner
 "#{selector}#{selector_with_pseudo_class} {
   width: #{image.width}px;
   height: #{image.height}px;
-  background: url(#{File.join config['url'], name}) -#{image.left}px -#{image.top}px no-repeat;
+  background: url(#{File.join config['path'], name}) -#{image.left}px -#{image.top}px no-repeat;
 }
 "
       end

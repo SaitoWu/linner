@@ -68,7 +68,7 @@ module Linner
         (concat_assets + copy_assets).flatten.each do |file|
           path = File.join env.public_folder, file
           next unless Asset.new(path).stylesheet?
-          puts = File.read(path).gsub(File.join(env.sprites["url"], File.basename(dest)), File.join(env.sprites["url"], File.basename(asset.relative_digest_path)))
+          puts = File.read(path).gsub(File.join(env.sprites["path"], File.basename(dest)), File.join(env.revision["prefix"], env.sprites["path"], File.basename(asset.relative_digest_path)))
           File.open(path, "w") { |file| file << puts }
         end
       end
