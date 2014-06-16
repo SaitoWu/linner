@@ -78,8 +78,6 @@ sprites:
   path: "/images/"
   # css selector
   selector: ".icon-"
-  # css url background: url(/images/icon.png)
-  url: "http://s3.amazonaws.com/"
 ```
 
 ## `modules`
