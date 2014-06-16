@@ -106,10 +106,20 @@ The definition file will prepend to `definition` field, which will join with `pu
 Default:
 
 ```yaml
-revision: "index.html"
+revision:
+  prefix: ""
+  manifest: "manifest.yml"
+  files:
+    - "index.html"
 ```
 
-`index.html` will join with `public` folder. So, by default when you `build` your application, the `public/index.html` file will be rewrited with revision.
+the `prefix` will join with revision hashes, It's useful for CDN support.
+
+the `manifest` will join with `public` folder, write a manifest file with the name.
+
+`index.html` will join with `public` folder. So, by default when you `build` your application, the `public/index.html` file will be rewrote with revision.
+
+
 
 If you don't need `revision` support, it can be `false`.
 
