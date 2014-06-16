@@ -62,7 +62,7 @@ module Linner
         name = File.basename(dest).sub /[^.]+\z/, "png"
         dest = File.join env.sprites["path"], name
         asset = Asset.new(File.join env.public_folder, dest)
-        hash[dest] = asset.relative_digest_path
+        hash[dest] = env.revision["prefix"] + asset.relative_digest_path
         asset.revision!
 
         (concat_assets + copy_assets).flatten.each do |file|
@@ -77,7 +77,7 @@ module Linner
       (concat_assets + template_assets + copy_assets).flatten.each do |dest|
         asset = Asset.new(File.join env.public_folder, dest)
         next unless asset.revable?
-        hash[dest] = asset.relative_digest_path
+        hash[dest] = env.revision["prefix"] + asset.relative_digest_path
         asset.revision!
       end
 
@@ -160,7 +160,7 @@ module Linner
 
   def revision
     dump_manifest
-    [env.revision].flatten.each do |rev|
+    env.revision["files"].flatten.each do |rev|
       file = File.join env.public_folder, rev.to_s
       next if not File.exist?(file)
       replace_attributes file
@@ -218,7 +218,7 @@ module Linner
   end
 
   def dump_manifest
-    File.open(File.join(env.public_folder, env.manifest), "w") do |f|
+    File.open(File.join(env.public_folder, env.revision["manifest"]), "w") do |f|
       YAML.dump(manifest, f)
     end
   end
