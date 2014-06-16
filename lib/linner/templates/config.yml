@@ -36,10 +36,11 @@ modules:
   ignored: vendor/**/*
   definition: /scripts/app.js
 sprites:
-  url: /images/
   path: /images/
   selector: .icon-
-revision: index.html
+revision:
+  files:
+    - index.html
 notification: true
 bundles:
   jquery.js:
@@ -48,4 +49,3 @@ bundles:
   handlebars.js:
     version: 1.0.0
     url: https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js
-
