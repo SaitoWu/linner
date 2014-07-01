@@ -48,7 +48,7 @@ module Linner
       perform
       watch_for_env
       watch_for_perform
-      watch_for_reload
+      watch_for_reload rescue nil
       sleep
     end
 
