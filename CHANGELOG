@@ -1,3 +1,6 @@
+v0.7.1
+  - prevent multiple instance running error
+
 v0.7.0
   - lock the sass version to 3.2.19, cause compass not works perfectly with it
   - remove Hpricot, use plain regex to support revision
