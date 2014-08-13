@@ -18,7 +18,7 @@ Encoding.default_internal = Encoding::UTF_8
 module Linner
   extend self
 
-  attr_accessor :env, :compile
+  attr_accessor :env, :compile, :strict
 
   def root
     @root ||= Pathname('.').realpath
@@ -87,6 +87,10 @@ module Linner
 
   def compile?
     @compile
+  end
+
+  def strict?
+    @strict
   end
 
   def sass_engine_options
@@ -206,14 +210,19 @@ module Linner
 
   def replace_attributes file
     doc = File.read file
-    doc.gsub!(/(<script.+src=['"])([^"']+)(["'])/) do |m|
-      if p = manifest[$2] then $1 << p << $3 else m end
-    end
+    if strict?
+      doc.gsub!(/(<script.+src=['"])([^"']+)(["'])/) do |m|
+        if p = manifest[$2] then $1 << p << $3 else m end
+      end
 
-    doc.gsub!(/(<link[^\>]+href=['"])([^"']+)(["'])/) do |m|
-      if p = manifest[$2] then $1 << p << $3 else m end
+      doc.gsub!(/(<link[^\>]+href=['"])([^"']+)(["'])/) do |m|
+        if p = manifest[$2] then $1 << p << $3 else m end
+      end
+    else
+      manifest.each do |k, v|
+        doc.gsub!(k, v)
+      end
     end
-
     File.open(file, "w") {|f| f.write doc}
   end
 

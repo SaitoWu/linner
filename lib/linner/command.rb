@@ -34,8 +34,14 @@ module Linner
     end
 
     desc "build", "build assets"
+    method_option :strict,
+                  type: :boolean,
+                  default: false,
+                  aliases: "-s",
+                  desc: "Use strict mode to replace revisiton."
     def build
       Linner.compile = true
+      Linner.strict = true if options[:strict]
       clean
       Bundler.new(env.bundles).perform
       perform
