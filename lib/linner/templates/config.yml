@@ -39,6 +39,8 @@ sprites:
   path: /images/
   selector: .icon-
 revision:
+  prefix: ""
+  manifest: "manifest.yml"
   files:
     - index.html
 notification: true

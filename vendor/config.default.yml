@@ -26,8 +26,4 @@ modules:
   ignored: "vendor/**/*"
   definition: "/scripts/app.js"
 
-revision:
-  prefix: ""
-  manifest: "manifest.yml"
-
 notification: true
