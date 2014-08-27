@@ -114,7 +114,7 @@ module Linner
       copy(config) if config["copy"]
       concat(config) if config["concat"]
     end
-    revision if compile? and env.revision and env.revision["files"]
+    revision if compile? and env.revision
   end
 
   private
@@ -166,7 +166,8 @@ module Linner
 
   def revision
     dump_manifest
-    env.revision["files"].flatten.each do |rev|
+    files = env.revision["files"] || []
+    files.flatten.each do |rev|
       file = File.join env.public_folder, rev.to_s
       next if not File.exist?(file)
       replace_attributes file
@@ -229,7 +230,8 @@ module Linner
   end
 
   def dump_manifest
-    File.open(File.join(env.public_folder, env.revision["manifest"]), "w") do |f|
+    manifest_file = env.revision["manifest"] || "manifest.yml"
+    File.open(File.join(env.public_folder, manifest_file), "w") do |f|
       YAML.dump(manifest, f)
     end
   end
