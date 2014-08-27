@@ -30,7 +30,7 @@ groups:
     paths:
       - app/templates
     precompile:
-      "/scripts/templates.js": "app/templates/**/*.hbs"
+      "../vendor/templates.js": "app/templates/**/*.hbs"
 modules:
   wrapper: cmd
   ignored: vendor/**/*
