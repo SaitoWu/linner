@@ -1,6 +1,6 @@
 require "tilt"
 require "sass"
-require "compass"
+require "compass/core"
 require "handlebars.rb"
 require "coffee_script"
 
@@ -18,7 +18,7 @@ module Tilt
 
   private
     def sass_options
-      super.merge(Linner.sass_engine_options)
+      super.merge(:load_paths => Linner.env.paths << Compass::Core.base_directory("stylesheets"))
     end
   end
 

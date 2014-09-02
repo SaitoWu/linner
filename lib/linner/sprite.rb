@@ -1,3 +1,5 @@
+require "chunky_png"
+
 module Linner
   ImageProxy = Struct.new(:path, :image, :top, :left) do
     def width

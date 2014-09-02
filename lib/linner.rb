@@ -95,16 +95,6 @@ module Linner
     @strict
   end
 
-  def sass_engine_options
-    @options ||= begin
-      options = Compass.configuration.to_sass_engine_options
-      env.paths.each do |load_path|
-        options[:load_paths] << Sass::Importers::Filesystem.new(load_path)
-      end
-      options
-    end
-  end
-
   def perform(*asset)
     env.groups.each do |config|
       precompile(config) if config["precompile"]
