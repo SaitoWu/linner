@@ -2,7 +2,7 @@ require "reel"
 require "json"
 
 module Linner
-  class Reactor < Reel::Server
+  class Reactor < Reel::Server::HTTP
     include Celluloid
 
     Celluloid.logger = nil
