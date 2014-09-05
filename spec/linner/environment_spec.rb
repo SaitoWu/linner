@@ -7,16 +7,16 @@ describe Environment do
   end
 
   it "should equals default path folder" do
-    @env.paths.should =~ @ary
-    @env.app_folder.should == "app"
-    @env.test_folder.should == "test"
-    @env.vendor_folder.should == "vendor"
-    @env.public_folder.should == "public"
+    expect(@env.paths).to match @ary
+    expect(@env.app_folder).to eq "app"
+    expect(@env.test_folder).to eq "test"
+    expect(@env.vendor_folder).to eq "vendor"
+    expect(@env.public_folder).to eq "public"
   end
 
   it "should equals default config" do
-    @env.notification.should be_true
-    @env.wrapper.should == "cmd"
-    @env.groups.should respond_to(:each)
+    expect(@env.notification).to be true
+    expect(@env.wrapper).to eq "cmd"
+    expect(@env.groups).to respond_to(:each)
   end
 end
