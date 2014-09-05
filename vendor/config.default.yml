@@ -4,22 +4,6 @@ paths:
   vendor: "vendor"
   public: "public"
 
-groups:
-  scripts:
-    paths:
-      - "app/scripts"
-    order:
-      - "vendor/jquery-1.10.2.js"
-      - "..."
-  styles:
-    paths:
-      - "app/styles"
-  images:
-    paths:
-      - "app/images"
-  views:
-    paths:
-      - "app/views"
 
 modules:
   wrapper: "cmd"
