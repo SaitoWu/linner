@@ -13,7 +13,7 @@ describe Sprite do
   end
 
   it "should be an empty hash" do
-    @sprites.should eql(Hash.new)
+    expect(@sprites).to eq(Hash.new)
   end
 
   it "should be fit in blocks" do
