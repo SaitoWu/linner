@@ -41,8 +41,8 @@ module Linner
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle.url, bundle.path
-        if zipped?(bundle.path)
-          link_and_extract_to_vendor bundle.path, File.join(VENDOR, ".pkg", File.basename(bundle.path)), File.join(VENDOR, bundle.name)
+        if gzipped?(bundle.path)
+          link_and_extract_to_vendor bundle.path, File.join(VENDOR, ".pkg", bundle.name, File.basename(bundle.path)), File.join(VENDOR, bundle.name)
         else
           link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
         end
@@ -56,49 +56,29 @@ module Linner
     private
     def install_to_repository(url, path)
       FileUtils.mkdir_p File.dirname(path)
-      File.open(path, "w") do |dist|
+      File.open(path, "w") do |dest|
         if url =~ URI::regexp
-          open(url, "r:UTF-8") {|file| dist.write file.read}
+          open(url, "r:UTF-8") {|file| dest.write file.read}
         else
-          dist.write(File.read Pathname(url).expand_path)
+          dest.write(File.read Pathname(url).expand_path)
         end
       end
     end
 
-    def link_to_vendor(path, dist)
-      return if File.exist?(dist) and Digest::MD5.file(path).hexdigest == Digest::MD5.file(dist).hexdigest
-      FileUtils.mkdir_p File.dirname(dist)
-      FileUtils.cp path, dist
+    def link_to_vendor(path, dest)
+      return if File.exist?(dest) and Digest::MD5.file(path).hexdigest == Digest::MD5.file(dest).hexdigest
+      FileUtils.mkdir_p File.dirname(dest)
+      FileUtils.cp path, dest
     end
 
-    def link_and_extract_to_vendor(path, linked_path, extract_path)
+    def link_and_extract_to_vendor(path, linked_path, dest)
       link_to_vendor(path, linked_path)
-      extract_files(linked_path, extract_path)
+      FileUtils.rm_rf Dir.glob("#{dest}/*")
+      Archive.untar(path, dest)
     end
 
-    def extract_files(path, dist)
-      out = case zipped? path
-      when "gzip"
-        `tar -zxvf #{path} -C #{dist}`
-      when "zip"
-        `unzip -o #{path} -d #{dist}`
-      end
-
-      entries = Dir.glob(File.join(dist, "*"))
-      return if entries.size > 1
-      dir = entries.first
-      if File.directory?(dir)
-        FileUtils.mv Dir.glob(File.join(dir, "*")), dist
-        FileUtils.rmdir dir
-      end
-    end
-
-    def zipped?(path)
-      case IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
-      when "text/plain" then false
-      when "application/x-gzip" then "gzip"
-      when "application/zip" then "zip"
-      end
+    def gzipped?(path)
+      return true if "application/x-gzip" == IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
     end
   end
 end
