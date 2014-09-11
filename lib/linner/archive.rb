@@ -9,8 +9,8 @@ module Linner
         Gem::Package::TarWriter.new(archived) do |tar|
           Dir[glob].each do |file|
             mode = File.stat(file).mode
-            paths = Dir[glob.sub(/\*.*/, "")].join("|")
-            relative_file = file.sub /^#{Regexp.escape(paths)}\/?/, ""
+            paths = Dir[glob.sub(/\*.*/, "")]
+            relative_file = file.gsub /^#{paths.join("|")}\/?/, ""
             if File.directory?(file)
               tar.mkdir relative_file, mode
             else
@@ -35,7 +35,6 @@ module Linner
 
         extracted.each do |entry|
           file = File.join dest, entry.full_name
-          puts entry.full_name
           if entry.directory?
             FileUtils.mkdir_p file
           else

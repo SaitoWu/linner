@@ -101,6 +101,7 @@ module Linner
     env.groups.each do |config|
       copy(config) if config["copy"]
       concat(config) if config["concat"]
+      tar(config) if config["tar"]
     end
     revision if compile? and env.revision
   end
@@ -149,6 +150,14 @@ module Linner
       matches = Dir.glob(pattern).sort_by(&:downcase)
       next if matches.select { |path| cache.miss?(dest, path) }.empty?
       paint_sprite(dest, matches)
+    end
+  end
+
+  def tar(config)
+    config["tar"].each do |dest, pattern|
+      path = File.join(env.public_folder, dest)
+      FileUtils.mkdir_p File.dirname(path)
+      Archive.tar(pattern, path)
     end
   end
 
