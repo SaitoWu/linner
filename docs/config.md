@@ -51,9 +51,11 @@ the default configuration defines four groups: `scripts`, `styles`, `images` and
 
 `copy` defines copy strategy of files in Linner. The `Dir.glob` of `value` will be copy to `key` folder.
 
-`precompile` defines precompile strategy of javascript templates for Linner. The `Dir.glob` of `value` will be concat to `key`
+`precompile` defines precompile strategy of javascript templates for Linner. The `Dir.glob` of `value` will be concat to `key`.
 
-`sprite` defines sprite strategy of images for Linner. The `Dir.glob` of `value` will be sprite to `key`
+`sprite` defines sprite strategy of images for Linner. The `Dir.glob` of `value` will be sprite to `key`.
+
+`tar` defines archive strategy of files in Linner. The `Dir.glob` of `value` will be archive to `key` file.
 
 `order` defines the order of this group files, and It's very useful when you `concat` your files. for example:
 
@@ -139,16 +141,20 @@ For example:
 
 ```yaml
 bundles:
-  "jquery.js":
-    version: "1.10.2"
-    url: "http://code.jquery.com/jquery-1.10.2.js"
-  "underscore.js":
-    version: "1.5.2"
+  jquery.js:
+    version: 1.10.2
+    url: http://code.jquery.com/jquery-1.10.2.js
+  underscore.js:
+    version: 1.5.2
     url: https://raw.github.com/jashkenas/underscore/1.5.2/underscore.js
-  "backbone.js":
-    version: "1.1.0"
-    url: "https://raw.github.com/jashkenas/backbone/1.1.0/backbone.js"
-  "handlebars.js":
-    version: "1.0.0"
-    url: "https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.js"
+  backbone.js:
+    version: 1.1.0
+    url: https://raw.github.com/jashkenas/backbone/1.1.0/backbone.js
+  handlebars.js:
+    version: 1.0.0
+    url: https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.js
 ```
+
+bundles also supports `tar.gz` file on the internet, you should give it a try.
+
+When you use `tar.gz` file, the key of bundle can be a folder name, all the archived files will be decompression to the folder.
