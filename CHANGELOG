@@ -1,3 +1,10 @@
+v0.8.0
+  - updated all deps
+  - use rspec3 to replace the old test code
+  - bundles now support tar.gz file
+  - add a new directive `tar` to produce tar file
+  - remove the old default config entity `paths`, should always have `paths` in groups
+
 v0.7.3
   - fix a merge bug from the latest version
 
