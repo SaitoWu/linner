@@ -18,6 +18,7 @@ Linner is a full-featured HTML5 application assembler.
 * Supports `copy` code from `src` to `dest`.
 * Supports `precompile` Javascript Templates from `src` to `desc`.
 * Supports `sprite` PNG images from `src` to `desc`.
+* Supports `tar` files from `src` to `desc`.
 * Supports Real-time `concat` by `$ linner watch`.
 * Supports `compress` by `$ linner build`.
 * Supports `LiveReload` with [LiveReload Chrome Extention](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei).
