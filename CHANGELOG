@@ -1,3 +1,6 @@
+v0.8.1
+  - `tar` now sub prefix with envrionment paths
+
 v0.8.0
   - updated all deps
   - use rspec3 to replace the old test code
