@@ -8,8 +8,8 @@ module Linner
         archived = StringIO.new
         Gem::Package::TarWriter.new(archived) do |tar|
           Dir[glob].each do |file|
+            paths = Linner.env.paths
             mode = File.stat(file).mode
-            paths = Dir[glob.sub(/\*.*/, "")]
             relative_file = file.gsub /^#{paths.join("|")}\/?/, ""
             if File.directory?(file)
               tar.mkdir relative_file, mode
