@@ -101,6 +101,8 @@ module Linner
     env.groups.each do |config|
       copy(config) if config["copy"]
       concat(config) if config["concat"]
+    end
+    env.groups.each do |config|
       tar(config) if config["tar"]
     end
     revision if compile? and env.revision
