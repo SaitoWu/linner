@@ -78,7 +78,8 @@ module Linner
     end
 
     def gzipped?(path)
-      return true if "application/x-gzip" == IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
+      mime_type = IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
+      ["application/x-gzip", "application/gzip"].include? mime_type
     end
   end
 end
