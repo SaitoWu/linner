@@ -1,3 +1,6 @@
+v0.8.2
+  - fix a gzip mime-type bug in linux
+
 v0.8.1
   - `tar` now sub prefix with envrionment paths
 
