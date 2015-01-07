@@ -41,7 +41,7 @@ module Linner
       source = begin
         File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
       rescue RuntimeError
-        File.open(path, "rb").read
+        File.read(path, mode: "rb")
       rescue => e
         raise RenderError, "#{e.message} in (#{path})"
       end
