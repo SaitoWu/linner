@@ -1,3 +1,6 @@
+v0.8.3
+  - fix a windows md5sum bug cause it calculate in text mode by default
+
 v0.8.2
   - fix a gzip mime-type bug in linux
 
