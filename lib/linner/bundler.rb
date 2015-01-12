@@ -40,7 +40,7 @@ module Linner
           next if File.exist?(bundle.path) and File.exist?(File.join(VENDOR, bundle.name))
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
-        install_to_repository bundle.url, bundle.path
+        install_to_repository bundle
         if gzipped?(bundle.path)
           link_and_extract_to_vendor bundle.path, File.join(VENDOR, ".pkg", bundle.name, File.basename(bundle.path)), File.join(VENDOR, bundle.name)
         else
@@ -54,14 +54,19 @@ module Linner
     end
 
     private
-    def install_to_repository(url, path)
-      FileUtils.mkdir_p File.dirname(path)
-      File.open(path, "w") do |dest|
-        if url =~ URI::regexp
-          open(url, "r:UTF-8") {|file| dest.write file.read}
-        else
-          dest.write(File.read Pathname(url).expand_path)
+    def install_to_repository(bundle)
+      FileUtils.mkdir_p File.dirname(bundle.path)
+      begin
+        File.open(bundle.path, "w") do |dest|
+          if bundle.url =~ URI::regexp
+            open(bundle.url, "r:UTF-8") {|file| dest.write file.read}
+          else
+            dest.write(File.read Pathname(bundle.url).expand_path)
+          end
         end
+      rescue
+        Notifier.error("Can't fetch bundle #{bundle.name} from #{bundle.url}")
+        Kernel::exit
       end
     end
 
