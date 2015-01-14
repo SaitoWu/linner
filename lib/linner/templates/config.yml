@@ -8,7 +8,7 @@ groups:
       "/scripts/app.js": "app/**/*.{js,coffee}"
       "/scripts/vendor.js": "vendor/**/*.{js,coffee}"
     order:
-      - vendor/jquery-1.10.2.js
+      - vendor/jquery.js
       - ...
       - app/scripts/app.coffee
   styles:
