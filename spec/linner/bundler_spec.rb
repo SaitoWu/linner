@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Bundler do
   before(:each) do
-    bundles = Environment.new(root.join "config.yml").bundles
-    @bundler = Linner::Bundler.new(bundles)
+    env = Environment.new(root.join "config.yml")
+    @bundler = Linner::Bundler.new(env)
   end
 
   it "should check failure when REPOSITORY is not exist" do

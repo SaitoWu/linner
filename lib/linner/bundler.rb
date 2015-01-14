@@ -5,7 +5,6 @@ require "open-uri"
 
 module Linner
   class Bundler
-    VENDOR = Pathname(".").join "vendor"
     REPOSITORY = File.expand_path "~/.linner/bundles"
 
     Bundle = Struct.new(:name, :version, :url) do
@@ -14,17 +13,18 @@ module Linner
       end
     end
 
-    def initialize(bundles)
+    def initialize(env)
       @bundles = []
-      bundles.each do |name, props|
+      env.bundles.each do |name, props|
         @bundles << Bundle.new(name, props["version"], props["url"])
       end
+      @vendor = Pathname(".").join env.vendor_folder
     end
 
     def check
       return [false, "Bundles didn't exsit!"] unless File.exist? REPOSITORY
       @bundles.each do |bundle|
-        unless File.exist?(bundle.path) and File.exist?(File.join(VENDOR, bundle.name))
+        unless File.exist?(bundle.path) and File.exist?(File.join(@vendor, bundle.name))
           return [false, "Bundle #{bundle.name} v#{bundle.version} didn't match!"]
         end
       end
@@ -37,14 +37,14 @@ module Linner
       end
       @bundles.each do |bundle|
         if bundle.version != "master"
-          next if File.exist?(bundle.path) and File.exist?(File.join(VENDOR, bundle.name))
+          next if File.exist?(bundle.path) and File.exist?(File.join(@vendor, bundle.name))
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle
         if gzipped?(bundle.path)
-          link_and_extract_to_vendor bundle.path, File.join(VENDOR, ".pkg", bundle.name, File.basename(bundle.path)), File.join(VENDOR, bundle.name)
+          link_and_extract_to_vendor bundle.path, File.join(@vendor, ".pkg", bundle.name, File.basename(bundle.path)), File.join(@vendor, bundle.name)
         else
-          link_to_vendor bundle.path, File.join(VENDOR, bundle.name)
+          link_to_vendor bundle.path, File.join(@vendor, bundle.name)
         end
       end
     end

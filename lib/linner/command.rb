@@ -17,14 +17,14 @@ module Linner
 
     desc "check", "check dependencies"
     def check
-      message = Linner::Bundler.new(env.bundles).check
+      message = Linner::Bundler.new(env).check
       puts (message.first ? "🍵 :" : "👻 :") + message.last
     end
 
     desc "install", "install dependencies"
     def install
       begin
-        Linner::Bundler.new(env.bundles).perform
+        Linner::Bundler.new(env).perform
       rescue
         puts "👻 : Install failed!"
         puts $!
@@ -43,14 +43,14 @@ module Linner
       Linner.compile = true
       Linner.strict = true if options[:strict]
       clean
-      Bundler.new(env.bundles).perform
+      Bundler.new(env).perform
       perform
     end
 
     desc "watch", "watch assets"
     def watch
       clean
-      Bundler.new(env.bundles).perform
+      Bundler.new(env).perform
       perform
       watch_for_env
       watch_for_perform
@@ -101,7 +101,7 @@ module Linner
     def watch_for_env
       Listen.to Linner.root, filter: /(config\.yml|Linnerfile)$/ do |modified, added, removed|
         Linner.env = Environment.new Linner.config_file
-        Bundler.new(env.bundles).perform
+        Bundler.new(env).perform
       end
     end
 
