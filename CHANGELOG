@@ -1,3 +1,6 @@
+v0.8.4
+  - fix the vendor path for bundles
+
 v0.8.3
   - fix a windows md5sum bug cause it calculate in text mode by default
 
