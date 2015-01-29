@@ -42,6 +42,7 @@ module Linner
 
     def generate_style(config, name)
       selector = config["selector"] || ".icon-"
+      url = config['url'] || config['path']
       @images.inject("") do |style, image|
         logical_path = Asset.new(image.path).logical_path
         selector_with_pseudo_class = logical_path.chomp(File.extname(logical_path))
@@ -53,7 +54,7 @@ module Linner
 "#{selector}#{selector_with_pseudo_class} {
   width: #{image.width}px;
   height: #{image.height}px;
-  background: url(#{File.join config['path'], name}) -#{image.left}px -#{image.top}px no-repeat;
+  background: url(#{File.join url, name}) -#{image.left}px -#{image.top}px no-repeat;
 }
 "
       end
