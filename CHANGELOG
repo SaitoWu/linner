@@ -1,3 +1,6 @@
+v0.8.5
+  - fix a windows mime-type bug
+
 v0.8.4
   - fix the vendor path for bundles
   - fix the sprite url config, now it's working again
