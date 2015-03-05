@@ -41,7 +41,7 @@ module Linner
         end
         puts "Installing #{bundle.name} #{bundle.version}..."
         install_to_repository bundle
-        if gzipped?(bundle.path)
+        if File.extname(bundle.path) == ".gz"
           link_and_extract_to_vendor bundle.path, File.join(@vendor, ".pkg", bundle.name, File.basename(bundle.path)), File.join(@vendor, bundle.name)
         else
           link_to_vendor bundle.path, File.join(@vendor, bundle.name)
@@ -80,11 +80,6 @@ module Linner
       link_to_vendor(path, linked_path)
       FileUtils.rm_rf Dir.glob("#{dest}/*")
       Archive.untar(path, dest)
-    end
-
-    def gzipped?(path)
-      mime_type = IO.popen(["file", "--brief", "--mime-type", path], in: :close, err: :close).read.chomp
-      ["application/x-gzip", "application/gzip"].include? mime_type
     end
   end
 end
