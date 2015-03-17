@@ -57,7 +57,7 @@ module Linner
     def install_to_repository(bundle)
       FileUtils.mkdir_p File.dirname(bundle.path)
       begin
-        File.open(bundle.path, "w") do |dest|
+        File.open(bundle.path, "wb") do |dest|
           if bundle.url =~ URI::regexp
             open(bundle.url, "r:UTF-8") {|file| dest.write file.read}
           else
