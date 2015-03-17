@@ -16,14 +16,26 @@ module Linner
     end
 
     desc "check", "check dependencies"
+    method_option :environment,
+                  type: :string,
+                  default: "development",
+                  aliases: "-e",
+                  desc: "Watch the choosen environment"
     def check
+      env.merge_with_environment(options[:environment])
       message = Linner::Bundler.new(env).check
       puts (message.first ? "🍵 :" : "👻 :") + message.last
     end
 
     desc "install", "install dependencies"
+    method_option :environment,
+                  type: :string,
+                  default: "development",
+                  aliases: "-e",
+                  desc: "Watch the choosen environment"
     def install
       begin
+        env.merge_with_environment(options[:environment])
         Linner::Bundler.new(env).perform
       rescue
         puts "👻 : Install failed!"
@@ -39,17 +51,29 @@ module Linner
                   default: false,
                   aliases: "-s",
                   desc: "Use strict mode to replace revisiton."
+    method_option :environment,
+                  type: :string,
+                  default: "production",
+                  aliases: "-e",
+                  desc: "Build the choosen environment"
     def build
       Linner.compile = true
       Linner.strict = true if options[:strict]
       clean
+      env.merge_with_environment(options[:environment])
       Bundler.new(env).perform
       perform
     end
 
     desc "watch", "watch assets"
+    method_option :environment,
+                  type: :string,
+                  default: "development",
+                  aliases: "-e",
+                  desc: "Watch the choosen environment"
     def watch
       clean
+      env.merge_with_environment(options[:environment])
       Bundler.new(env).perform
       perform
       watch_for_env

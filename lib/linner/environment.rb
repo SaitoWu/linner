@@ -58,6 +58,15 @@ module Linner
       @env["groups"].values
     end
 
+    def environments
+      @env["environments"] || {}
+    end
+
+    def merge_with_environment(environment)
+      return @env unless picked = environments[environment]
+      @env = @env.rmerge!(picked)
+    end
+
     private
     def merge_with_convension
       convension = YAML::load File.read(File.join File.dirname(__FILE__), "../../vendor", "config.default.yml")
