@@ -43,6 +43,9 @@ module Linner
       concat_assets = []
       template_assets = []
       sprite_assets = []
+      cdn = env.revision["cdn"] || ""
+      prefix = env.revision["prefix"] || ""
+
       env.groups.each do |config|
         concat_assets << config["concat"].keys if config["concat"]
         template_assets << config["template"].keys if config["template"]
@@ -60,15 +63,14 @@ module Linner
         name = File.basename(dest).sub /[^.]+\z/, "png"
         dest = File.join env.sprites["path"], name
         asset = Asset.new(File.join env.public_folder, dest)
-        prefix = env.revision["prefix"] || ""
-        hash[dest] = prefix + asset.relative_digest_path
+        hash[prefix + dest] = cdn + prefix + asset.relative_digest_path
         asset.revision!
 
         (concat_assets + copy_assets).flatten.each do |file|
           path = File.join env.public_folder, file
           next unless Asset.new(path).stylesheet?
           url = env.sprites["url"] || env.sprites["path"]
-          puts = File.read(path).gsub(File.join(url, File.basename(dest)), File.join(prefix, url, File.basename(asset.relative_digest_path)))
+          puts = File.read(path).gsub(File.join(url, File.basename(dest)), File.join(cdn, url, File.basename(asset.relative_digest_path)))
           File.open(path, "w") { |file| file << puts }
         end
       end
@@ -76,9 +78,8 @@ module Linner
       # revision concat template and copy assets
       (concat_assets + template_assets + copy_assets).flatten.each do |dest|
         asset = Asset.new(File.join env.public_folder, dest)
-        prefix = env.revision["prefix"] || ""
         next unless asset.revable?
-        hash[dest] = prefix + asset.relative_digest_path
+        hash[prefix + dest] = cdn + prefix + asset.relative_digest_path
         asset.revision!
       end
 
