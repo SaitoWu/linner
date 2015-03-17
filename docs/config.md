@@ -107,13 +107,16 @@ Default:
 
 ```yaml
 revision:
-  prefix: ""
+  prefix: "/public"
+  cdn: "http://assets.yoursite.com"
   manifest: "manifest.yml"
   files:
     - "index.html"
 ```
 
-the `prefix` will join with revision hashes, It's useful for CDN support.
+the `prefix` will join with revision hashes.
+
+the `cdn` will also join with revision hashes, so it will be like `http://assets.yoursite.com/public/assets/scripts/app.js`.
 
 the `manifest` will join with `public` folder, write a manifest file with the name.
 
