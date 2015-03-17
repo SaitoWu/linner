@@ -1,3 +1,6 @@
+v0.8.6
+  - always use binary mode on windows
+
 v0.8.5
   - fix a windows mime-type bug
 
