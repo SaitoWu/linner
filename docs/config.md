@@ -108,7 +108,7 @@ Default:
 ```yaml
 revision:
   prefix: "/public"
-  cdn: "http://assets.yoursite.com"
+  cdn: http://assets.yoursite.com
   manifest: "manifest.yml"
   files:
     - "index.html"
@@ -161,3 +161,28 @@ bundles:
 bundles also supports `tar.gz` file on the internet, you should give it a try.
 
 When you use `tar.gz` file, the key of bundle can be a folder name, all the archived files will be decompression to the folder.
+
+
+## `environments`
+
+`environments` defines application's running environment config, the default environment is `development`.
+
+If you use `linner build` to build your webapp, the environment would be `production`.
+
+For example:
+
+```yaml
+environments:
+  staging:
+    revision:
+      cdn: http://staging.yoursite.com
+  production:
+    revision:
+      cdn: http://production.yoursite.com
+```
+
+You can use `linner build -e staging` to use the staging environment's variables.
+
+When you use `linner watch` to watch the project, it's equals to `linner watch -e development`, and the `development` environment is the default environment, you don't need to write it.
+
+When you use `linner build` to build the project, it's equals to `linner build -e produciton`.
