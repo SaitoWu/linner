@@ -1,3 +1,6 @@
+v0.9.1
+  - add .yml .yaml and .txt to Tilt templates
+
 v0.9.0
   - introducing environment for different environments
 
