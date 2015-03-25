@@ -1,3 +1,6 @@
+v0.10.0
+  - introducing new directive `compile` and `context` to compile files
+
 v0.9.1
   - add .yml .yaml and .txt to Tilt templates
 

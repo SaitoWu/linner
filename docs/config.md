@@ -51,11 +51,15 @@ the default configuration defines four groups: `scripts`, `styles`, `images` and
 
 `copy` defines copy strategy of files in Linner. The `Dir.glob` of `value` will be copy to `key` folder.
 
+`compile` defines compile strategy of files in Linner. The `Dir.glob` of `value` will be compile to `key` folder.
+
 `precompile` defines precompile strategy of javascript templates for Linner. The `Dir.glob` of `value` will be concat to `key`.
 
 `sprite` defines sprite strategy of images for Linner. The `Dir.glob` of `value` will be sprite to `key`.
 
 `tar` defines archive strategy of files in Linner. The `Dir.glob` of `value` will be archive to `key` file.
+
+`context` defines the context of the `compile` files, and the value will pass to the render function.
 
 `order` defines the order of this group files, and It's very useful when you `concat` your files. for example:
 
