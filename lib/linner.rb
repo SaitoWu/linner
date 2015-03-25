@@ -102,6 +102,7 @@ module Linner
     end
     env.groups.each do |config|
       copy(config) if config["copy"]
+      compile(config) if config["compile"]
       concat(config) if config["concat"]
     end
     env.groups.each do |config|
@@ -123,14 +124,35 @@ module Linner
   def copy(config)
     config["copy"].each do |dest, pattern|
       Dir.glob(pattern).each do |path|
+        asset = Asset.new(path)
+        dest_path = File.join(env.public_folder, dest, asset.logical_path)
+        FileUtils.mkdir_p File.dirname(dest_path)
+        FileUtils.cp_r path, dest_path
+      end
+    end
+  end
+
+  def compile(config)
+    config["compile"].each do |dest, pattern|
+      Dir.glob(pattern).each do |path|
         next if not cache.miss?(dest, path)
         asset = Asset.new(path)
         dest_path = File.join(env.public_folder, dest, asset.logical_path)
         if asset.javascript? or asset.stylesheet?
           asset.content
           asset.compress if compile?
-          dest_path = dest_path.sub(/[^.]+\z/,"js") if asset.javascript?
-          dest_path = dest_path.sub(/[^.]+\z/,"css") if asset.stylesheet?
+          dest_path = dest_path.sub(/[^.]+\z/, "js") if asset.javascript?
+          dest_path = dest_path.sub(/[^.]+\z/, "css") if asset.stylesheet?
+          asset.path = dest_path
+          asset.write
+        elsif asset.eruby?
+          base, ext = path.split(".")
+          dest_path = if ext == "erb"
+            dest_path.sub(/[.]+\z/, "html")
+          else
+            dest_path.gsub(File.basename(dest_path), File.basename(dest_path, File.extname(dest_path)))
+          end
+          asset.content(config["context"])
           asset.path = dest_path
           asset.write
         else

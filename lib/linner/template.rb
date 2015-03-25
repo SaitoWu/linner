@@ -49,6 +49,8 @@ module Tilt
     end
   end
 
+  ERBTemplate.default_mime_type = "application/x-eruby"
+
   register PlainTemplate, "txt"
   register CSSTemplate, "css"
   register JavascriptTemplate, "js"

@@ -36,10 +36,10 @@ module Linner
       File.rename path, digest_path
     end
 
-    def content
+    def content(context = nil)
       return @content if @content
       source = begin
-        File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render : ""
+        File.exist?(path) ? Tilt.new(path, :default_encoding => "UTF-8").render(nil, context) : ""
       rescue RuntimeError
         File.read(path, mode: "rb")
       rescue => e
@@ -74,6 +74,10 @@ module Linner
 
     def template?
       Tilt[path] and Tilt[path].default_mime_type == "text/template"
+    end
+
+    def eruby?
+      Tilt[path] and Tilt[path].default_mime_type = "application/x-eruby"
     end
 
     def wrappable?
