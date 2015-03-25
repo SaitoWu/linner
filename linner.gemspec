@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "thor", "~> 0.18"
-  spec.add_dependency "tilt", "~> 1.4"
+  spec.add_dependency "tilt", "~> 2.0"
   spec.add_dependency "reel", "~> 0.5.0"
   spec.add_dependency "listen", "~> 1.3"
   spec.add_dependency "uglifier", "~> 2.5.0"
