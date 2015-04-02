@@ -3,6 +3,7 @@ require "sass"
 require "compass/core"
 require "handlebars.rb"
 require "coffee_script"
+require "babel/transpiler"
 
 module Tilt
   class YAMLTemplate < PlainTemplate
@@ -11,6 +12,16 @@ module Tilt
 
   class JavascriptTemplate < PlainTemplate
     self.default_mime_type = "application/javascript"
+  end
+
+  class BabelTemplate < PlainTemplate
+    self.default_mime_type = "application/javascript"
+
+    def prepare; end
+
+    def evaluate(scope, locals, &block)
+      @output ||= Babel::Transpiler.transform(data, compact: false)["code"]
+    end
   end
 
   class CSSTemplate < PlainTemplate
@@ -55,6 +66,7 @@ module Tilt
   register CSSTemplate, "css"
   register JavascriptTemplate, "js"
   register YAMLTemplate, "yml", "yaml"
+  register BabelTemplate, "es6", "es", "jsx"
   register HandlebarsTemplate, "hbs", "handlebars"
 
   register CompassSassTemplate, "sass"

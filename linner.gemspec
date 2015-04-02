@@ -29,5 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "compass-core", "~> 1.0.1"
   spec.add_dependency "coffee-script", "~> 2.3.0"
   spec.add_dependency "handlebars.rb", "~> 0.1.2"
+  spec.add_dependency "babel-transpiler", "~> 0.6.0"
   spec.add_dependency "terminal-notifier", "~> 1.5"
 end
