@@ -11,7 +11,7 @@ Linner is a full-featured HTML5 application assembler.
 [![Screencast](http://cl.ly/image/000k0R400F30/Image%202014-04-29%20at%2010.20.12%20AM.png)](https://vimeo.com/71944672)
 
 * Fast!
-* Supports `Sass`, `Compass` and `Coffee`.
+* Supports `Sass`, `Compass`, `Coffee`, `ECMAScript 6` and `React`.
 * Supports OS X Lion and Mountaion Lion Notifications.
 * Supports Modular Javascript, All your code will be wrapped by `cmd`.
 * Supports `concat` code by `config file` not `directive processor`.
