@@ -63,6 +63,8 @@ module Linner
       env.merge_with_environment(options[:environment])
       Bundler.new(env).perform
       perform
+    rescue
+      Notifier.error $!
     end
 
     desc "watch", "watch assets"
@@ -99,13 +101,7 @@ module Linner
     end
 
     def perform
-      begin
-        Notifier.profile do
-          Linner.perform
-        end
-      rescue
-        Notifier.error $!
-      end
+      Notifier.profile { Linner.perform }
     end
 
     def watch_for_perform
