@@ -1,5 +1,6 @@
 v0.11.2
   - fix a bug of notify error
+  - downgrade the celluloid version to 0.16.x to avoid the annoy log
 
 v0.11.1
   - bump babel version to v0.7
