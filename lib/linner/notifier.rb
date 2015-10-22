@@ -9,11 +9,16 @@ module Linner
         puts "🍜 : Done in #{"%.3f" % (Time.now - time)}s."
       end
 
-      def error(message)
-        abort message = "👻 : #{message}!"
+      def notify(message)
         if Linner.env.notification && TerminalNotifier.available?
           TerminalNotifier.notify message, :title => "Linner"
         end
+        puts "👻 : #{message}!"
+      end
+
+      def error(message)
+        self.notify(message)
+        abort
       end
 
       def exit

@@ -66,7 +66,6 @@ module Linner
         end
       rescue
         Notifier.error("Can't fetch bundle #{bundle.name} from #{bundle.url}")
-        Kernel::exit
       end
     end
 
