@@ -1,3 +1,6 @@
+v0.11.3
+  - remove BabelTemplate implementation, cause Tilt added an official one
+
 v0.11.2
   - fix a bug of notify error
   - downgrade the celluloid version to 0.16.x to avoid the annoy log
