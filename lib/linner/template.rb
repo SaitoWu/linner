@@ -14,16 +14,6 @@ module Tilt
     self.default_mime_type = "application/javascript"
   end
 
-  class BabelTemplate < PlainTemplate
-    self.default_mime_type = "application/javascript"
-
-    def prepare; end
-
-    def evaluate(scope, locals, &block)
-      @output ||= Babel::Transpiler.transform(data, compact: false)["code"]
-    end
-  end
-
   class CSSTemplate < PlainTemplate
     self.default_mime_type = "text/css"
   end
@@ -61,6 +51,8 @@ module Tilt
   end
 
   ERBTemplate.default_mime_type = "application/x-eruby"
+
+  BabelTemplate.default_mime_type = "application/javascript"
 
   register PlainTemplate, "txt"
   register CSSTemplate, "css"
