@@ -1,3 +1,6 @@
+v0.11.4
+  - bump the tilt version to greater than 2.0.2
+
 v0.11.3
   - remove BabelTemplate implementation, cause Tilt added an official one
 
