@@ -59,7 +59,7 @@ module Linner
       begin
         File.open(bundle.path, "wb") do |dest|
           if bundle.url =~ URI::regexp
-            open(bundle.url, "r:UTF-8") {|file| dest.write file.read}
+            open(bundle.url, "r:UTF-8", {ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}) {|file| dest.write file.read}
           else
             dest.write(File.read Pathname(bundle.url).expand_path)
           end
