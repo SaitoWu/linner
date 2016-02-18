@@ -25,7 +25,6 @@ module Tilt
     def sass_options
       super.merge(
         style: :expanded,
-        line_numbers: true,
         load_paths: Linner.env.paths << Compass::Core.base_directory("stylesheets")
       )
     end
