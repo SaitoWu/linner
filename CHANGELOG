@@ -1,3 +1,6 @@
+v0.11.6
+  - remove line numbers in sass
+
 v0.11.5
   - bypass SSL verify in open-uri
 
