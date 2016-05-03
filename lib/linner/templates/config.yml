@@ -44,8 +44,8 @@ bundles:
     version: 1.10.2
     url: http://code.jquery.com/jquery-1.10.2.js
   handlebars.js:
-    version: 1.0.0
-    url: https://raw.github.com/wycats/handlebars.js/1.0.0/dist/handlebars.runtime.js
+    version: 4.0.5
+    url: http://builds.handlebarsjs.com.s3.amazonaws.com/handlebars.runtime-v4.0.5.js
 environments:
   production:
     revision:
